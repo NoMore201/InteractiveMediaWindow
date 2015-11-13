@@ -8,6 +8,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 {
     using System;
     using System.Windows;
+    using Microsoft.Kinect.Wpf.Controls;
 
     /// <summary>
     /// Interaction logic for App
