@@ -28,6 +28,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private KinectSensor kinectSensor;
         private BodyFrameReader bodyReader;
         private Body[] bodies;
+        private float lastAveragePosition;
+        private int frameCounter;
+        private bool hasPointed = false;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -41,6 +44,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             // open the reader for the body frames
             this.bodyReader = this.kinectSensor.BodyFrameSource.OpenReader();
             this.kinectSensor.Open();
+
+            lastAveragePosition = 0;
+
+            frameCounter = 0;
         }
 
 
@@ -66,32 +73,83 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     Joint second = near.Joints[JointType.ElbowRight];
                     Joint third = near.Joints[JointType.HandTipRight];
                     Joint fourth = near.Joints[JointType.HandRight];
-                    Joint fifth = near.Joints[JointType.ThumbRight];
+                    Joint fifth = near.Joints[JointType.WristRight];
 
-                    this.firstJointX.Text=first.Position.X.ToString();
-                    this.firstJointY.Text=first.Position.Y.ToString();
-                    this.firstJointZ.Text=first.Position.Z.ToString();
+                    this.firstJointX.Text = first.Position.X.ToString();
+                    this.firstJointY.Text = first.Position.Y.ToString();
+                    this.firstJointZ.Text = first.Position.Z.ToString();
 
-                    this.secondJointX.Text=second.Position.X.ToString();
-                    this.secondJointY.Text=second.Position.Y.ToString();
-                    this.secondJointZ.Text=second.Position.Z.ToString();
+                    this.secondJointX.Text = second.Position.X.ToString();
+                    this.secondJointY.Text = second.Position.Y.ToString();
+                    this.secondJointZ.Text = second.Position.Z.ToString();
 
-                    this.thirdJointX.Text=third.Position.X.ToString();
-                    this.thirdJointY.Text=third.Position.Y.ToString();
-                    this.thirdJointZ.Text=third.Position.Z.ToString();
+                    this.thirdJointX.Text = third.Position.X.ToString();
+                    this.thirdJointY.Text = third.Position.Y.ToString();
+                    this.thirdJointZ.Text = third.Position.Z.ToString();
 
-                    this.fourthJointX.Text=fourth.Position.X.ToString();
-                    this.fourthJointY.Text=fourth.Position.Y.ToString();
-                    this.fourthJointZ.Text=fourth.Position.Z.ToString();
+                    this.fourthJointX.Text = fourth.Position.X.ToString();
+                    this.fourthJointY.Text = fourth.Position.Y.ToString();
+                    this.fourthJointZ.Text = fourth.Position.Z.ToString();
 
                     /*this.fifthJointX.Text=fifth.Position.X;
                     this.fifthJointY.Text=fifth.Position.Y;
                     this.fifthJointZ.Text=fifth.Position.Z;*/
 
-                    this.hand.Text=near.HandRightState.ToString();
-
+                    if (checkPointing(near))
+                    {
+                        float pointedX = calculateX(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
+                        float pointedY = calculateX(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
+                        this.hand.Text = "IsPointing! X= " + pointedX.ToString() + "Y= " + pointedY;
+                    }
                 }
             }
+        }
+
+        private bool checkPointing(Body near)
+        {
+            bool isPointing=false;
+
+            Joint first = near.Joints[JointType.ShoulderRight];
+            Joint second = near.Joints[JointType.ElbowRight];
+            Joint third = near.Joints[JointType.HandTipRight];
+            Joint fourth = near.Joints[JointType.HandRight];
+            Joint fifth = near.Joints[JointType.WristRight];
+            
+            if(!hasPointed && first.Position.Z - third.Position.Z > 0.15)
+            {
+                float averagePosition = (third.Position.X + third.Position.Y + third.Position.Z)/3;
+
+                if (Math.Abs(averagePosition - lastAveragePosition) < 0.015f)
+                {
+                    frameCounter++;
+                }
+                else if (frameCounter == 150)
+                {
+                    isPointing = true;
+                    frameCounter = 0;
+                    hasPointed = true;
+                }
+                else
+                {
+                    frameCounter = 0;
+                    lastAveragePosition = averagePosition;
+                }  
+            } else
+            {
+                hasPointed = false;
+            }
+
+            return isPointing;
+        }
+
+        private float calculateX(CameraSpacePoint one, CameraSpacePoint two)
+        {
+            return one.X + ((one.Z * one.X - (one.Z * two.X)) / (two.Z - one.Z));
+        }
+
+        private float calculateY(CameraSpacePoint one, CameraSpacePoint two)
+        {
+            return one.Y + ((one.Z * one.Y - (one.Z * two.Y)) / (two.Z - one.Z));
         }
 
 
