@@ -27,7 +27,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private KinectSensor kinectSensor;
         private BodyFrameReader bodyReader;
-        private BodyHandPair bodyHandPair;
+        private Body[] bodies;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -37,20 +37,60 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             this.kinectSensor = KinectSensor.GetDefault();
 
             this.InitializeComponent();
-            
 
             // open the reader for the body frames
             this.bodyReader = this.kinectSensor.BodyFrameSource.OpenReader();
             this.kinectSensor.Open();
         }
 
-        
+
 
         private void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             using (BodyFrame frame = e.FrameReference.AcquireFrame())
             {
-                
+                if (frame != null)
+                {
+                    if (this.bodies == null)
+                    {
+                        this.bodies = new Body[frame.BodyCount];
+                        Debugger.Log(1, "Body count = ", frame.BodyCount.ToString());
+                        this.body.Text = "a Body has been found!";
+                    }
+
+                    frame.GetAndRefreshBodyData(this.bodies);
+
+                    Body near = getNearestBody(this.bodies);
+
+                    Joint first = near.Joints[JointType.ShoulderRight];
+                    Joint second = near.Joints[JointType.ElbowRight];
+                    Joint third = near.Joints[JointType.HandTipRight];
+                    Joint fourth = near.Joints[JointType.HandRight];
+                    Joint fifth = near.Joints[JointType.ThumbRight];
+
+                    this.firstJointX.Text=first.Position.X.ToString();
+                    this.firstJointY.Text=first.Position.Y.ToString();
+                    this.firstJointZ.Text=first.Position.Z.ToString();
+
+                    this.secondJointX.Text=second.Position.X.ToString();
+                    this.secondJointY.Text=second.Position.Y.ToString();
+                    this.secondJointZ.Text=second.Position.Z.ToString();
+
+                    this.thirdJointX.Text=third.Position.X.ToString();
+                    this.thirdJointY.Text=third.Position.Y.ToString();
+                    this.thirdJointZ.Text=third.Position.Z.ToString();
+
+                    this.fourthJointX.Text=fourth.Position.X.ToString();
+                    this.fourthJointY.Text=fourth.Position.Y.ToString();
+                    this.fourthJointZ.Text=fourth.Position.Z.ToString();
+
+                    /*this.fifthJointX.Text=fifth.Position.X;
+                    this.fifthJointY.Text=fifth.Position.Y;
+                    this.fifthJointZ.Text=fifth.Position.Z;*/
+
+                    this.hand.Text=near.HandRightState.ToString();
+
+                }
             }
         }
 
