@@ -78,22 +78,27 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     this.firstJointX.Text = first.Position.X.ToString();
                     this.firstJointY.Text = first.Position.Y.ToString();
                     this.firstJointZ.Text = first.Position.Z.ToString();
+                    this.firstJointTracked.Text = first.TrackingState.ToString();
 
                     this.secondJointX.Text = second.Position.X.ToString();
                     this.secondJointY.Text = second.Position.Y.ToString();
                     this.secondJointZ.Text = second.Position.Z.ToString();
+                    this.secondJointTracked.Text = second.TrackingState.ToString();
 
                     this.thirdJointX.Text = third.Position.X.ToString();
                     this.thirdJointY.Text = third.Position.Y.ToString();
                     this.thirdJointZ.Text = third.Position.Z.ToString();
+                    this.thirdJointTracked.Text = third.TrackingState.ToString();
 
                     this.fourthJointX.Text = fourth.Position.X.ToString();
                     this.fourthJointY.Text = fourth.Position.Y.ToString();
                     this.fourthJointZ.Text = fourth.Position.Z.ToString();
+                    this.fourthJointTracked.Text = fourth.TrackingState.ToString();
 
-                    /*this.fifthJointX.Text=fifth.Position.X;
-                    this.fifthJointY.Text=fifth.Position.Y;
-                    this.fifthJointZ.Text=fifth.Position.Z;*/
+                    this.fifthJointX.Text=fifth.Position.X.ToString();
+                    this.fifthJointY.Text=fifth.Position.Y.ToString();
+                    this.fifthJointZ.Text=fifth.Position.Z.ToString();
+                    this.fifthJointTracked.Text = fifth.TrackingState.ToString();
 
                     if (checkPointing(near))
                     {
@@ -115,7 +120,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Joint fourth = near.Joints[JointType.HandRight];
             Joint fifth = near.Joints[JointType.WristRight];
             
-            if(!hasPointed && first.Position.Z - third.Position.Z > 0.15)
+            if(!hasPointed && near.HandRightState!=HandState.Closed &&
+                near.HandRightState!= HandState.Open && first.Position.Z - third.Position.Z > 0.15)
             {
                 float averagePosition = (third.Position.X + third.Position.Y + third.Position.Z)/3;
 
@@ -134,7 +140,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     frameCounter = 0;
                     lastAveragePosition = averagePosition;
                 }  
-            } else
+            } else if(first.Position.Z - third.Position.Z < 0.15)
             {
                 hasPointed = false;
             }
