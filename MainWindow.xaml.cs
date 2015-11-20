@@ -25,12 +25,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class MainWindow : Window
     {
 
+        private const float ACTIVATION_THRESHOLD = 0.5f;
+        private const float STILL_THRESHOLD = 0.04f;
+        private const int COUNTER_THRESHOLD = 30;
+
         private KinectSensor kinectSensor;
         private BodyFrameReader bodyReader;
         private Body[] bodies;
-        private float lastAveragePosition;
-        private int frameCounter;
-        private bool hasPointed = false;
+        private float lastAveragePositionRight;
+        private float lastAveragePositionLeft;
+        private int frameCounterRight;
+        private int frameCounterLeft;
+        private bool hasPointed;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -45,9 +51,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             this.bodyReader = this.kinectSensor.BodyFrameSource.OpenReader();
             this.kinectSensor.Open();
 
-            lastAveragePosition = 0;
+            this.lastAveragePositionRight = 0;
+            this.lastAveragePositionLeft = 0;
 
-            frameCounter = 0;
+            this.hasPointed = false;
+
+            frameCounterRight = 0;
+            frameCounterLeft = 0;
         }
 
 
@@ -61,8 +71,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (this.bodies == null)
                     {
                         this.bodies = new Body[frame.BodyCount];
-                        Debugger.Log(1, "Body count = ", frame.BodyCount.ToString());
-                        this.body.Text = "a Body has been found!";
                     }
 
                     frame.GetAndRefreshBodyData(this.bodies);
@@ -100,53 +108,125 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     this.fifthJointZ.Text = fifth.Position.Z.ToString();
                     this.fifthJointTracked.Text = fifth.TrackingState.ToString();
 
-                    if (checkPointing(near))
+                    if (checkPointingRight(near))
                     {
                         float pointedX = calculateX(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
-                        float pointedY = calculateX(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
-                        this.hand.Text = "IsPointing! X= " + pointedX.ToString() + "Y= " + pointedY;
+                        float pointedY = calculateY(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
+                        this.hand.Text = "IsPointing! X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                    }
+                    else if (checkPointingLeft(near))
+                    {
+                        float pointedX = calculateX(near.Joints[JointType.WristLeft].Position, near.Joints[JointType.HandTipLeft].Position);
+                        float pointedY = calculateY(near.Joints[JointType.WristLeft].Position, near.Joints[JointType.HandTipLeft].Position);
+                        this.hand.Text = "IsPointing! X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
                     }
                     else
-                        this.hand.Text = "notNear";
+                        this.hand.Text = "notPointing";
                 }
                 else
                     this.hand.Text = "no Frame";
             }
         }
 
-        private bool checkPointing(Body near)
+        private bool checkPointingRight(Body near)
         {
-            bool isPointing=false;
+
+            handstate.Text = "Right";
+            bool isPointing = false;
 
             Joint first = near.Joints[JointType.ShoulderRight];
-            Joint second = near.Joints[JointType.ElbowRight];
-            Joint third = near.Joints[JointType.HandTipRight];
-            Joint fourth = near.Joints[JointType.HandRight];
-            Joint fifth = near.Joints[JointType.WristRight];
-            
-            if(!hasPointed && near.HandRightState!=HandState.Closed &&
-                near.HandRightState!= HandState.Open && first.Position.Z - third.Position.Z > 0.15)
-            {
-                float averagePosition = (third.Position.X + third.Position.Y + third.Position.Z)/3;
 
-                if (Math.Abs(averagePosition - lastAveragePosition) < 0.015f)
+            Joint third = near.Joints[JointType.HandRight];
+            this.spallamano.Text = ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X)).ToString();
+
+            DataLog dl = new DataLog();
+            
+            if (!hasPointed && near.HandRightState != HandState.Closed &&
+                near.HandRightState != HandState.Open &&
+                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > ACTIVATION_THRESHOLD)
+            {
+                float averagePosition = (third.Position.X + third.Position.Y) / 2;
+
+                this.body.Text = Math.Abs(averagePosition - lastAveragePositionRight).ToString();
+
+                if (Math.Abs(averagePosition - lastAveragePositionRight) < STILL_THRESHOLD)
                 {
-                    frameCounter++;
-                }
-                else if (frameCounter == 150)
-                {
-                    isPointing = true;
-                    frameCounter = 0;
-                    hasPointed = true;
+                    frameCounterRight++;
                 }
                 else
                 {
-                    frameCounter = 0;
-                    lastAveragePosition = averagePosition;
-                }  
-            } else if(first.Position.Z - third.Position.Z < 0.15)
+                    frameCounterRight = 0;
+                    lastAveragePositionRight = averagePosition;
+                }
+                if (frameCounterRight > COUNTER_THRESHOLD)
+                {
+                    isPointing = true;
+                    hasPointed = true;
+                }
+
+            }
+            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < ACTIVATION_THRESHOLD)
             {
                 hasPointed = false;
+                frameCounterRight = 0;
+            }
+
+            if (frameCounterRight > COUNTER_THRESHOLD)
+            {
+                isPointing = true;
+            }
+
+            return isPointing;
+        }
+
+        private bool checkPointingLeft(Body near)
+        {
+            this.handstate.Text = "Left";
+            bool isPointing = false;
+
+            Joint first = near.Joints[JointType.ShoulderLeft];
+
+            Joint third = near.Joints[JointType.HandLeft];
+
+            this.spallamano.Text = ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X)).ToString();
+
+            DataLog dl = new DataLog();
+
+            
+            if (!hasPointed && near.HandLeftState != HandState.Closed &&
+                near.HandLeftState != HandState.Open &&
+                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > ACTIVATION_THRESHOLD)
+            {
+                float averagePosition = (third.Position.X + third.Position.Y) / 2;
+
+                this.body.Text = Math.Abs(averagePosition - lastAveragePositionLeft).ToString();
+                
+
+                if (Math.Abs(averagePosition - lastAveragePositionLeft) < STILL_THRESHOLD)
+                {
+                    frameCounterLeft++;
+                }
+                else
+                {
+                    frameCounterLeft = 0;
+                    lastAveragePositionLeft = averagePosition;
+                }
+                if (frameCounterLeft > COUNTER_THRESHOLD)
+                {
+                    isPointing = true;
+                    hasPointed = true;
+                }
+
+            }
+            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < ACTIVATION_THRESHOLD)
+            {
+                hasPointed = false;
+                frameCounterLeft = 0;
+            }
+
+            if (frameCounterLeft > COUNTER_THRESHOLD)
+            {
+                isPointing = true;
             }
 
             return isPointing;
@@ -188,11 +268,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        /// <summary>
-        /// Handles the event which the sensor becomes unavailable (E.g. paused, closed, unplugged).
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
         private void Sensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
         {
             Debugger.Log(1, "Sensor available? ", e.IsAvailable.ToString());
