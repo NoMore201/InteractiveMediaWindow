@@ -95,9 +95,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     this.fourthJointZ.Text = fourth.Position.Z.ToString();
                     this.fourthJointTracked.Text = fourth.TrackingState.ToString();
 
-                    this.fifthJointX.Text=fifth.Position.X.ToString();
-                    this.fifthJointY.Text=fifth.Position.Y.ToString();
-                    this.fifthJointZ.Text=fifth.Position.Z.ToString();
+                    this.fifthJointX.Text = fifth.Position.X.ToString();
+                    this.fifthJointY.Text = fifth.Position.Y.ToString();
+                    this.fifthJointZ.Text = fifth.Position.Z.ToString();
                     this.fifthJointTracked.Text = fifth.TrackingState.ToString();
 
                     if (checkPointing(near))
@@ -106,7 +106,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         float pointedY = calculateX(near.Joints[JointType.WristRight].Position, near.Joints[JointType.HandTipRight].Position);
                         this.hand.Text = "IsPointing! X= " + pointedX.ToString() + "Y= " + pointedY;
                     }
+                    else
+                        this.hand.Text = "notNear";
                 }
+                else
+                    this.hand.Text = "no Frame";
             }
         }
 

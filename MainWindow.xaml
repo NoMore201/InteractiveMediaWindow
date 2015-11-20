@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="80*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="label" Content="Body:" HorizontalAlignment="Left" Margin="35,442,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="26.667" FontWeight="Bold" Grid.Column="1"/>
-            <Label x:Name="label_Copy" Content="HandState:" HorizontalAlignment="Left" Margin="420,442,0,0" VerticalAlignment="Top" Height="77" Width="162" FontSize="26.667" FontWeight="Bold" Grid.Column="2"/>
+            <Label x:Name="label_Copy" Content="Pointed &#xD;&#xA;Point:" HorizontalAlignment="Left" Margin="420,442,0,0" VerticalAlignment="Top" Height="77" Width="162" FontSize="26.667" FontWeight="Bold" Grid.Column="2"/>
             <TextBox x:Name="body" HorizontalAlignment="Left" Height="77" Margin="163,442,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="450" FontSize="48" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBox x:Name="hand" HorizontalAlignment="Left" Height="77" Margin="587,442,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="451" FontSize="26.667" FontWeight="Bold" Grid.Column="2" Grid.ColumnSpan="3"/>
 
