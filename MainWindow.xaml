@@ -5,7 +5,7 @@
         Title="Body Basics" 
         Height="900" Width="1600" 
         Loaded="MainWindow_Loaded"
-        Closing="MainWindow_Closing">
+        Closing="MainWindow_Closing" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip">
 
 
 
@@ -87,6 +87,7 @@
             <TextBox x:Name="zoneBox" Grid.Column="2" HorizontalAlignment="Left" Height="99" Margin="605,609,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="192" FontSize="48"/>
             <Label x:Name="zoneLabel" Content="ZONE" Grid.Column="2" HorizontalAlignment="Center" Margin="475,622,371,0" VerticalAlignment="Top" Height="44" Width="108" FontSize="32"/>
             <Label x:Name="offsetLabel" Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="439,455,0,0" VerticalAlignment="Top" Height="47" Width="122" FontSize="32"/>
+            <Button x:Name="buttonDB" Content="DATABASE" Grid.Column="2" HorizontalAlignment="Left" Margin="475,38,0,0" VerticalAlignment="Top" Width="66" Height="70" Click="buttonDB_Click"/>
 
 
         </Grid>

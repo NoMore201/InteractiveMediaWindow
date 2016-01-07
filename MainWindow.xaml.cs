@@ -153,5 +153,16 @@
             else
                 return 0;
         }
+
+        private void buttonDB_Click(object sender, RoutedEventArgs e)
+        {
+            DatabaseWindow cw = new DatabaseWindow();
+            cw.Show();
+        }
+
+        private void buttonCalibra_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
