@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="DatabaseWindow" Height="300" Width="300">
+        Title="DatabaseWindow" Height="524.138" Width="571.552">
     <Grid>
-        <Button x:Name="buttonCreateDB" Content="Create DB" HorizontalAlignment="Left" Margin="99,17,0,0" VerticalAlignment="Top" Width="75" Click="buttonCreateDB_Click"/>
+        <Button x:Name="buttonCreateDB" Content="Create DB" HorizontalAlignment="Left" Margin="422,52,0,0" VerticalAlignment="Top" Width="75" Click="buttonCreateDB_Click" IsEnabled="False"/>
+        <Button x:Name="button" Content="Debug" HorizontalAlignment="Left" Margin="422,88,0,0" VerticalAlignment="Top" Width="75" Click="buttonDebug_Click"/>
 
     </Grid>
 </Window>

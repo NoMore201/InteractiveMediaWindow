@@ -10,12 +10,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 {
     class DataLog
     {
-        public void ToConsole(String message)
+        public static void ToConsole(String message)
         {
             Debugger.Log(1, "INTERACTIVEMEDIAWINDOW: ", message);
         }
 
-        public void ToFile(String message)
+        public static void ToFile(String message)
         {
             StreamWriter file = new StreamWriter(
                 "..\\..\\..\\DataLogs.txt", 
