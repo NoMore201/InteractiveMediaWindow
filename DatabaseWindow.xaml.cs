@@ -16,9 +16,8 @@ using System.Data.SQLite;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
-    /// <summary>
-    /// Interaction logic for DatabaseWindow.xaml
-    /// </summary>
+    
+
     public partial class DatabaseWindow : Window
     {
 
@@ -36,12 +35,76 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void InsertBook(string summary, string authors)
+        public void InsertBook(string summary, string authors, int itemid)
         {
-            string query = "insert into books (summary, authors) values ('" +
+            string query = "insert into books (summary, authors, itemid) values ('" +
                 summary +
                 "', '" +
                 authors +
+                "', '" +
+                itemid +
+                "')";
+            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
+            command.ExecuteNonQuery();
+        }
+
+        public void InsertMusic(string artist, string previewFile, int itemid)
+        {
+            string query = "insert into music (artist, previewfile, itemid) values ('" +
+                artist +
+                "', '" +
+                previewFile +
+                "', '" +
+                itemid +
+                "')";
+            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
+            command.ExecuteNonQuery();
+        }
+
+        public void InsertItem(string trailer,
+            string genre,
+            int lightGenre,
+            string favouriteRelateds,
+            int popularity,
+            int type,
+            int year,
+            int vote,
+            string cover,
+            string name,
+            int position,
+            string description,
+            string otherInfo,
+            string publishingHouse)
+        {
+            string query = "insert into books (trailer, " +
+                "genre, " +
+                "lightgenre, " +
+                "favouriterelateds, " +
+                "popularity, " +
+                "type, " +
+                "year, " +
+                "vote, " +
+                "cover, " +
+                "name, " +
+                "position, " +
+                "description, " +
+                "otherinfo, " +
+                "publishinghouse" +
+                ") values ('" +
+                trailer + "', '" +
+                genre + "', '" +
+                lightGenre + "', '" +
+                favouriteRelateds + "', '" +
+                popularity + "', '" +
+                type + "', '" +
+                year + "', '" +
+                vote + "', '" +
+                cover + "', '" +
+                name + "', '" +
+                position + "', '" +
+                description + "', '" +
+                otherInfo + "', '" +
+                publishingHouse +
                 "')";
             SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
             command.ExecuteNonQuery();
@@ -51,6 +114,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             string query = "select * from books";
             SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
+            SQLiteDataAdapter asd = new SQLiteDataAdapter(query, m_dbConnection);
             return command.ExecuteReader();
         }
 
@@ -79,7 +143,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             string booksTableQuery = "CREATE TABLE books (summary TEXT, authors TEXT, itemid INTEGER, " +
                 "FOREIGN KEY(itemid) REFERENCES items(id)" +
                 ")";
-            string musicTableQuery = "CREATE TABLE music (artist TEXT, preview_file TEXT, itemid INTEGER, " +
+            string musicTableQuery = "CREATE TABLE music (artist TEXT, previewfile TEXT, itemid INTEGER, " +
                 "FOREIGN KEY(itemid) REFERENCES items(id)" +
                 ")";
             SQLiteCommand command = new SQLiteCommand(itemsTableQuery, m_dbConnection);
@@ -88,7 +152,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             command.ExecuteNonQuery();
             command = new SQLiteCommand(musicTableQuery, m_dbConnection);
             command.ExecuteNonQuery();
-            this.buttonCreateDB.IsEnabled = true;
+            this.buttonCreateDB.IsEnabled = false;
         }
 
         private void buttonDebug_Click(object sender, RoutedEventArgs e)

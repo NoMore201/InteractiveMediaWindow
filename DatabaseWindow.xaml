@@ -5,10 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="DatabaseWindow" Height="524.138" Width="571.552">
+        Title="DatabaseWindow" Height="714.655" Width="935.345">
     <Grid>
-        <Button x:Name="buttonCreateDB" Content="Create DB" HorizontalAlignment="Left" Margin="422,52,0,0" VerticalAlignment="Top" Width="75" Click="buttonCreateDB_Click" IsEnabled="False"/>
-        <Button x:Name="button" Content="Debug" HorizontalAlignment="Left" Margin="422,88,0,0" VerticalAlignment="Top" Width="75" Click="buttonDebug_Click"/>
+        <Button x:Name="buttonCreateDB" Content="Create DB" HorizontalAlignment="Left" Margin="825,45,0,0" VerticalAlignment="Top" Width="75" Click="buttonCreateDB_Click" IsEnabled="False"/>
+        <Button x:Name="button" Content="Debug" HorizontalAlignment="Left" Margin="825,79,0,0" VerticalAlignment="Top" Width="75" Click="buttonDebug_Click"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="21,42,0,0" VerticalAlignment="Top" Height="305" Width="777">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Foreground="Black" Header="Trailer"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Genre"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="LightGenre"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Favourite Relateds"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Popularity"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Type"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="ID"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Year"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Vote"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Cover"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Name"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Position"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Description"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Other Info"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Publishing House"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="label" Content="Items" HorizontalAlignment="Left" Margin="21,11,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button1" Content="AddItem" HorizontalAlignment="Left" Margin="825,112,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>
