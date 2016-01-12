@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.IO;
-using System.Data.SQLite;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -21,150 +10,82 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class DatabaseWindow : Window
     {
 
-        private SQLiteConnection m_dbConnection;
+        public static string DATA_FILE = "data.json";
+        
+        private List<Model.Item> items;
 
         public DatabaseWindow()
         {
             InitializeComponent();
-            if (!File.Exists("IMWDatabase.sqlite"))
+            if (!File.Exists(DATA_FILE))
             {
-                this.buttonCreateDB.IsEnabled = true;
+                File.Create(DATA_FILE).Close();
+                items = new List<Model.Item>();
             } else
             {
-                connect();
+                ReadFile();
             }
         }
 
-        public void InsertBook(string summary, string authors, int itemid)
+        public void InsertItem(
+            string Trailer,
+            string Genre,
+            int LightGenre,
+            string FavouriteRelateds,
+            int Popularity,
+            int Type,
+            int Year,
+            int Vote,
+            string Cover,
+            string Name,
+            int Position,
+            string Description,
+            string OtherInfo,
+            string PublishingHouse)
         {
-            string query = "insert into books (summary, authors, itemid) values ('" +
-                summary +
-                "', '" +
-                authors +
-                "', '" +
-                itemid +
-                "')";
-            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
-            command.ExecuteNonQuery();
+            Model.Item i = new Model.Item();
+            i.Trailer = Trailer;
+            i.Genre = Genre;
+            i.LightGenre = LightGenre;
+            i.FavouriteRelateds = FavouriteRelateds;
+            i.Popularity = Popularity;
+            i.Type = Type;
+            i.ID = items.Count + 1;
+            i.Year = Year;
+            i.Vote = Vote;
+            i.Cover = Cover;
+            i.Name = Name;
+            i.Position = Position;
+            i.Description = Description;
+            i.OtherInfo = OtherInfo;
+            i.PublishingHouse = PublishingHouse;
+            items.Add(i);
         }
 
-        public void InsertMusic(string artist, string previewFile, int itemid)
+        private void WriteFile()
         {
-            string query = "insert into music (artist, previewfile, itemid) values ('" +
-                artist +
-                "', '" +
-                previewFile +
-                "', '" +
-                itemid +
-                "')";
-            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
-            command.ExecuteNonQuery();
+            StreamWriter file = File.CreateText(DATA_FILE);
+            JsonTextWriter writer = new JsonTextWriter(file);
+            string data = JsonConvert.SerializeObject(items);
+            writer.WriteRaw(data);
+            file.Close();
         }
 
-        public void InsertItem(string trailer,
-            string genre,
-            int lightGenre,
-            string favouriteRelateds,
-            int popularity,
-            int type,
-            int year,
-            int vote,
-            string cover,
-            string name,
-            int position,
-            string description,
-            string otherInfo,
-            string publishingHouse)
+        private void ReadFile()
         {
-            string query = "insert into books (trailer, " +
-                "genre, " +
-                "lightgenre, " +
-                "favouriterelateds, " +
-                "popularity, " +
-                "type, " +
-                "year, " +
-                "vote, " +
-                "cover, " +
-                "name, " +
-                "position, " +
-                "description, " +
-                "otherinfo, " +
-                "publishinghouse" +
-                ") values ('" +
-                trailer + "', '" +
-                genre + "', '" +
-                lightGenre + "', '" +
-                favouriteRelateds + "', '" +
-                popularity + "', '" +
-                type + "', '" +
-                year + "', '" +
-                vote + "', '" +
-                cover + "', '" +
-                name + "', '" +
-                position + "', '" +
-                description + "', '" +
-                otherInfo + "', '" +
-                publishingHouse +
-                "')";
-            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
-            command.ExecuteNonQuery();
+            string data = File.ReadAllText(DATA_FILE);
+            items = JsonConvert.DeserializeObject<List<Model.Item>>(data);
+            DataLog.ToConsole(data);
         }
 
-        public SQLiteDataReader GetBooks()
+        private void dataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            string query = "select * from books";
-            SQLiteCommand command = new SQLiteCommand(query, m_dbConnection);
-            SQLiteDataAdapter asd = new SQLiteDataAdapter(query, m_dbConnection);
-            return command.ExecuteReader();
+            this.dataGrid.ItemsSource = items;
         }
 
-        private void buttonCreateDB_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DataLog.ToConsole("DB doesn't exist, creating a new one");
-            SQLiteConnection.CreateFile("IMWDatabase.sqlite");
-            connect();
-            string itemsTableQuery = "CREATE TABLE items (" +
-                "trailer TEXT, " +
-                "genre TEXT, " +
-                "lightgenre INTEGER, " +
-                "favouriterelateds TEXT, " +
-                "popularity INTEGER, " +
-                "type INTEGER, " +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "year INTEGER, " +
-                "vote INTEGER, " +
-                "cover TEXT, " +
-                "name TEXT, " +
-                "position INTEGER, " +
-                "description TEXT, " +
-                "otherinfo TEXT, " +
-                "publishinghouse TEXT" +
-                ")";
-            string booksTableQuery = "CREATE TABLE books (summary TEXT, authors TEXT, itemid INTEGER, " +
-                "FOREIGN KEY(itemid) REFERENCES items(id)" +
-                ")";
-            string musicTableQuery = "CREATE TABLE music (artist TEXT, previewfile TEXT, itemid INTEGER, " +
-                "FOREIGN KEY(itemid) REFERENCES items(id)" +
-                ")";
-            SQLiteCommand command = new SQLiteCommand(itemsTableQuery, m_dbConnection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand(booksTableQuery, m_dbConnection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand(musicTableQuery, m_dbConnection);
-            command.ExecuteNonQuery();
-            this.buttonCreateDB.IsEnabled = false;
+            WriteFile();
         }
-
-        private void buttonDebug_Click(object sender, RoutedEventArgs e)
-        {
-            GetBooks();
-        }
-
-        private void connect()
-        {
-            m_dbConnection = new SQLiteConnection("Data Source=IMWDatabase.sqlite;Version=3;");
-            m_dbConnection.Open();
-        }
-
     }
 }
