@@ -1,3 +1,5 @@
 # TODO:
-* Ricoscimento corpo più vicino tra i body
-* Studiare le posizione dei joint della mano e braccio
+* Build demo preview with lights.
+* Remove pharos designer files ( we cannot use 50 led wire anymore,
+so we don't need Pharos Designer
+
