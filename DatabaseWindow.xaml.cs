@@ -27,7 +27,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void InsertItem(
+        public void InsertMovie( string Summary,
+            string Directors,
+            string Actors,
             string Trailer,
             string Genre,
             int LightGenre,
@@ -43,7 +45,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             string OtherInfo,
             string PublishingHouse)
         {
-            Model.Item i = new Model.Item();
+            Model.Movie i = new Model.Movie();
+            i.Summary = Summary;
+            i.Director = Directors;
+            i.Actors = Actors;
             i.Trailer = Trailer;
             i.Genre = Genre;
             i.LightGenre = LightGenre;
@@ -60,6 +65,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             i.OtherInfo = OtherInfo;
             i.PublishingHouse = PublishingHouse;
             items.Add(i);
+            this.dataGrid.Items.Refresh();
         }
 
         private void WriteFile()
@@ -86,6 +92,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             WriteFile();
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 m = new Window1(this);
+            m.Show();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

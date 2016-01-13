@@ -81,13 +81,13 @@
             <TextBox x:Name="leftFifthJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,340,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
             <TextBox x:Name="leftFifthJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="903,340,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
             <TextBox x:Name="leftFifthJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,340,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="offsetXBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="603,455,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667"/>
-            <TextBox x:Name="offsetYBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="839,455,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="offsetXBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="502.6,481,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667"/>
+            <TextBox x:Name="offsetYBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="709.6,481,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667"/>
             <Button x:Name="buttonCalibra" Content="CALIBRA" Grid.Column="3" HorizontalAlignment="Left" Margin="125,699,0,0" VerticalAlignment="Top" Width="133" Height="70" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="zoneBox" Grid.Column="2" HorizontalAlignment="Left" Height="99" Margin="605,609,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="192" FontSize="48"/>
-            <Label x:Name="zoneLabel" Content="ZONE" Grid.Column="2" HorizontalAlignment="Center" Margin="475,622,371,0" VerticalAlignment="Top" Height="44" Width="108" FontSize="32"/>
-            <Label x:Name="offsetLabel" Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="439,455,0,0" VerticalAlignment="Top" Height="47" Width="122" FontSize="32"/>
-            <Button x:Name="buttonDB" Content="DATABASE" Grid.Column="2" HorizontalAlignment="Left" Margin="475,38,0,0" VerticalAlignment="Top" Width="66" Height="70" Click="buttonDB_Click"/>
+            <TextBox x:Name="zoneBox" Grid.Column="2" HorizontalAlignment="Left" Height="99" Margin="502.6,613,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="192" FontSize="48"/>
+            <Label x:Name="zoneLabel" Content="ZONE" Grid.Column="2" HorizontalAlignment="Center" Margin="349.6,622,497.6,0" VerticalAlignment="Top" Height="44" Width="108" FontSize="32"/>
+            <Label x:Name="offsetLabel" Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="349.6,481,0,0" VerticalAlignment="Top" Height="47" Width="122" FontSize="32"/>
+            <Button x:Name="buttonDB" Content="DATABASE" Grid.Column="2" HorizontalAlignment="Left" Margin="935.6,699,0,0" VerticalAlignment="Top" Width="117" Height="70" Click="buttonDB_Click" Grid.ColumnSpan="2"/>
 
 
         </Grid>
