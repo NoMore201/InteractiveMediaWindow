@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class Item
+    class Book
     {
+        public string Summary { get; set; }
+        public string Writers { get; set; }
         public string Trailer { get; set; }
         public string Genre { get; set; }
         public int LightGenre { get; set; }
