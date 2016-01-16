@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
@@ -47,20 +48,76 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void SendFlashCommand(string color)
+        public async void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
+        {
+            try
+            {
+                SendColorCommand(colorBegin, num);
+                Thread.Sleep(5500);
+                SendDoubleColorCommand(colorEnd, colorBegin, num);
+            } catch (Exception ex)
+            {
+                throw ex;
+            }
+                
+        }
+
+        public void SendColorCommand(string color, string num)
         {
             if (isConnectionAvailable)
             {
                 var command = new LightCommand();
-                command.TurnOn().SetColor(color);
-                command.Alert = Alert.Once;
-                client.SendCommandAsync(command, new List<string> { "1" });
+                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(5);
+                command.SetColor(color);
+                client.SendCommandAsync(command, new List<string> { num });
             }
             else
             {
                 throw new Exception("There is no connection to Hue Bridge");
             }
         }
-        
+
+        public void SendAlert(string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.TurnOn().Alert = Alert.Multiple;
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
+
+        public void SendLightness(byte intensity, string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.Brightness = intensity;
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
+
+        public void SendAlertColor(string color, string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.TurnOn().Alert = Alert.Multiple;
+                command.SetColor(color);
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
     }
 }
