@@ -113,8 +113,12 @@
     <Compile Include="DatabaseWindow.xaml.cs">
       <DependentUpon>DatabaseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HueController.cs" />
     <Compile Include="HueDebug.xaml.cs">
       <DependentUpon>HueDebug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Init.xaml.cs">
+      <DependentUpon>Init.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Movie.cs" />
@@ -129,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HueDebug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Init.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

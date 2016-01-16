@@ -24,41 +24,36 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class HueDebug : Window
     {
-        public static HueDebug hueReference;
-        public ILocalHueClient client;
-        public string appKey;
+        public static HueDebug HueReference;
+
+        private HueController hueControl;
 
         public HueDebug()
         {
             InitializeComponent();
-            if (hueReference == null)
+            if (HueReference == null)
             {
-                hueReference = this;
+                HueReference = this;
             }
+            hueControl = null;
         }
 
         private void testButton(object sender, RoutedEventArgs e)
         {
-            var command = new LightCommand();
-            command.TurnOn().SetColor("D64937");
-            command.Alert = Alert.Once;
-            client.SendCommandAsync(command, new List<string> { "1" });
         }
 
         private void connectButton(object sender, RoutedEventArgs e)
         {
-            initClient();
-        }
-
-        private async Task initClient()
-        {
-            try {
-                client = new LocalHueClient("192.168.0.2:80");
-                appKey = await client.RegisterAsync("asd", "lol");
-                HueDebug.hueReference.textBlock.Text += "SUCCESFULLY CONNECTED" + "\n";
+            if (hueControl == null)
+            {
+                hueControl = new HueController("192.168.0.2");
+            }
+            try
+            {
+                hueControl.Connect();
             } catch (Exception ex)
             {
-                HueDebug.hueReference.textBlock.Text += ex.Message + "\n";
+                this.textBlock.Text += ex.Message + "\n";
             }
         }
     }

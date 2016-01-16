@@ -1,0 +1,15 @@
+﻿<Window x:Class="Microsoft.Samples.Kinect.BodyBasics.Init"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
+        mc:Ignorable="d"
+        Title="Init" Height="300" Width="300">
+    <Grid>
+        <Button x:Name="buttonHue" Content="DEBUG HUE" HorizontalAlignment="Left" Margin="78,20,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="hueClick"/>
+        <Button x:Name="buttonKin" Content="DEBUG KINECT" HorizontalAlignment="Left" Margin="78,89,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="kinClick"/>
+        <Button x:Name="buttonDemo" Content="DEMO" HorizontalAlignment="Left" Margin="78,158,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="demoClick"/>
+
+    </Grid>
+</Window>
