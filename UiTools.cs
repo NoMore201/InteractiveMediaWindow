@@ -78,7 +78,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             if (!hasPointed && near.HandRightState != HandState.Closed &&
                 near.HandRightState != HandState.Open &&
-                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > MainWindow.ACTIVATION_THRESHOLD)
+                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > KinectController.ACTIVATION_THRESHOLD)
             {
                 float averagePosition = (third.Position.X + third.Position.Y) / 2;
 
@@ -100,7 +100,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 }
 
             }
-            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < MainWindow.ACTIVATION_THRESHOLD)
+            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < KinectController.ACTIVATION_THRESHOLD)
             {
                 hasPointed = false;
                 frameCounterRight = 0;
@@ -130,7 +130,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             if (!hasPointed && near.HandLeftState != HandState.Closed &&
                 near.HandLeftState != HandState.Open &&
-                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > MainWindow.ACTIVATION_THRESHOLD)
+                (first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) > KinectController.ACTIVATION_THRESHOLD)
             {
                 float averagePosition = (third.Position.X + third.Position.Y) / 2;
 
@@ -153,7 +153,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 }
 
             }
-            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < MainWindow.ACTIVATION_THRESHOLD)
+            else if ((first.Position.Z - third.Position.Z) + Math.Abs(first.Position.X - third.Position.X) < KinectController.ACTIVATION_THRESHOLD)
             {
                 hasPointed = false;
                 frameCounterLeft = 0;

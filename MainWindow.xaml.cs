@@ -18,8 +18,6 @@
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static float ACTIVATION_THRESHOLD = 0.5f;
-
         private const float STILL_THRESHOLD = 0.04f;
         private const int COUNTER_THRESHOLD = 30;
         private const float BORDERX_THRESHOLD = 0.2f;
@@ -27,10 +25,7 @@
         private const float MAXX = 1.5f;
         private const float MAXY = 1f;
 
-        private KinectSensor kinectSensor;
-        private BodyFrameReader bodyReader;
-        private UiTools uitools;
-        private Body[] bodies;
+        KinectController kc;
         public float offsetX;
         public float offsetY;
 
@@ -40,94 +35,106 @@
         /// </summary>
         public MainWindow()
         {
-            this.kinectSensor = KinectSensor.GetDefault();
 
-            this.InitializeComponent();
+            InitializeComponent();
 
-            // open the reader for the body frames
-            this.bodyReader = this.kinectSensor.BodyFrameSource.OpenReader();
-            this.kinectSensor.Open();
+            kc = new KinectController();
+            kc.bodyReader.FrameArrived += Reader_FrameArrived;
 
-            this.uitools = new UiTools(this);
-
-            this.offsetX = 0f;
-            this.offsetY = 0f;
+            offsetX = 0f;
+            offsetY = 0f;
 
             this.buttonCalibra.Click += ButtonCalibra_Click;
-
         }
 
         private void ButtonCalibra_Click(object sender, RoutedEventArgs e)
         {
-            CalibrationWindow cw = new CalibrationWindow(this, kinectSensor);
+            CalibrationWindow cw = new CalibrationWindow(this, kc.kinectSensor);
             cw.Show();
         }
 
         public void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
-            using (BodyFrame frame = e.FrameReference.AcquireFrame())
+            kc.Controller_FrameArrived(sender, e);
+
+            // the offset is modified by calibration window
+            this.offsetXBox.Text = offsetX.ToString();
+            this.offsetYBox.Text = offsetY.ToString();
+            if (kc.Arm == ArmPointing.Right)
             {
-                this.offsetXBox.Text = offsetX.ToString();
-                this.offsetYBox.Text = offsetY.ToString();
-                if (frame != null)
-                {
-                    if (this.bodies == null)
-                    {
-                        this.bodies = new Body[frame.BodyCount];
-                    }
+                float pointedX = kc.calculateX(kc.ShoulderRight.Position,
+                    kc.HandTipRight.Position) - offsetX;
+                float pointedY = kc.calculateY(kc.ShoulderRight.Position,
+                    kc.HandTipRight.Position) - offsetY;
 
-                    frame.GetAndRefreshBodyData(this.bodies);
-
-                    Body near = uitools.getNearestBody(this.bodies);
-
-                    if (uitools.checkPointingRight(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                    {
-                        uitools.PopulateLeft(near);
-
-                        float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetX;
-                        float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetY;
-                        this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                        this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
-                    }
-                    else if (uitools.checkPointingLeft(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                    {
-                        uitools.PopulateLeft(near);
-
-                        float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetX;
-                        float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetY;
-                        this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                        this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
-                    }
-                    else
-                        this.hand.Text = "notPointing";
-                }
-                else
-                    this.hand.Text = "no Frame";
-            }
-        }
-
-        // Handle the windows once it is loaded
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.bodyReader != null)
+                this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
+            } else if (kc.Arm == ArmPointing.Left)
             {
-                this.bodyReader.FrameArrived += this.Reader_FrameArrived;
+                float pointedX = kc.calculateX(kc.ShoulderLeft.Position,
+                    kc.HandTipLeft.Position) - offsetX;
+                float pointedY = kc.calculateY(kc.ShoulderLeft.Position,
+                    kc.HandTipLeft.Position) - offsetY;
+                this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
             }
+            else
+                this.hand.Text = "notPointing";
+
+                //using (BodyFrame frame = e.FrameReference.AcquireFrame())
+                //{
+                //    this.offsetXBox.Text = offsetX.ToString();
+                //    this.offsetYBox.Text = offsetY.ToString();
+                //    if (frame != null)
+                //    {
+                //        if (this.bodies == null)
+                //        {
+                //            this.bodies = new Body[frame.BodyCount];
+                //        }
+
+                //        frame.GetAndRefreshBodyData(this.bodies);
+
+                //        Body near = uitools.getNearestBody(this.bodies);
+
+                //        if (uitools.checkPointingRight(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
+                //        {
+                //            uitools.PopulateLeft(near);
+
+                //            float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetX;
+                //            float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetY;
+                //            this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                //            this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
+                //        }
+                //        else if (uitools.checkPointingLeft(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
+                //        {
+                //            uitools.PopulateLeft(near);
+
+                //            float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetX;
+                //            float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetY;
+                //            this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                //            this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
+                //        }
+                //        else
+                //            this.hand.Text = "notPointing";
+                //    }
+                //    else
+                //        this.hand.Text = "no Frame";
+                //}
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (this.bodyReader != null)
+            if (kc.bodyReader != null)
             {
                 // BodyFrameReader is IDisposable
-                this.bodyReader.Dispose();
-                this.bodyReader = null;
+                kc.bodyReader.Dispose();
+                kc.bodyReader = null;
             }
 
-            if (this.kinectSensor != null)
+            if (kc.kinectSensor != null)
             {
-                this.kinectSensor.Close();
-                this.kinectSensor = null;
+                kc.kinectSensor.Close();
+                kc.kinectSensor = null;
             }
         }
 

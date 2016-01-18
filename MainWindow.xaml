@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="http://schemas.microsoft.com/kinect/2014"
         Title="Body Basics" 
-        Height="900" Width="1600" 
-        Loaded="MainWindow_Loaded"
+        Height="900" Width="1600"
         Closing="MainWindow_Closing" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip">
 
 
