@@ -38,7 +38,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void demoClick(object sender, RoutedEventArgs e)
         {
-
+            Demo dm = new Demo();
+            dm.Show();
         }
     }
 }
