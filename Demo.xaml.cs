@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Kinect;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -20,31 +21,44 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class Demo : Window
     {
-        public static Demo DemoReference;
-        bool pointed;
+        KinectController kc;
+        Task hands;
+        bool isPointed;
 
         public Demo()
         {
             InitializeComponent();
-            if (DemoReference == null)
-                DemoReference = this;
-            //Timer timer1 = new Timer( ShowLeftHand, DemoReference, 0, 1000);
-            //Timer timer = new Timer(ShowRightHand, this, 1001, 1000);
+            isPointed = false;
             Example();
+            kc = new KinectController();
+            kc.bodyReader.FrameArrived += HandleFrame;
         }
 
-        public void ShowLeftHand(Object o)
+        private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
         {
-            Demo demo = (Demo) o ;
-            demo.rightHand.Visibility = Visibility.Visible;
-            demo.leftHand.Visibility = Visibility.Hidden;
-        }
+            kc.Controller_FrameArrived(sender, e);
 
-        public void ShowRightHand(Object o)
-        {
-            Demo demo = (Demo)o;
-            demo.rightHand.Visibility = Visibility.Hidden;
-            demo.leftHand.Visibility = Visibility.Visible;
+            if (kc.Arm != ArmPointing.Nothing)
+            {
+                isPointed = true;
+                
+                int zoneP = kc.GetPointedZone();
+                if (zoneP == 1 || zoneP == 3)
+                {
+                    this.leftHand.Visibility = Visibility.Visible;
+                    this.rightHand.Visibility = Visibility.Hidden;
+                    DataLog.ToConsole(zoneP.ToString() + " " + kc.Arm);
+                } else
+                {
+                    this.leftHand.Visibility = Visibility.Hidden;
+                    this.rightHand.Visibility = Visibility.Visible;
+                    DataLog.ToConsole(zoneP.ToString() + " " + kc.Arm);
+                }
+            } else if (isPointed)
+            {
+                //Example();
+                isPointed = false;
+            }
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -54,22 +68,44 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public void Example()
         {
-            Task.Run(new Action(() =>
+            hands = Task.Run(new Action(() =>
             {
-                HideFirstHand();
-                Thread.Sleep(5000);
-                HideSecondHand();
+                if (!isPointed)
+                {
+                    HideFirstHand();
+                    Thread.Sleep(1000);
+                    Example2();
+                }
+            }));
+        }
+
+        public void Example2()
+        {
+            hands = Task.Run(new Action(() =>
+            {
+                if (!isPointed)
+                {
+                    HideSecondHand();
+                    Thread.Sleep(1000);
+                    Example();
+                }
             }));
         }
 
         public void HideFirstHand()
         {
-            Dispatcher.Invoke(new Action(() => { this.leftHand.Visibility = Visibility.Hidden; }));
+            Dispatcher.Invoke(new Action(() => {
+                this.leftHand.Visibility = Visibility.Hidden;
+                this.rightHand.Visibility = Visibility.Visible;
+            }));
         }
 
         public void HideSecondHand()
         {
-            Dispatcher.Invoke(new Action(() => { this.rightHand.Visibility = Visibility.Hidden; }));
+            Dispatcher.Invoke(new Action(() => {
+                this.rightHand.Visibility = Visibility.Hidden;
+                this.leftHand.Visibility = Visibility.Visible;
+            }));
         }
 
     }

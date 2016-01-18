@@ -1,6 +1,8 @@
 ﻿using Microsoft.Kinect;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +27,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private const float BORDERY_THRESHOLD = 0.1f;
         private const float MAXX = 1.5f;
         private const float MAXY = 1f;
+        private const string OPT_FILE = "calibration.json";
 
         public KinectSensor kinectSensor;
         public BodyFrameReader bodyReader;
@@ -54,6 +57,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private bool hasPointed;
 
+        public float offsetX, offsetY;
+
         public KinectController()
         {
             kinectSensor = KinectSensor.GetDefault();
@@ -68,6 +73,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             lastAveragePositionRight = 0f;
             frameCounterLeft = 0;
             frameCounterRight = 0;
+
+            if (!File.Exists(OPT_FILE))
+            {
+                offsetX = 0;
+                offsetY = 0;
+            } else
+            {
+                string data = File.ReadAllText(OPT_FILE);
+                List <float> offset = JsonConvert.DeserializeObject<List<float>>(data);
+                offsetX = offset[0];
+                offsetY = offset[1];
+                DataLog.ToConsole(offsetX.ToString() + " " + offsetY.ToString());
+            }
         }
 
         public void Controller_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -195,7 +213,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             return isPointing;
         }
 
-        public float GetPointedX(float offsetX)
+        public float GetPointedX()
         {
             if (Arm == ArmPointing.Right)
             {
@@ -209,10 +227,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     HandTipLeft.Position) - offsetX;
                 return pointedX;
             }
-            return 9999f;
+            return 0f;
         }
 
-        public float GetPointedY(float offsetY)
+        public float GetPointedY()
         {
             if (Arm == ArmPointing.Right)
             {
@@ -226,14 +244,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     HandTipLeft.Position) - offsetY;
                 return pointedY;
             }
-            return 9999f;
+            return 0f;
         }
 
         public int GetPointedZone()
         {
             if (Arm != ArmPointing.Nothing) {
-                float pointedX = GetPointedX(0f);
-                float pointedY = GetPointedY(0f);
+                float pointedX = GetPointedX();
+                float pointedY = GetPointedY();
                 if (pointedX < -BORDERX_THRESHOLD && pointedY < -BORDERY_THRESHOLD &&
                       pointedX > -MAXX && pointedY > -MAXY)
                     return 3;

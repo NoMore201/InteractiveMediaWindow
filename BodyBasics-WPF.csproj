@@ -123,6 +123,7 @@
     <Compile Include="Init.xaml.cs">
       <DependentUpon>Init.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KinectController.cs" />
     <Compile Include="Model\Tracklist.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Movie.cs" />

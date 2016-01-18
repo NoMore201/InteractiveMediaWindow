@@ -49,7 +49,7 @@
 
         private void ButtonCalibra_Click(object sender, RoutedEventArgs e)
         {
-            CalibrationWindow cw = new CalibrationWindow(this, kc.kinectSensor);
+            CalibrationWindow cw = new CalibrationWindow();
             cw.Show();
         }
 

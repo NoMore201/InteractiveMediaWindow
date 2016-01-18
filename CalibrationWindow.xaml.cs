@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Microsoft.Kinect;
-using Microsoft.Kinect.Input;
-using Microsoft.Kinect.Wpf.Controls;
+using System.IO;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -22,69 +12,44 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class CalibrationWindow : Window
     {
-        private const float STILL_THRESHOLD = 0.03f;
-        private const int COUNTER_THRESHOLD = 60;
-        public MainWindow win;
-        private KinectSensor sensor;
-        private BodyFrameReader bodyReader;
-        private UiTools uitools;
-        private Body[] bodies;
+        private KinectController kc;
 
-        public CalibrationWindow(MainWindow win, KinectSensor sens)
+        private const string OPT_FILE = "calibration.json";
+
+        public CalibrationWindow()
         {
             InitializeComponent();
-            this.uitools = new UiTools(win);
-            this.win = win;
-            sensor = sens;
-            this.bodyReader = sensor.BodyFrameSource.OpenReader();
-            this.bodyReader.FrameArrived += Calibration_FrameArrived;
-            this.Closing += CalibrationWindow_Closing;
-        }
-
-        private void CalibrationWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (this.bodyReader != null)
-            {
-                // BodyFrameReader is IDisposable
-                this.bodyReader.Dispose();
-                this.bodyReader = null;
-            }
+            kc = new KinectController();
+            kc.bodyReader.FrameArrived += Calibration_FrameArrived;
         }
 
         private void Calibration_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
-            using (BodyFrame frame = e.FrameReference.AcquireFrame())
+            kc.Controller_FrameArrived(sender, e);
+
+            if (kc.Arm != ArmPointing.Nothing)
             {
-                if (frame != null)
-                {
-                    if (this.bodies == null)
-                    {
-                        this.bodies = new Body[frame.BodyCount];
-                    }
+                float pointedX = kc.GetPointedX();
+                float pointedY = kc.GetPointedY();
 
-                    frame.GetAndRefreshBodyData(this.bodies);
+                DataLog.ToConsole(pointedX.ToString() + " " + pointedY.ToString());
 
-                    Body near = uitools.getNearestBody(this.bodies);
+                if (!File.Exists(OPT_FILE))
+                    File.Create(OPT_FILE).Close();
 
-                    if (uitools.checkPointingRight(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                    {
-                        float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position);
-                        float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position);
-                        win.offsetX = pointedX;
-                        win.offsetY = pointedY;
-                        this.Close();
-                    }
-                    else if (uitools.checkPointingLeft(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                    {
-                        float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position);
-                        float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position);
-                        win.offsetX = pointedX;
-                        win.offsetY = pointedY;
-                        this.Close();
-                    }
-                }
+                List<float> l = new List<float>();
+
+                l.Add(pointedX);
+                l.Add(pointedY);
+
+                StreamWriter cal_file = File.CreateText(OPT_FILE);
+                JsonTextWriter cal_writer = new JsonTextWriter(cal_file);
+                string data = JsonConvert.SerializeObject(l);
+                cal_writer.WriteRaw(data);
+                cal_file.Close();
+
+                this.Close();
             }
         }
-
     }
 }
