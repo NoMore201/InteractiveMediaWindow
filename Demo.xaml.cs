@@ -30,6 +30,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 DemoReference = this;
             //Timer timer1 = new Timer( ShowLeftHand, DemoReference, 0, 1000);
             //Timer timer = new Timer(ShowRightHand, this, 1001, 1000);
+            Example();
         }
 
         public void ShowLeftHand(Object o)
@@ -50,5 +51,26 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
 
         }
+
+        public void Example()
+        {
+            Task.Run(new Action(() =>
+            {
+                HideFirstHand();
+                Thread.Sleep(5000);
+                HideSecondHand();
+            }));
+        }
+
+        public void HideFirstHand()
+        {
+            Dispatcher.Invoke(new Action(() => { this.leftHand.Visibility = Visibility.Hidden; }));
+        }
+
+        public void HideSecondHand()
+        {
+            Dispatcher.Invoke(new Action(() => { this.rightHand.Visibility = Visibility.Hidden; }));
+        }
+
     }
 }
