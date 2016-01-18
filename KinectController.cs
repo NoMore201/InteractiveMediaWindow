@@ -109,9 +109,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public bool checkPointingRight()
         {
             bool isPointing = false;
-
-            DataLog dl = new DataLog();
-
             if (!hasPointed && nearest.HandRightState != HandState.Closed &&
                 nearest.HandRightState != HandState.Open &&
                 (ShoulderRight.Position.Z - HandRight.Position.Z) +
@@ -157,12 +154,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             bool isPointing = false;
 
-            //Joint first = near.Joints[JointType.ShoulderLeft];
-            //Joint third = near.Joints[JointType.HandLeft];
-
-            DataLog dl = new DataLog();
-
-
             if (!hasPointed && nearest.HandLeftState != HandState.Closed &&
                 nearest.HandLeftState != HandState.Open &&
                 (ShoulderLeft.Position.Z - HandLeft.Position.Z) + 
@@ -202,6 +193,63 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
 
             return isPointing;
+        }
+
+        public float GetPointedX(float offsetX)
+        {
+            if (Arm == ArmPointing.Right)
+            {
+                float pointedX = calculateX(ShoulderRight.Position,
+                    HandTipRight.Position) - offsetX;
+                return pointedX;
+            }
+            else if (Arm == ArmPointing.Left)
+            {
+                float pointedX = calculateX(ShoulderLeft.Position,
+                    HandTipLeft.Position) - offsetX;
+                return pointedX;
+            }
+            return 9999f;
+        }
+
+        public float GetPointedY(float offsetY)
+        {
+            if (Arm == ArmPointing.Right)
+            {
+                float pointedY = calculateY(ShoulderRight.Position,
+                    HandTipRight.Position) - offsetY;
+                return pointedY;
+            }
+            else if (Arm == ArmPointing.Left)
+            {
+                float pointedY = calculateY(ShoulderLeft.Position,
+                    HandTipLeft.Position) - offsetY;
+                return pointedY;
+            }
+            return 9999f;
+        }
+
+        public int GetPointedZone()
+        {
+            if (Arm != ArmPointing.Nothing) {
+                float pointedX = GetPointedX(0f);
+                float pointedY = GetPointedY(0f);
+                if (pointedX < -BORDERX_THRESHOLD && pointedY < -BORDERY_THRESHOLD &&
+                      pointedX > -MAXX && pointedY > -MAXY)
+                    return 3;
+                else if (pointedX > BORDERX_THRESHOLD && pointedY < -BORDERY_THRESHOLD &&
+                      pointedX < MAXX && pointedY > -MAXY)
+                    return 4;
+                else if (pointedX > BORDERX_THRESHOLD && pointedY > BORDERY_THRESHOLD &&
+                      pointedX < MAXX && pointedY < MAXY)
+                    return 2;
+                else if (pointedX < -BORDERX_THRESHOLD && pointedY > BORDERY_THRESHOLD &&
+                      pointedX > -MAXX && pointedY < MAXY)
+                    return 1;
+                else
+                    return 0;
+            }
+            return 0;
         }
 
         public float calculateX(CameraSpacePoint one, CameraSpacePoint two)
