@@ -48,11 +48,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public async void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
+        public void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
         {
             try
             {
-                SendColor(colorBegin, num);
+                SendColor(colorBegin, 5, num);
                 Thread.Sleep(5500);
                 SendDoubleColorCommand(colorEnd, colorBegin, num);
             } catch (Exception ex)
@@ -62,12 +62,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 
         }
 
-        public void SendColor(string color, string num)
+        public void SendColor(string color, double transitionTime, string num)
         {
             if (isConnectionAvailable)
             {
                 var command = new LightCommand();
-                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(5);
+                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(transitionTime);
                 command.SetColor(color);
                 client.SendCommandAsync(command, new List<string> { num });
             }
@@ -77,12 +77,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void SendColor(string color, byte brightness, string num)
+        public void SendColor(string color, double transitionTime, byte brightness, string num)
         {
             if (isConnectionAvailable)
             {
                 var command = new LightCommand();
-                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(5);
+                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(transitionTime);
                 command.SetColor(color);
                 command.Brightness = brightness;
                 client.SendCommandAsync(command, new List<string> { num });
