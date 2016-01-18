@@ -21,26 +21,31 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class Demo : Window
     {
         public static Demo DemoReference;
+        bool pointed;
 
         public Demo()
         {
             InitializeComponent();
             if (DemoReference == null)
                 DemoReference = this;
-            //Timer timer1 = new Timer( ShowLeftHand, null, 0, 1000);
-            //Timer timer = new Timer(ShowRightHand, null, 1001, 1000);
+            //Timer timer1 = new Timer( ShowLeftHand, DemoReference, 0, 1000);
+            //Timer timer = new Timer(ShowRightHand, this, 1001, 1000);
         }
 
-        public void ShowLeftHand()
+        public void ShowLeftHand(Object o)
         {
-            Demo.DemoReference.rightHand.Visibility = Visibility.Visible;
-            Demo.DemoReference.leftHand.Visibility = Visibility.Hidden;
+            Demo demo = (Demo) o ;
+            demo.rightHand.Visibility = Visibility.Visible;
+            demo.leftHand.Visibility = Visibility.Hidden;
         }
 
         public void ShowRightHand(Object o)
         {
-            Demo.DemoReference.rightHand.Visibility = Visibility.Hidden;
-            Demo.DemoReference.leftHand.Visibility = Visibility.Visible;
+            Demo demo = (Demo)o;
+            demo.rightHand.Visibility = Visibility.Hidden;
+            demo.leftHand.Visibility = Visibility.Visible;
         }
+
+
     }
 }

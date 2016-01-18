@@ -40,6 +40,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void testButton(object sender, RoutedEventArgs e)
         {
+            hueControl.SendDoubleColorCommand("FFFFFFF", "FF3333", "1");
         }
 
         private void connectButton(object sender, RoutedEventArgs e)
@@ -55,6 +56,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 this.textBlock.Text += ex.Message + "\n";
             }
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            hueControl.SendColor("12FF34", 4, "1");
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            hueControl.SendAlert("23FF43", "1");
         }
     }
 }

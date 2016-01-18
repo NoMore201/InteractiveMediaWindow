@@ -11,6 +11,8 @@
         <Label x:Name="label" Content="Before connect press Link button" HorizontalAlignment="Left" Margin="23,26,0,0" VerticalAlignment="Top" Width="221"/>
         <Button x:Name="button" Content="SendCommand" HorizontalAlignment="Left" Margin="457,42,0,0" VerticalAlignment="Top" Width="75" Click="testButton"/>
         <Button x:Name="button1" Content="Connect" HorizontalAlignment="Left" Margin="457,79,0,0" VerticalAlignment="Top" Width="75" Click="connectButton"/>
+        <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="457,119,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
+        <Button x:Name="button3" Content="Button" HorizontalAlignment="Left" Margin="457,158,0,0" VerticalAlignment="Top" Width="75" Click="button3_Click"/>
 
     </Grid>
 </Window>
