@@ -46,6 +46,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             demo.leftHand.Visibility = Visibility.Visible;
         }
 
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+        }
     }
 }

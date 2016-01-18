@@ -7,18 +7,9 @@
         mc:Ignorable="d"
         Title="Demo" Height="452.8" Width="1152" WindowStartupLocation="Manual">
     <Grid>
-        <Image x:Name="rightHand" Margin="880,0,0,134.2" Source="008032-glossy-black-icon-arrows-hand-pointer1-right.png" Stretch="Fill" Height="257" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="256"/>
-        <Image x:Name="leftHand" Margin="0,0,881.6,138.2" Source="008032-glossy-black-icon-arrows-hand-pointer1-right.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="256" Height="258" VerticalAlignment="Bottom">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-181.116"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="391" Margin="292,0,0,-0.8" TextWrapping="Wrap" Text="Point Your Finger&#xD;&#xA;To A Product" VerticalAlignment="Bottom" Width="517" FontSize="64" TextAlignment="Center"/>
+        <Image x:Name="leftHand" Source="Images/Pleft.png" HorizontalAlignment="Left" Height="202" Margin="10,33,0,0" VerticalAlignment="Top" Width="222"/>
+        <Image x:Name="rightHand" Source="Images/Pright.png" HorizontalAlignment="Left" Height="202" Margin="930,33,0,0" VerticalAlignment="Top" Width="206"/>
+        <Label x:Name="label" Content="Point Your Finger&#xA;To A Product" HorizontalAlignment="Center" Margin="386,68,353.6,99.2" VerticalAlignment="Center" Height="256" Width="406" FontSize="48" FontFamily="Segoe UI Symbol" FontWeight="Bold" />
 
     </Grid>
 </Window>
