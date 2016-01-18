@@ -24,6 +24,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         KinectController kc;
         Task hands;
         bool isPointed;
+        private HueController hue;
 
         public Demo()
         {
@@ -31,33 +32,36 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             isPointed = false;
             Example();
             kc = new KinectController();
+            hue = new HueController("192.168.0.2");
+            hue.Connect();
             kc.bodyReader.FrameArrived += HandleFrame;
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
         {
             kc.Controller_FrameArrived(sender, e);
+     
+            int zoneP = kc.GetPointedZone();
 
-            if (kc.Arm != ArmPointing.Nothing)
+            if (zoneP!=0 && !isPointed)
             {
-                isPointed = true;
-                
-                int zoneP = kc.GetPointedZone();
+                this.label.Content += zoneP.ToString(); ;
                 if (zoneP == 1 || zoneP == 3)
                 {
-                    this.leftHand.Visibility = Visibility.Visible;
-                    this.rightHand.Visibility = Visibility.Hidden;
-                    DataLog.ToConsole(zoneP.ToString() + " " + kc.Arm);
+                    hue.SendDoubleColorCommand("FF0000", "00FF00", "1");
+                    hue.TurnOff("7");
                 } else
                 {
-                    this.leftHand.Visibility = Visibility.Hidden;
-                    this.rightHand.Visibility = Visibility.Visible;
-                    DataLog.ToConsole(zoneP.ToString() + " " + kc.Arm);
+                    hue.SendAlert("3344FF", "7");
+                    hue.TurnOff("1");
                 }
-            } else if (isPointed)
+
+                isPointed = true;
+            } else if(zoneP==0 && isPointed)
             {
-                //Example();
                 isPointed = false;
+                hue.SendColor("3344FF", 1f, (byte)200, "7");
+                hue.SendColor("33FF44", 1f, (byte)200, "1");
             }
         }
 

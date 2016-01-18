@@ -30,16 +30,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// <param name="ip">Ip of the HueBridge (devices with the link button)</param>
         public HueController(string ip)
         {
-            client = new LocalHueClient("ip");
+            client = new LocalHueClient(ip);
             isConnectionAvailable = false;
         }
 
-        public void Connect()
+        public async void Connect()
         {
             try
             {
-                Task<string> t = client.RegisterAsync("InteractiveMediaWindow", "NoMore");
-                appKey = t.Result;
+                appKey = await client.RegisterAsync("InteractiveMediaW", "NoMore");
                 isConnectionAvailable = true;
             }
             catch (Exception ex)
@@ -48,13 +47,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
+        public async Task SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
         {
             try
             {
                 SendColor(colorBegin, 5, num);
                 Thread.Sleep(5500);
-                SendDoubleColorCommand(colorEnd, colorBegin, num);
+                await SendDoubleColorCommand(colorEnd, colorBegin, num);
             } catch (Exception ex)
             {
                 throw ex;
@@ -103,6 +102,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 var command = new LightCommand();
                 command.TurnOn().Alert = Alert.Multiple;
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
+
+        /// <summary>
+        /// Turns OFF the HUE
+        /// </summary>
+        /// <param name="num">Hue to send command to</param>
+        public void TurnOff(string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.TurnOff();
                 client.SendCommandAsync(command, new List<string> { num });
             }
             else
