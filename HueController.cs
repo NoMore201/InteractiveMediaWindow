@@ -52,7 +52,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             try
             {
-                SendColorCommand(colorBegin, num);
+                SendColor(colorBegin, num);
                 Thread.Sleep(5500);
                 SendDoubleColorCommand(colorEnd, colorBegin, num);
             } catch (Exception ex)
@@ -62,7 +62,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 
         }
 
-        public void SendColorCommand(string color, string num)
+        public void SendColor(string color, string num)
         {
             if (isConnectionAvailable)
             {
@@ -77,6 +77,26 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
+        public void SendColor(string color, byte brightness, string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(5);
+                command.SetColor(color);
+                command.Brightness = brightness;
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
+
+        /// <summary>
+        /// Sends alert command with default color
+        /// </summary>
+        /// <param name="num">Hue to send command to</param>
         public void SendAlert(string num)
         {
             if (isConnectionAvailable)
@@ -91,21 +111,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void SendLightness(byte intensity, string num)
-        {
-            if (isConnectionAvailable)
-            {
-                var command = new LightCommand();
-                command.Brightness = intensity;
-                client.SendCommandAsync(command, new List<string> { num });
-            }
-            else
-            {
-                throw new Exception("There is no connection to Hue Bridge");
-            }
-        }
-
-        public void SendAlertColor(string color, string num)
+        /// <summary>
+        /// Sends alert command
+        /// </summary>
+        /// <param name="color">Color of the alert</param>
+        /// <param name="num">Hue to send command to</param>
+        public void SendAlert(string color, string num)
         {
             if (isConnectionAvailable)
             {
