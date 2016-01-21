@@ -2,8 +2,6 @@
 using Q42.HueApi.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,15 +12,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private ILocalHueClient client;
         private string appKey;
         private bool isConnectionAvailable;
-
-        /// <summary>
-        /// Base constructor which will search for bridgeIp
-        /// </summary>
-        public HueController()
-        {
-            // needs implementation
-            isConnectionAvailable = false;
-        }
 
         /// <summary>
         /// If the Bridge ip is known, use this constructor
@@ -38,12 +27,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             try
             {
-                appKey = await client.RegisterAsync("InteractiveMediaW", "NoMore");
+                appKey = await client.RegisterAsync("IMW", "DI&GDF");
                 isConnectionAvailable = true;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Cannot connect to HUE", ex);
             }
         }
 
@@ -58,22 +47,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 throw ex;
             }
-                
         }
 
         public void SendColor(string color, double transitionTime, string num)
         {
-            if (isConnectionAvailable)
-            {
-                var command = new LightCommand();
-                command.TurnOn().TransitionTime = TimeSpan.FromSeconds(transitionTime);
-                command.SetColor(color);
-                client.SendCommandAsync(command, new List<string> { num });
-            }
-            else
-            {
-                throw new Exception("There is no connection to Hue Bridge");
-            }
+            SendColor(color, transitionTime, (byte)255, num);
         }
 
         public void SendColor(string color, double transitionTime, byte brightness, string num)
@@ -84,42 +62,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 command.TurnOn().TransitionTime = TimeSpan.FromSeconds(transitionTime);
                 command.SetColor(color);
                 command.Brightness = brightness;
-                client.SendCommandAsync(command, new List<string> { num });
-            }
-            else
-            {
-                throw new Exception("There is no connection to Hue Bridge");
-            }
-        }
-
-        /// <summary>
-        /// Sends alert command with default color
-        /// </summary>
-        /// <param name="num">Hue to send command to</param>
-        public void SendAlert(string num)
-        {
-            if (isConnectionAvailable)
-            {
-                var command = new LightCommand();
-                command.TurnOn().Alert = Alert.Multiple;
-                client.SendCommandAsync(command, new List<string> { num });
-            }
-            else
-            {
-                throw new Exception("There is no connection to Hue Bridge");
-            }
-        }
-
-        /// <summary>
-        /// Turns OFF the HUE
-        /// </summary>
-        /// <param name="num">Hue to send command to</param>
-        public void TurnOff(string num)
-        {
-            if (isConnectionAvailable)
-            {
-                var command = new LightCommand();
-                command.TurnOff();
                 client.SendCommandAsync(command, new List<string> { num });
             }
             else
@@ -140,6 +82,34 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 var command = new LightCommand();
                 command.TurnOn().Alert = Alert.Multiple;
                 command.SetColor(color);
+                client.SendCommandAsync(command, new List<string> { num });
+            }
+            else
+            {
+                throw new Exception("There is no connection to Hue Bridge");
+            }
+        }
+
+        /// <summary>
+        /// Sends alert command with default color
+        /// </summary>
+        /// <param name="num">Hue to send command to</param>
+        public void SendAlert(string num)
+        {
+            SendAlert("FFFFFF", num);
+        }
+
+
+        /// <summary>
+        /// Turns OFF the HUE
+        /// </summary>
+        /// <param name="num">Hue to send command to</param>
+        public void TurnOff(string num)
+        {
+            if (isConnectionAvailable)
+            {
+                var command = new LightCommand();
+                command.TurnOff();
                 client.SendCommandAsync(command, new List<string> { num });
             }
             else

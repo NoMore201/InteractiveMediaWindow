@@ -1,17 +1,9 @@
 ﻿namespace Microsoft.Samples.Kinect.BodyBasics
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
     using System.Windows;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Microsoft.Kinect;
-    using Microsoft.Kinect.Input;
-    using Microsoft.Kinect.Wpf.Controls;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -43,14 +35,6 @@
 
             offsetX = 0f;
             offsetY = 0f;
-
-            this.buttonCalibra.Click += ButtonCalibra_Click;
-        }
-
-        private void ButtonCalibra_Click(object sender, RoutedEventArgs e)
-        {
-            CalibrationWindow cw = new CalibrationWindow();
-            cw.Show();
         }
 
         public void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -159,17 +143,6 @@
                 return 1;
             else
                 return 0;
-        }
-
-        private void buttonDB_Click(object sender, RoutedEventArgs e)
-        {
-            DatabaseWindow cw = new DatabaseWindow();
-            cw.Show();
-        }
-
-        private void buttonCalibra_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

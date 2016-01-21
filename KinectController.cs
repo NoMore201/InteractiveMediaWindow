@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -31,7 +28,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public KinectSensor kinectSensor;
         public BodyFrameReader bodyReader;
-        public UiTools uitools;
         public Body[] bodies;
         public Body nearest;
 
@@ -327,6 +323,4 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         }
 
     }
-
-
 }
