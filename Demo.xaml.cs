@@ -16,6 +16,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         Task hands;
         bool isPointed;
         private HueController hue;
+        private DemoIdle idle;
+        private DemoTrailer trailer;
 
         public Demo()
         {
@@ -26,6 +28,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             hue = new HueController("192.168.0.2");
             hue.Connect();
             kc.bodyReader.FrameArrived += HandleFrame;
+            idle = new DemoIdle();
+            this.contentControl.Content = idle;
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
@@ -36,7 +40,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             if (zoneP!=0 && !isPointed)
             {
-                this.label.Content += zoneP.ToString(); ;
+                idle.label.Content += zoneP.ToString(); ;
                 if (zoneP == 1 || zoneP == 3)
                 {
                     hue.SendDoubleColorCommand("FF0000", "00FF00", "1");
@@ -76,6 +80,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (!isPointed)
                 {
                     HideSecondHand();
+                    StartTrailer();
                     Thread.Sleep(1000);
                     IdleAnimateFirstHand();
                 }
@@ -85,16 +90,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public void HideFirstHand()
         {
             Dispatcher.Invoke(new Action(() => {
-                this.leftHand.Visibility = Visibility.Hidden;
-                this.rightHand.Visibility = Visibility.Visible;
+                idle.leftHand.Visibility = Visibility.Hidden;
+                idle.rightHand.Visibility = Visibility.Visible;
             }));
         }
 
         public void HideSecondHand()
         {
             Dispatcher.Invoke(new Action(() => {
-                this.rightHand.Visibility = Visibility.Hidden;
-                this.leftHand.Visibility = Visibility.Visible;
+                idle.rightHand.Visibility = Visibility.Hidden;
+                idle.leftHand.Visibility = Visibility.Visible;
+            }));
+        }
+
+        public void StartTrailer()
+        {
+            Dispatcher.Invoke(new Action(() => {
+                trailer = new DemoTrailer();
+                contentControl.Content = trailer;
             }));
         }
 

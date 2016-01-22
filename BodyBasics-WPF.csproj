@@ -117,6 +117,12 @@
     <Compile Include="Demo.xaml.cs">
       <DependentUpon>Demo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DemoIdle.xaml.cs">
+      <DependentUpon>DemoIdle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemoTrailer.xaml.cs">
+      <DependentUpon>DemoTrailer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HueController.cs" />
     <Compile Include="HueDebug.xaml.cs">
       <DependentUpon>HueDebug.xaml</DependentUpon>
@@ -138,6 +144,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Demo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemoIdle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemoTrailer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

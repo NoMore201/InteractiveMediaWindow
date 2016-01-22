@@ -6,10 +6,5 @@
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
         Title="Demo" Height="452.8" Width="1152" WindowStartupLocation="Manual">
-    <Grid>
-        <Image x:Name="leftHand" Source="Images/Pleft.png" HorizontalAlignment="Left" Height="202" Margin="10,33,0,0" VerticalAlignment="Center" Width="222"/>
-        <Image x:Name="rightHand" Source="Images/Pright.png" Height="202" Margin="0,33,9.6,0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="206"/>
-        <Label x:Name="label" Content="Point Your Finger&#xA;    To A Product" Margin="352,164,398.6,136.2" VerticalAlignment="Center" Height="123" FontSize="48" FontFamily="Century Gothic" FontWeight="Bold" HorizontalAlignment="Center" />
-
-    </Grid>
+    <ContentControl x:Name="contentControl"/>
 </Window>
