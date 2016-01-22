@@ -30,9 +30,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 appKey = await client.RegisterAsync("IMW", "DI&GDF");
                 isConnectionAvailable = true;
             }
-            catch (Exception ex)
+            catch ()
             {
-                throw new Exception("Cannot connect to HUE", ex);
+                DataLog.Log(DataLog.DebugLevel.Error, 
+                    "Cannot connecto to HUE. Link button?");
             }
         }
 
