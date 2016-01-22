@@ -100,7 +100,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
-                throw new Exception("There is no connection to Hue Bridge");
+               // throw new Exception("There is no connection to Hue Bridge");
             }
         }
 
