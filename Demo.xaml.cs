@@ -107,7 +107,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             Dispatcher.Invoke(new Action(() => {
                 isPointed = true;
-                trailer = new DemoTrailer("trailers\\asd.mp4");
+                trailer = new DemoTrailer("trailers\\hce.mp4");
                 contentControl.Content = trailer;
                 trailer.PlayTrailer();
             }));
