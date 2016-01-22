@@ -12,6 +12,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private ILocalHueClient client;
         private string appKey;
         private bool isConnectionAvailable;
+        public bool isDoubleActive;
+        public bool isBright;
 
         /// <summary>
         /// If the Bridge ip is known, use this constructor
@@ -21,6 +23,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             client = new LocalHueClient(ip);
             isConnectionAvailable = false;
+            isDoubleActive = false;
+            isBright = true;
         }
 
         public async void Connect()
@@ -41,11 +45,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public async Task SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
         {
-            try
+            if (isDoubleActive) try
             {
+                
                 SendColor(colorBegin, 5, num);
                 Thread.Sleep(5500);
                 await SendDoubleColorCommand(colorEnd, colorBegin, num);
+                
             } catch (Exception ex)
             {
                 throw ex;
@@ -54,7 +60,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public void SendColor(string color, double transitionTime, string num)
         {
-            SendColor(color, transitionTime, (byte)255, num);
+            if(isBright)
+                SendColor(color, transitionTime, (byte)255, num);
+            else
+                SendColor(color, transitionTime, (byte)120, num);
         }
 
         public void SendColor(string color, double transitionTime, byte brightness, string num)
