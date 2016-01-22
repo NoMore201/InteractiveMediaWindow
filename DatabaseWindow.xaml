@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="DatabaseWindow" Height="765.555" Width="923.345" Closing="Window_Closing">
+        Title="DatabaseWindow" Height="772.155" Width="904.145" Closing="Window_Closing">
     <Grid>
-        <DataGrid x:Name="movieGrid" Margin="21,42,49.8,0" VerticalAlignment="Top" Height="170" Loaded="MovieGrid_Loaded"/>
+        <DataGrid x:Name="movieGrid" Margin="21,42,49.4,0" VerticalAlignment="Top" Height="139" Loaded="MovieGrid_Loaded"/>
         <Label x:Name="label" Content="Movies" HorizontalAlignment="Left" Margin="21,11,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button" Content="Cancel" HorizontalAlignment="Left" Margin="21,684,0,0" Width="75" Click="cancel_Click" Height="19" VerticalAlignment="Top"/>
-        <DataGrid x:Name="bookGrid" Margin="21,247,49.8,0" VerticalAlignment="Top" Height="167" Loaded="bookGrid_Loaded"/>
-        <Label x:Name="label_Copy" Content="Books" HorizontalAlignment="Left" Margin="21,217,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="musicGrid" Margin="21,476,49.8,0" VerticalAlignment="Top" Height="167" Loaded="musicGrid_Loaded"/>
-        <Label x:Name="label_Copy1" Content="Music" HorizontalAlignment="Left" Margin="21,433,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button" Content="Cancel" HorizontalAlignment="Left" Margin="780,585,0,0" Width="75" Click="cancel_Click" Height="19" VerticalAlignment="Top"/>
+        <DataGrid x:Name="bookGrid" Margin="21,216,49.4,0" VerticalAlignment="Top" Height="144" Loaded="bookGrid_Loaded"/>
+        <Label x:Name="label_Copy" Content="Books" HorizontalAlignment="Left" Margin="21,186,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="musicGrid" Margin="21,396,49.4,0" VerticalAlignment="Top" Height="144" Loaded="musicGrid_Loaded"/>
+        <Label x:Name="label_Copy1" Content="Music" HorizontalAlignment="Left" Margin="21,365,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Tracklist" HorizontalAlignment="Left" Margin="21,545,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="tracklistGrid" HorizontalAlignment="Left" Margin="21,571,0,0" VerticalAlignment="Top" Height="145" Width="228" Loaded="TracklistGrid_Loaded"/>
 
     </Grid>
 </Window>

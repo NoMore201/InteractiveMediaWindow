@@ -38,86 +38,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        /*public void InsertMovie( string Summary,
-            string Directors,
-            string Actors,
-            string Trailer,
-            string Genre,
-            int LightGenre,
-            string FavouriteRelateds,
-            int Popularity,
-            int Type,
-            int Year,
-            int Vote,
-            string Cover,
-            string Name,
-            int Position,
-            string Description,
-            string OtherInfo,
-            string PublishingHouse)
-        {
-            Model.Movie i = new Model.Movie();
-            i.Summary = Summary;
-            i.Director = Directors;
-            i.Actors = Actors;
-            i.Trailer = Trailer;
-            i.Genre = Genre;
-            i.LightGenre = LightGenre;
-            i.FavouriteRelateds = FavouriteRelateds;
-            i.Popularity = Popularity;
-            i.Type = Type;
-            i.ID = movies.Count + books.Count + 1;
-            i.Year = Year;
-            i.Vote = Vote;
-            i.Cover = Cover;
-            i.Name = Name;
-            i.Position = Position;
-            i.Description = Description;
-            i.OtherInfo = OtherInfo;
-            i.PublishingHouse = PublishingHouse;
-            movies.Add(i);
-            this.movieGrid.Items.Refresh();
-        }
-
-        public void InsertBook(string Summary,
-            string Writers,
-            string Trailer,
-            string Genre,
-            int LightGenre,
-            string FavouriteRelateds,
-            int Popularity,
-            int Type,
-            int Year,
-            int Vote,
-            string Cover,
-            string Name,
-            int Position,
-            string Description,
-            string OtherInfo,
-            string PublishingHouse)
-        {
-            Model.Book i = new Model.Book();
-            i.Summary = Summary;
-            i.Writers = Writers;
-            i.Trailer = Trailer;
-            i.Genre = Genre;
-            i.LightGenre = LightGenre;
-            i.FavouriteRelateds = FavouriteRelateds;
-            i.Popularity = Popularity;
-            i.Type = Type;
-            i.ID = movies.Count + books.Count + 1;
-            i.Year = Year;
-            i.Vote = Vote;
-            i.Cover = Cover;
-            i.Name = Name;
-            i.Position = Position;
-            i.Description = Description;
-            i.OtherInfo = OtherInfo;
-            i.PublishingHouse = PublishingHouse;
-            books.Add(i);
-            this.bookGrid.Items.Refresh();
-        } */
-
         private void WriteFile()
         {
             StreamWriter movie_file = File.CreateText(MOVIE_FILE);
@@ -152,9 +72,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             books = JsonConvert.DeserializeObject<List<Model.Book>>(data_book);
             musics = JsonConvert.DeserializeObject<List<Model.Music>>(data_music);
             tracklists = JsonConvert.DeserializeObject<List<Model.Tracklist>>(data_tracks);
-            this.movieGrid.Items.Refresh();
-            this.bookGrid.Items.Refresh();
-            this.musicGrid.Items.Refresh();
+            movieGrid.Items.Refresh();
+            bookGrid.Items.Refresh();
+            musicGrid.Items.Refresh();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -169,20 +89,26 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void MovieGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            this.movieGrid.RowHeight = 50;
-            this.movieGrid.ItemsSource = movies;
+            movieGrid.RowHeight = 50;
+            movieGrid.ItemsSource = movies;
         }
 
         private void bookGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            this.bookGrid.RowHeight = 50;
-            this.bookGrid.ItemsSource = books;
+            bookGrid.RowHeight = 50;
+            bookGrid.ItemsSource = books;
         }
 
         private void musicGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            this.musicGrid.RowHeight = 50;
-            this.musicGrid.ItemsSource = musics;
+            musicGrid.RowHeight = 50;
+            musicGrid.ItemsSource = musics;
+        }
+
+        private void TracklistGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            tracklistGrid.RowHeight = 25;
+            tracklistGrid.ItemsSource = tracklists;
         }
     }
 }
