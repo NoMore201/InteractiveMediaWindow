@@ -31,7 +31,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 float pointedX = kc.GetPointedX();
                 float pointedY = kc.GetPointedY();
 
-                DataLog.ToConsole(pointedX.ToString() + " " + pointedY.ToString());
+                DataLog.Log(DataLog.DebugLevel.Message, "Calibrated with X=" + pointedX.ToString() +
+                    " Y=" + pointedY.ToString());
 
                 if (!File.Exists(OPT_FILE))
                     File.Create(OPT_FILE).Close();

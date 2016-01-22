@@ -63,6 +63,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 command.SetColor(color);
                 command.Brightness = brightness;
                 client.SendCommandAsync(command, new List<string> { num });
+                DataLog.Log(DataLog.DebugLevel.Message, "Sending command color to Hue with ID=" + num);
             }
             else
             {
@@ -83,6 +84,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 command.TurnOn().Alert = Alert.Multiple;
                 command.SetColor(color);
                 client.SendCommandAsync(command, new List<string> { num });
+                DataLog.Log(DataLog.DebugLevel.Message, "Sending command alert to Hue with ID=" + num);
             }
             else
             {

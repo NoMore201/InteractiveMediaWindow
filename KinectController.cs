@@ -80,7 +80,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 List <float> offset = JsonConvert.DeserializeObject<List<float>>(data);
                 offsetX = offset[0];
                 offsetY = offset[1];
-                DataLog.ToConsole(offsetX.ToString() + " " + offsetY.ToString());
             }
         }
 
