@@ -129,7 +129,6 @@
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Movie.cs" />
     <Compile Include="Model\Music.cs" />
-    <Compile Include="UiTools.cs" />
     <Page Include="CalibrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
