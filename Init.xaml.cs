@@ -31,6 +31,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Demo dm = new Demo();
             dm.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             dm.WindowState = WindowState.Maximized;
+            dm.WindowStyle = WindowStyle.None;
+            dm.Topmost = true;
             dm.Show();
         }
 

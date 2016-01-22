@@ -29,8 +29,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 appKey = await client.RegisterAsync("IMW", "DI&GDF");
                 isConnectionAvailable = true;
+                DataLog.Log(DataLog.DebugLevel.Message,
+                    "Succesfully connected to Hue bridge");
             }
-            catch ()
+            catch (Exception ex)
             {
                 DataLog.Log(DataLog.DebugLevel.Error, 
                     "Cannot connecto to HUE. Link button?");

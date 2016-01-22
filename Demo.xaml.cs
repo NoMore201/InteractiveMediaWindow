@@ -51,8 +51,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             } else if(zoneP==0 && isPointed)
             {
                 isPointed = false;
-                hue.SendColor("3344FF", 1f, (byte)200, "7");
-                hue.SendColor("33FF44", 1f, (byte)200, "1");
+                hue.SendColor("FFFFFF", 1f, (byte)150, "7");
+                hue.SendColor("FFFFFF", 1f, (byte)150, "1");
             }
         }
 
