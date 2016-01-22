@@ -21,7 +21,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             InitializeComponent();
             isPointed = false;
-            Example();
+            IdleAnimateFirstHand();
             kc = new KinectController();
             hue = new HueController("192.168.0.2");
             hue.Connect();
@@ -56,12 +56,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        public void Example()
+        public void IdleAnimateFirstHand()
         {
             hands = Task.Run(new Action(() =>
             {
@@ -69,12 +64,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 {
                     HideFirstHand();
                     Thread.Sleep(1000);
-                    Example2();
+                    IdleAnimateSecondHand();
                 }
             }));
         }
 
-        public void Example2()
+        public void IdleAnimateSecondHand()
         {
             hands = Task.Run(new Action(() =>
             {
@@ -82,7 +77,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 {
                     HideSecondHand();
                     Thread.Sleep(1000);
-                    Example();
+                    IdleAnimateFirstHand();
                 }
             }));
         }

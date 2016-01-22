@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Samples.Kinect.BodyBasics
 {
+    using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
@@ -18,9 +19,6 @@
         private const float MAXY = 1f;
 
         KinectController kc;
-        public float offsetX;
-        public float offsetY;
-
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -32,78 +30,67 @@
 
             kc = new KinectController();
             kc.bodyReader.FrameArrived += Reader_FrameArrived;
-
-            offsetX = 0f;
-            offsetY = 0f;
         }
 
         public void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             kc.Controller_FrameArrived(sender, e);
 
+            // Fill all text boxes
+            FillBoxes();
+
             // the offset is modified by calibration window
-            this.offsetXBox.Text = offsetX.ToString();
-            this.offsetYBox.Text = offsetY.ToString();
+            offsetXBox.Text = kc.offsetX.ToString();
+            offsetYBox.Text = kc.offsetY.ToString();
             if (kc.Arm == ArmPointing.Right)
             {
-                float pointedX = kc.calculateX(kc.ShoulderRight.Position,
-                    kc.HandTipRight.Position) - offsetX;
-                float pointedY = kc.calculateY(kc.ShoulderRight.Position,
-                    kc.HandTipRight.Position) - offsetY;
+                float pointedX = kc.GetPointedX();
+                float pointedY = kc.GetPointedY();
 
-                this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
-            } else if (kc.Arm == ArmPointing.Left)
+                pointedPoint.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                zoneBox.Text = kc.GetPointedZone().ToString();
+            }
+            else if (kc.Arm == ArmPointing.Left)
             {
-                float pointedX = kc.calculateX(kc.ShoulderLeft.Position,
-                    kc.HandTipLeft.Position) - offsetX;
-                float pointedY = kc.calculateY(kc.ShoulderLeft.Position,
-                    kc.HandTipLeft.Position) - offsetY;
-                this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
+                float pointedX = kc.GetPointedX();
+                float pointedY = kc.GetPointedY();
+
+                pointedPoint.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
+                zoneBox.Text = kc.GetPointedZone().ToString();
             }
             else
-                this.hand.Text = "notPointing";
+                this.pointedPoint.Text = "notPointing";
+        }
 
-                //using (BodyFrame frame = e.FrameReference.AcquireFrame())
-                //{
-                //    this.offsetXBox.Text = offsetX.ToString();
-                //    this.offsetYBox.Text = offsetY.ToString();
-                //    if (frame != null)
-                //    {
-                //        if (this.bodies == null)
-                //        {
-                //            this.bodies = new Body[frame.BodyCount];
-                //        }
+        private void FillBoxes()
+        {
+            // left arm
+            leftFirstJointX.Text = kc.ShoulderLeft.Position.X.ToString();
+            leftFirstJointY.Text = kc.ShoulderLeft.Position.Y.ToString();
+            leftFirstJointZ.Text = kc.ShoulderLeft.Position.Z.ToString();
+            leftFirstJointTracked.Text = kc.ShoulderLeft.TrackingState.ToString();
+            leftSecondJointX.Text = kc.ElbowLeft.Position.X.ToString();
+            leftSecondJointY.Text = kc.ElbowLeft.Position.Y.ToString();
+            leftSecondJointZ.Text = kc.ElbowLeft.Position.Z.ToString();
+            leftSecondJointTracked.Text = kc.ElbowLeft.TrackingState.ToString();
+            leftThirdJointX.Text = kc.HandTipLeft.Position.X.ToString();
+            leftThirdJointY.Text = kc.HandTipLeft.Position.Y.ToString();
+            leftThirdJointZ.Text = kc.HandTipLeft.Position.Z.ToString();
+            leftThirdJointTracked.Text = kc.HandTipLeft.TrackingState.ToString();
+            leftFourthJointX.Text = kc.HandLeft.Position.X.ToString();
+            leftFourthJointY.Text = kc.HandLeft.Position.Y.ToString();
+            leftFourthJointZ.Text = kc.HandLeft.Position.Z.ToString();
+            leftFourthJointTracked.Text = kc.HandLeft.TrackingState.ToString();
+            leftFifthJointX.Text = kc.WristLeft.Position.X.ToString();
+            leftFifthJointY.Text = kc.WristLeft.Position.Y.ToString();
+            leftFifthJointZ.Text = kc.WristLeft.Position.Z.ToString();
+            leftFifthJointTracked.Text = kc.WristLeft.TrackingState.ToString();
 
-                //        frame.GetAndRefreshBodyData(this.bodies);
-
-                //        Body near = uitools.getNearestBody(this.bodies);
-
-                //        if (uitools.checkPointingRight(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                //        {
-                //            uitools.PopulateLeft(near);
-
-                //            float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetX;
-                //            float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderRight].Position, near.Joints[JointType.HandTipRight].Position) - offsetY;
-                //            this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                //            this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
-                //        }
-                //        else if (uitools.checkPointingLeft(near, STILL_THRESHOLD, COUNTER_THRESHOLD))
-                //        {
-                //            uitools.PopulateLeft(near);
-
-                //            float pointedX = uitools.calculateX(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetX;
-                //            float pointedY = uitools.calculateY(near.Joints[JointType.ShoulderLeft].Position, near.Joints[JointType.HandTipLeft].Position) - offsetY;
-                //            this.hand.Text = "X= " + pointedX.ToString() + "\nY= " + pointedY.ToString();
-                //            this.zoneBox.Text = zonePointed(pointedX, pointedY).ToString();
-                //        }
-                //        else
-                //            this.hand.Text = "notPointing";
-                //    }
-                //    else
-                //        this.hand.Text = "no Frame";
-                //}
+            // right arm
+            rightFirstJointX.Text = kc.ShoulderLeft.Position.X.ToString();
+            rightFirstJointY.Text = kc.ShoulderLeft.Position.Y.ToString();
+            rightFirstJointZ.Text = kc.ShoulderLeft.Position.Z.ToString();
+            rightFirstJointTracked.Text = kc.ShoulderLeft.TrackingState.ToString();
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
@@ -127,22 +114,5 @@
             Debugger.Log(1, "Sensor available? ", e.IsAvailable.ToString());
         }
 
-        private int zonePointed(float pointedX, float pointedY)
-        {
-            if (pointedX < -BORDERX_THRESHOLD && pointedY < -BORDERY_THRESHOLD &&
-                  pointedX > -MAXX && pointedY > -MAXY)
-                return 3;
-            else if (pointedX > BORDERX_THRESHOLD && pointedY < -BORDERY_THRESHOLD &&
-                  pointedX < MAXX && pointedY > -MAXY)
-                return 4;
-            else if (pointedX > BORDERX_THRESHOLD && pointedY > BORDERY_THRESHOLD &&
-                  pointedX < MAXX && pointedY < MAXY)
-                return 2;
-            else if (pointedX < -BORDERX_THRESHOLD && pointedY > BORDERY_THRESHOLD &&
-                  pointedX > -MAXX && pointedY < MAXY)
-                return 1;
-            else
-                return 0;
-        }
     }
 }

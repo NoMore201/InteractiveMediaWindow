@@ -10,6 +10,10 @@
 
     <k:KinectRegion x:Name="kinectRegion">
         <Grid HorizontalAlignment="Left" Height="805" Margin="10,30,0,0" VerticalAlignment="Top" Width="1572">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="34*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="31*"/>
                 <ColumnDefinition Width="239*"/>
@@ -17,74 +21,74 @@
                 <ColumnDefinition Width="180*"/>
                 <ColumnDefinition Width="80*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="leftFermoLabel" Content="Fermo?" HorizontalAlignment="Left" Margin="35,408,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <Label x:Name="leftFermo" Content="Pointed &#xD;&#xA;Point:" HorizontalAlignment="Left" Margin="35,572,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <TextBox x:Name="body" HorizontalAlignment="Left" Height="77" Margin="216,408,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="hand" HorizontalAlignment="Left" Height="115" Margin="216,572,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="26.667" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2"/>
+            <Label x:Name="leftFermoLabel" Content="Fermo?" HorizontalAlignment="Left" Margin="35,385.3,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="leftFermo" Content="Pointed &#xD;&#xA;Point:" HorizontalAlignment="Left" Margin="35,549.3,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="body" HorizontalAlignment="Left" Height="77" Margin="216,385.3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="pointedPoint" HorizontalAlignment="Left" Height="115" Margin="216,549.3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="26.667" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
 
-            <Label x:Name="leftShoulderLabel" Content="Shoulder" HorizontalAlignment="Left" Margin="35,38,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <TextBox x:Name="leftFirstJointX" HorizontalAlignment="Left" Height="57" Margin="216,38,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFirstJointY" HorizontalAlignment="Left" Height="57" Margin="85,38,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFirstJointZ" HorizontalAlignment="Left" Height="57" Margin="215,38,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFirstJointTracked" HorizontalAlignment="Left" Height="57" Margin="350,38,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2"/>
+            <Label x:Name="leftShoulderLabel" Content="Shoulder" HorizontalAlignment="Left" Margin="35,15.3,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="leftFirstJointX" HorizontalAlignment="Left" Height="57" Margin="216,15.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFirstJointY" HorizontalAlignment="Left" Height="57" Margin="84.6,15.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFirstJointZ" HorizontalAlignment="Left" Height="57" Margin="214.6,15.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFirstJointTracked" HorizontalAlignment="Left" Height="57" Margin="349.6,15.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
 
-            <Label x:Name="leftElbowLabel" Content="Elbow" HorizontalAlignment="Left" Margin="35,107,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <TextBox x:Name="leftSecondJointX" HorizontalAlignment="Left" Height="57" Margin="216,107,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftSecondJointY" HorizontalAlignment="Left" Height="57" Margin="85,107,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftSecondJointZ" HorizontalAlignment="Left" Height="57" Margin="215,107,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftSecondJointTracked" HorizontalAlignment="Left" Height="57" Margin="350,107,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2"/>
-
-
-            <Label x:Name="leftHandtipLabel" Content="HandTip" HorizontalAlignment="Left" Margin="35,181,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="21.333" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1"/>
-            <TextBox x:Name="leftThirdJointX" HorizontalAlignment="Left" Height="57" Margin="216,181,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftThirdJointY" HorizontalAlignment="Left" Height="57" Margin="85,181,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftThirdJointZ" HorizontalAlignment="Left" Height="57" Margin="220,181,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftThirdJointTracked" HorizontalAlignment="Left" Height="57" Margin="350,181,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2"/>
+            <Label x:Name="leftElbowLabel" Content="Elbow" HorizontalAlignment="Left" Margin="35,84.3,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointX" HorizontalAlignment="Left" Height="57" Margin="216,84.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointY" HorizontalAlignment="Left" Height="57" Margin="84.6,84.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointZ" HorizontalAlignment="Left" Height="57" Margin="214.6,84.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointTracked" HorizontalAlignment="Left" Height="57" Margin="349.6,84.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
 
 
-            <Label x:Name="leftHandLabel" Content="Hand" HorizontalAlignment="Left" Margin="35,261,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1"/>
-            <TextBox x:Name="leftFourthJointX" HorizontalAlignment="Left" Height="57" Margin="216,261,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFourthJointY" HorizontalAlignment="Left" Height="57" Margin="85,261,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFourthJointZ" HorizontalAlignment="Left" Height="57" Margin="220,261,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFourthJointTracked" HorizontalAlignment="Left" Height="57" Margin="350,261,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2"/>
+            <Label x:Name="leftHandtipLabel" Content="HandTip" HorizontalAlignment="Left" Margin="35,158.3,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="21.333" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointX" HorizontalAlignment="Left" Height="57" Margin="216,158.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointY" HorizontalAlignment="Left" Height="57" Margin="84.6,158.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointZ" HorizontalAlignment="Left" Height="57" Margin="219.6,158.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointTracked" HorizontalAlignment="Left" Height="57" Margin="349.6,158.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
 
-            <Label x:Name="leftWristLabel" Content="Wrist" HorizontalAlignment="Left" Margin="35,340,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1"/>
-            <TextBox x:Name="leftFifthJointX" HorizontalAlignment="Left" Height="57" Margin="216,340,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFifthJointY" HorizontalAlignment="Left" Height="57" Margin="85,340,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFifthJointZ" HorizontalAlignment="Left" Height="57" Margin="215,340,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFifthJointTracked" HorizontalAlignment="Left" Height="57" Margin="350,340,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2"/>
 
-            <Label x:Name="spallamanoLabel" Content="Spalla&#xD;&#xA;Mano" HorizontalAlignment="Left" Margin="30,490,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <TextBox x:Name="spallamano" HorizontalAlignment="Left" Height="77" Margin="216,490,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="26.667" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <Label x:Name="handstateLabel" Content="Handstate" HorizontalAlignment="Left" Margin="35,692,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
-            <TextBox x:Name="handstate" HorizontalAlignment="Left" Height="77" Margin="216,692,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2"/>
+            <Label x:Name="leftHandLabel" Content="Hand" HorizontalAlignment="Left" Margin="35,238.3,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointX" HorizontalAlignment="Left" Height="57" Margin="216,238.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointY" HorizontalAlignment="Left" Height="57" Margin="84.6,238.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointZ" HorizontalAlignment="Left" Height="57" Margin="219.6,238.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointTracked" HorizontalAlignment="Left" Height="57" Margin="349.6,238.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
+
+            <Label x:Name="leftWristLabel" Content="Wrist" HorizontalAlignment="Left" Margin="35,317.3,0,0" VerticalAlignment="Top" Height="57" Width="128" FontSize="24" FontWeight="Bold" RenderTransformOrigin="1.037,2.449" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointX" HorizontalAlignment="Left" Height="57" Margin="216,317.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointY" HorizontalAlignment="Left" Height="57" Margin="84.6,317.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointZ" HorizontalAlignment="Left" Height="57" Margin="214.6,317.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointTracked" HorizontalAlignment="Left" Height="57" Margin="349.6,317.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
+
+            <Label x:Name="spallamanoLabel" Content="Spalla&#xD;&#xA;Mano" HorizontalAlignment="Left" Margin="30,467.3,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="spallamano" HorizontalAlignment="Left" Height="77" Margin="216,467.3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="26.667" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="handstateLabel" Content="Handstate" HorizontalAlignment="Left" Margin="35,669.3,0,0" VerticalAlignment="Top" Height="77" Width="128" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="handstate" HorizontalAlignment="Left" Height="77" Margin="216,669.3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="24" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
 
             <!-- RIGHT HAND -->
-            <TextBox x:Name="rightFirstJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="625,38,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFirstJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,38,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFirstJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="903,38,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFirstJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,38,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="leftSecondJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="625,107,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftSecondJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,107,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftSecondJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="903,107,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftSecondJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,107,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="leftThirdJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="625,181,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftThirdJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,181,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftThirdJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="908,181,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftThirdJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,181,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="leftFourthJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="625,261,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFourthJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,261,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFourthJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="908,261,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFourthJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,261,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="leftFifthJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="625,340,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFifthJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="773,340,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2"/>
-            <TextBox x:Name="leftFifthJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="903,340,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="leftFifthJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84,340,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3"/>
-            <TextBox x:Name="offsetXBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="502.6,481,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667"/>
-            <TextBox x:Name="offsetYBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="709.6,481,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667"/>
-            <TextBox x:Name="zoneBox" Grid.Column="2" HorizontalAlignment="Left" Height="99" Margin="502.6,613,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="192" FontSize="48"/>
-            <Label x:Name="zoneLabel" Content="ZONE" Grid.Column="2" HorizontalAlignment="Center" Margin="349.6,622,497.6,0" VerticalAlignment="Top" Height="44" Width="108" FontSize="32"/>
-            <Label x:Name="offsetLabel" Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="349.6,481,0,0" VerticalAlignment="Top" Height="47" Width="122" FontSize="32"/>
+            <TextBox x:Name="rightFirstJointX" HorizontalAlignment="Left" Height="57" Margin="624.6,15.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="rightFirstJointY" HorizontalAlignment="Left" Height="57" Margin="772.6,15.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="rightFirstJointZ" HorizontalAlignment="Left" Height="57" Margin="902.6,15.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="rightFirstJointTracked" HorizontalAlignment="Left" Height="57" Margin="84.4,15.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="624.6,84.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="772.6,84.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="902.6,84.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftSecondJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84.4,84.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="624.6,158.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="772.6,158.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="907.6,158.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftThirdJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84.4,158.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="624.6,238.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="772.6,238.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="907.6,238.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="125" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFourthJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84.4,238.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointX_Copy" HorizontalAlignment="Left" Height="57" Margin="624.6,317.3,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointY_Copy" HorizontalAlignment="Left" Height="57" Margin="772.6,317.3,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointZ_Copy" HorizontalAlignment="Left" Height="57" Margin="902.6,317.3,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="130" FontSize="24" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <TextBox x:Name="leftFifthJointTracked_Copy" HorizontalAlignment="Left" Height="57" Margin="84.4,317.3,0,0" TextWrapping="Wrap" Text="NotTrkd" VerticalAlignment="Top" Width="86" FontSize="29.333" FontWeight="Bold" Grid.Column="3" Grid.Row="1"/>
+            <TextBox x:Name="offsetXBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="502.6,458.3,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667" Grid.Row="1"/>
+            <TextBox x:Name="offsetYBox" Grid.Column="2" HorizontalAlignment="Left" Height="77" Margin="709.6,458.3,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="194" FontSize="26.667" Grid.Row="1"/>
+            <TextBox x:Name="zoneBox" Grid.Column="2" HorizontalAlignment="Left" Height="99" Margin="502.6,590.3,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="192" FontSize="48" Grid.Row="1"/>
+            <Label x:Name="zoneLabel" Content="ZONE" Grid.Column="2" HorizontalAlignment="Center" Margin="349.6,599.3,497.6,0" VerticalAlignment="Top" Height="44" Width="108" FontSize="32" Grid.Row="1"/>
+            <Label x:Name="offsetLabel" Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="349.6,458.3,0,0" VerticalAlignment="Top" Height="47" Width="122" FontSize="32" Grid.Row="1"/>
 
 
         </Grid>
