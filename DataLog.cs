@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
     class DataLog
     {
-        public static void ToConsole(String message)
+
+        public static string LOGFILE = "Logs/logfile.txt";
+        public enum DebugLevel
         {
-            Debugger.Log(1, "INTERACTIVEMEDIAWINDOW: ", message);
+            Error = 1,
+            Warning = 2,
+            Message = 3
         }
 
-        public static void ToFile(String message)
+        public static void Log (DebugLevel level, string message)
         {
-            StreamWriter file = new StreamWriter(
-                "..\\..\\..\\DataLogs.txt", 
-                File.Exists("..\\..\\..\\DataLogs.txt"
-            ));
+            ToConsole(level, message);
+            ToFile(level, message);
+        }
 
-            file.WriteLine("[" + DateTime.Now.ToString() + "]" + message);
+        public static void ToConsole(DebugLevel level, string message)
+        {
+            Debugger.Log(1, level.ToString(),
+                message + "\n");
+        }
+
+        public static void ToFile(DebugLevel level, string message)
+        {
+            Directory.CreateDirectory("Logs");
+            StreamWriter file = new StreamWriter(
+                LOGFILE, 
+                File.Exists(LOGFILE));
+
+            file.WriteLine("[" + DateTime.Now.ToString() + "] " + 
+                level.ToString() + ": " + message + "\n");
 
             file.Close();
         }
