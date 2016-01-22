@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.IO;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -20,9 +9,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class DemoTrailer : UserControl
     {
-        public DemoTrailer()
+
+        public DemoTrailer(string videoPath)
         {
             InitializeComponent();
+            string absolute_path = Path.Combine(Directory.GetCurrentDirectory(),
+                videoPath);
+            Uri videoUri = new Uri(absolute_path);
+            DataLog.Log(DataLog.DebugLevel.Message,
+                "Loader URI for file: " + videoUri.AbsolutePath);
+            mediaElement.Source = videoUri;
+        }
+
+        public void PlayTrailer()
+        {
+            mediaElement.Play();
         }
     }
 }
