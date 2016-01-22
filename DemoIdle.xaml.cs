@@ -24,5 +24,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             InitializeComponent();
         }
+
     }
 }

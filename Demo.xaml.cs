@@ -39,7 +39,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             hue.Connect();
             kc.bodyReader.FrameArrived += HandleFrame;
             idle = new DemoIdle();
+            idle.button.Click += button_Click;
             this.contentControl.Content = idle;
+
+            windowProducts = new SortedList<int, Model.Product>();
 
             ReadFile();
         }
@@ -55,17 +58,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 idle.label.Content += zoneP.ToString(); ;
                 if (zoneP == 1 || zoneP == 3)
                 {
-                    Model.LightColors colors = windowProducts[windowProducts.IndexOfKey(1)].GetColors();
+                    Model.LightColors colors = windowProducts[1].GetColors();
                     hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
                     hue.TurnOff("7");
-                    StartTrailer(windowProducts[windowProducts.IndexOfKey(1)].GetTrailer());
+                    StartTrailer(windowProducts[1].GetTrailer());
                 } else
                 {
-                    Model.LightColors colors = windowProducts[windowProducts.IndexOfKey(2)].GetColors();
+                    Model.LightColors colors = windowProducts[2].GetColors();
                     hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
                     hue.SendAlert("3344FF", "7");
                     hue.TurnOff("1");
-                    StartTrailer(windowProducts[windowProducts.IndexOfKey(2)].GetTrailer());
+                    StartTrailer(windowProducts[2].GetTrailer());
                 }
 
                 isPointed = true;
@@ -125,6 +128,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trailer = new DemoTrailer("trailers\\" + url);
             contentControl.Content = trailer;
             trailer.mediaElement.Play();
+            ShowButtonsOnTrailer();
             trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
         }
 
@@ -162,6 +166,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             foreach (Model.Book movie in books)
                 if(movie.Position!=0)
                     windowProducts.Add(movie.Position, new Model.Product(movie));
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+           
+            StartTrailer(windowProducts[2].GetTrailer());
         }
 
     }
