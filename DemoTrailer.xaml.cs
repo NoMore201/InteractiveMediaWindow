@@ -20,10 +20,5 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 "Loader URI for file: " + videoUri.AbsolutePath);
             mediaElement.Source = videoUri;
         }
-
-        public void PlayTrailer()
-        {
-            mediaElement.Play();
-        }
     }
 }

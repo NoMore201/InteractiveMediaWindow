@@ -121,10 +121,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public void StartTrailer(string url)
         {
-                isPointed = true;
-                trailer = new DemoTrailer("trailers\\" + url);
-                contentControl.Content = trailer;
-                trailer.PlayTrailer();
+            isPointed = true;
+            trailer = new DemoTrailer("trailers\\" + url);
+            contentControl.Content = trailer;
+            trailer.mediaElement.Play();
+            trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
+        }
+
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            // Implementare interfaccia
+            
         }
 
         private void ReadFile()
