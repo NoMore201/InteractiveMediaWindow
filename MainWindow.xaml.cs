@@ -30,6 +30,9 @@
 
             kc = new KinectController();
             kc.bodyReader.FrameArrived += Reader_FrameArrived;
+            // the offset is modified by calibration window
+            offsetXBox.Text = kc.offsetX.ToString();
+            offsetYBox.Text = kc.offsetY.ToString();
         }
 
         public void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -38,10 +41,8 @@
 
             // Fill all text boxes
             FillBoxes();
-
-            // the offset is modified by calibration window
-            offsetXBox.Text = kc.offsetX.ToString();
-            offsetYBox.Text = kc.offsetY.ToString();
+            
+            arm.Text = kc.Arm.ToString();
             if (kc.Arm == ArmPointing.Right)
             {
                 float pointedX = kc.GetPointedX();
@@ -87,10 +88,18 @@
             leftFifthJointTracked.Text = kc.WristLeft.TrackingState.ToString();
 
             // right arm
-            rightFirstJointX.Text = kc.ShoulderLeft.Position.X.ToString();
-            rightFirstJointY.Text = kc.ShoulderLeft.Position.Y.ToString();
-            rightFirstJointZ.Text = kc.ShoulderLeft.Position.Z.ToString();
-            rightFirstJointTracked.Text = kc.ShoulderLeft.TrackingState.ToString();
+            rightFirstJointX.Text = kc.ShoulderRight.Position.X.ToString();
+            rightFirstJointY.Text = kc.ShoulderRight.Position.Y.ToString();
+            rightFirstJointZ.Text = kc.ShoulderRight.Position.Z.ToString();
+            rightFirstJointTracked.Text = kc.ShoulderRight.TrackingState.ToString();
+            rightSecondJointX.Text = kc.ElbowRight.Position.X.ToString();
+            rightSecondJointY.Text = kc.ElbowRight.Position.Y.ToString();
+            rightSecondJointZ.Text = kc.ElbowRight.Position.Z.ToString();
+            rightSecondJointTracked.Text = kc.ElbowRight.TrackingState.ToString();
+            rightThirdJointX.Text = kc.HandTipRight.Position.X.ToString();
+            rightThirdJointY.Text = kc.HandTipRight.Position.Y.ToString();
+            rightThirdJointZ.Text = kc.HandTipRight.Position.Z.ToString();
+            rightThirdJointTracked.Text = kc.HandTipRight.TrackingState.ToString();
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
