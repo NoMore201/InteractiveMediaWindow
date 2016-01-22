@@ -111,6 +111,7 @@
     <Compile Include="CalibrationWindow.xaml.cs">
       <DependentUpon>CalibrationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Colors.cs" />
     <Compile Include="DatabaseWindow.xaml.cs">
       <DependentUpon>DatabaseWindow.xaml</DependentUpon>
     </Compile>
@@ -131,6 +132,8 @@
       <DependentUpon>Init.xaml</DependentUpon>
     </Compile>
     <Compile Include="KinectController.cs" />
+    <Compile Include="Model\LightColors.cs" />
+    <Compile Include="Model\Product.cs" />
     <Compile Include="Model\Tracklist.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Movie.cs" />

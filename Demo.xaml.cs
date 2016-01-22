@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Kinect;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -19,6 +22,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private DemoIdle idle;
         private DemoTrailer trailer;
 
+        private List<Model.Movie> movies;
+        private List<Model.Book> books;
+        private List<Model.Music> musics;
+        private List<Model.Tracklist> tracklists;
+
+        private SortedList<int, Model.Product> windowProducts;
+
         public Demo()
         {
             InitializeComponent();
@@ -30,6 +40,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             kc.bodyReader.FrameArrived += HandleFrame;
             idle = new DemoIdle();
             this.contentControl.Content = idle;
+
+            ReadFile();
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
@@ -43,12 +55,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 idle.label.Content += zoneP.ToString(); ;
                 if (zoneP == 1 || zoneP == 3)
                 {
-                    hue.SendDoubleColorCommand("FF0000", "00FF00", "1");
+                    Model.LightColors colors = windowProducts[windowProducts.IndexOfKey(1)].GetColors();
+                    hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
                     hue.TurnOff("7");
+                    StartTrailer(windowProducts[windowProducts.IndexOfKey(1)].GetTrailer());
                 } else
                 {
+                    Model.LightColors colors = windowProducts[windowProducts.IndexOfKey(2)].GetColors();
+                    hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
                     hue.SendAlert("3344FF", "7");
                     hue.TurnOff("1");
+                    StartTrailer(windowProducts[windowProducts.IndexOfKey(2)].GetTrailer());
                 }
 
                 isPointed = true;
@@ -80,7 +97,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (!isPointed)
                 {
                     HideSecondHand();
-                    StartTrailer();
                     Thread.Sleep(1000);
                     IdleAnimateFirstHand();
                 }
@@ -103,14 +119,36 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }));
         }
 
-        public void StartTrailer()
+        public void StartTrailer(string url)
         {
-            Dispatcher.Invoke(new Action(() => {
                 isPointed = true;
-                trailer = new DemoTrailer("trailers\\hce.mp4");
+                trailer = new DemoTrailer("trailers\\" + url);
                 contentControl.Content = trailer;
                 trailer.PlayTrailer();
-            }));
+        }
+
+        private void ReadFile()
+        {
+            string data_movie = File.ReadAllText(DatabaseWindow.MOVIE_FILE);
+            string data_book = File.ReadAllText(DatabaseWindow.BOOK_FILE);
+            string data_music = File.ReadAllText(DatabaseWindow.MUSIC_FILE);
+            string data_tracks = File.ReadAllText(DatabaseWindow.TRACK_FILE);
+            movies = JsonConvert.DeserializeObject<List<Model.Movie>>(data_movie);
+            books = JsonConvert.DeserializeObject<List<Model.Book>>(data_book);
+            musics = JsonConvert.DeserializeObject<List<Model.Music>>(data_music);
+            tracklists = JsonConvert.DeserializeObject<List<Model.Tracklist>>(data_tracks);
+
+            foreach (Model.Movie movie in movies)
+                if (movie.Position != 0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
+
+            foreach (Model.Music movie in musics)
+                if (movie.Position != 0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
+
+            foreach (Model.Book movie in books)
+                if(movie.Position!=0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
         }
 
     }
