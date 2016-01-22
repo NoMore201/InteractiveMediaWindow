@@ -77,7 +77,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public void IdleAnimateFirstHand()
+        private void IdleAnimateFirstHand()
         {
             hands = Task.Run(new Action(() =>
             {
@@ -90,7 +90,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }));
         }
 
-        public void IdleAnimateSecondHand()
+        private void IdleAnimateSecondHand()
         {
             hands = Task.Run(new Action(() =>
             {
@@ -103,7 +103,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }));
         }
 
-        public void HideFirstHand()
+        private void HideFirstHand()
         {
             Dispatcher.Invoke(new Action(() => {
                 idle.leftHand.Visibility = Visibility.Hidden;
@@ -111,7 +111,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }));
         }
 
-        public void HideSecondHand()
+        private void HideSecondHand()
         {
             Dispatcher.Invoke(new Action(() => {
                 idle.rightHand.Visibility = Visibility.Hidden;
@@ -119,13 +119,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }));
         }
 
-        public void StartTrailer(string url)
+        private void StartTrailer(string url)
         {
             isPointed = true;
             trailer = new DemoTrailer("trailers\\" + url);
             contentControl.Content = trailer;
             trailer.mediaElement.Play();
             trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
+        }
+
+        private void ShowButtonsOnTrailer()
+        {
+            trailer.play_pause.Visibility = Visibility.Visible;
+            trailer.skip.Visibility = Visibility.Visible;
         }
 
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)

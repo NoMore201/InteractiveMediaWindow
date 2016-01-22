@@ -8,5 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" Background="Black">
     <Grid>
         <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
+        <Image x:Name="play_pause" Source="Images/play.png"  Margin="24,104,176,96" Panel.ZIndex="1"/>
+        <Image x:Name="skip" Source="Images/skip.png" HorizontalAlignment="Left" Height="100" Margin="177,104,0,0" VerticalAlignment="Top" Width="100" Panel.ZIndex="1"/>
     </Grid>
 </UserControl>
