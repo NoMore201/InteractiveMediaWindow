@@ -8,6 +8,7 @@ using Microsoft.Kinect.Input;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.Kinect.Wpf.Controls;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -23,12 +24,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private DemoIdle idle;
         private DemoTrailer trailer;
 
-        private List<Model.Movie> movies;
-        private List<Model.Book> books;
-        private List<Model.Music> musics;
-        private List<Model.Tracklist> tracklists;
-
         private KinectCoreWindow kWin;
+
+        private DbFileManager db;
 
         private SortedList<int, Model.Product> windowProducts;
 
@@ -41,7 +39,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public Demo()
         {
             InitializeComponent();
+
+            // variable initialization
             isPointed = false;
+            checkedButton = false;
+            paused = false;
+            counterFrames = 0;
+
+            // object initialization
             IdleAnimateFirstHand();
             kc = new KinectController();
             hue = new HueController("192.168.0.2");
@@ -50,14 +55,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             idle = new DemoIdle();
             idle.button.Click += button_Click;
             this.contentControl.Content = idle;
+            KinectRegion.SetKinectRegion(this, kinectRegion);
+            this.kinectRegion.KinectSensor = kc.kinectSensor;
 
             windowProducts = new SortedList<int, Model.Product>();
+            db = new DbFileManager();
 
-            checkedButton = false;
-            paused = false;
-            counterFrames = 0;
-            
-            ReadFile();
+            InitProducts();
         }
 
         private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -146,10 +150,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trailer = new DemoTrailer("trailers\\" + url);
             contentControl.Content = trailer;
             trailer.mediaElement.Play();
-            ShowButtonsOnTrailer();
             trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
             kWin = KinectCoreWindow.GetForCurrentThread();
+            kWin.PointerEntered += KWin_PointerEntered;
+            kWin.PointerExited += KWin_PointerExited;
             kWin.PointerMoved += KWin_PointerMoved;
+        }
+
+        private void KWin_PointerExited(object sender, KinectPointerEventArgs e)
+        {
+            HideButtonsOnTrailer();
+        }
+
+        private void KWin_PointerEntered(object sender, KinectPointerEventArgs e)
+        {
+            ShowButtonsOnTrailer();
         }
 
         public void ShowButtonsOnTrailer()
@@ -168,30 +183,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             // Implementare interfaccia
 
-        }
-
-        private void ReadFile()
-        {
-            string data_movie = File.ReadAllText(DatabaseWindow.MOVIE_FILE);
-            string data_book = File.ReadAllText(DatabaseWindow.BOOK_FILE);
-            string data_music = File.ReadAllText(DatabaseWindow.MUSIC_FILE);
-            string data_tracks = File.ReadAllText(DatabaseWindow.TRACK_FILE);
-            movies = JsonConvert.DeserializeObject<List<Model.Movie>>(data_movie);
-            books = JsonConvert.DeserializeObject<List<Model.Book>>(data_book);
-            musics = JsonConvert.DeserializeObject<List<Model.Music>>(data_music);
-            tracklists = JsonConvert.DeserializeObject<List<Model.Tracklist>>(data_tracks);
-
-            foreach (Model.Movie movie in movies)
-                if (movie.Position != 0)
-                    windowProducts.Add(movie.Position, new Model.Product(movie));
-
-            foreach (Model.Music movie in musics)
-                if (movie.Position != 0)
-                    windowProducts.Add(movie.Position, new Model.Product(movie));
-
-            foreach (Model.Book movie in books)
-                if (movie.Position != 0)
-                    windowProducts.Add(movie.Position, new Model.Product(movie));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -256,6 +247,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void SkipTrailer()
         {
             //DataLog.ToConsole(DataLog.DebugLevel.Message, "skip");
+        }
+
+        private void InitProducts()
+        {
+            foreach (Model.Movie movie in db.movies)
+                if (movie.Position != 0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
+
+            foreach (Model.Music movie in db.musics)
+                if (movie.Position != 0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
+
+            foreach (Model.Book movie in db.books)
+                if (movie.Position != 0)
+                    windowProducts.Add(movie.Position, new Model.Product(movie));
         }
     }
 }

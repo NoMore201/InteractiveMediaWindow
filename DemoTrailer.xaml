@@ -7,11 +7,10 @@
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
              mc:Ignorable="d" Background="Black" d:DesignWidth="1802" d:DesignHeight="1662">
 
-    <k:KinectRegion x:Name="kinectRegion" >
-        <Grid x:Name="Ciaone">
-            <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
-            <Image x:Name="play_pause" Source="Images/play.png"  Margin="180,0,0,0" Panel.ZIndex="1" HorizontalAlignment="Left" Width="446" RenderTransformOrigin="1.653,0.526" VerticalAlignment="Center" Height="430"/>
-            <Image x:Name="skip" Source="Images/skip.png" Margin="0,0,120,0" Panel.ZIndex="1" Height="561" VerticalAlignment="Center" HorizontalAlignment="Right" Width="645"/>
-        </Grid>
-    </k:KinectRegion>
+
+    <Grid x:Name="Ciaone">
+        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
+        <Image x:Name="play_pause" Source="Images/play.png"  Margin="180,0,0,0" Panel.ZIndex="1" HorizontalAlignment="Left" Width="446" RenderTransformOrigin="1.653,0.526" VerticalAlignment="Center" Height="430" Opacity="0.7"/>
+        <Image x:Name="skip" Source="Images/skip.png" Margin="0,0,120,0" Panel.ZIndex="1" Height="561" VerticalAlignment="Center" HorizontalAlignment="Right" Width="645" Opacity="0.7"/>
+    </Grid>
 </UserControl>
