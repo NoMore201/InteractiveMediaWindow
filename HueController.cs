@@ -54,8 +54,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 
             } catch (Exception ex)
             {
-                throw ex;
-            }
+                    DataLog.Log(DataLog.DebugLevel.Error,
+                        "Cannot connecto to HUE. Link button?");
+                }
         }
 
         public void SendColor(string color, double transitionTime, string num)
@@ -79,7 +80,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
-                throw new Exception("There is no connection to Hue Bridge");
+                DataLog.Log(DataLog.DebugLevel.Error,
+                    "Cannot connecto to HUE. Link button?");
             }
         }
 
@@ -100,7 +102,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
-               // throw new Exception("There is no connection to Hue Bridge");
+                DataLog.Log(DataLog.DebugLevel.Error,
+                     "Cannot connecto to HUE. Link button?");
             }
         }
 
@@ -128,7 +131,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
             else
             {
-                throw new Exception("There is no connection to Hue Bridge");
+                DataLog.Log(DataLog.DebugLevel.Error,
+                    "Cannot connecto to HUE. Link button?");
             }
         }
     }
