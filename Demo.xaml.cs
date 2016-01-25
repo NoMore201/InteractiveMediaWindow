@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Kinect;
+using Microsoft.Kinect.Input;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
@@ -27,7 +28,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private List<Model.Music> musics;
         private List<Model.Tracklist> tracklists;
 
+        private KinectCoreWindow kWin;
+
         private SortedList<int, Model.Product> windowProducts;
+
+        private bool paused;
+        private bool checkedButton;
 
         public Demo()
         {
@@ -44,16 +50,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             windowProducts = new SortedList<int, Model.Product>();
 
+            checkedButton = false;
+            paused = false;
+
             ReadFile();
+        }
+
+        private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
+        {
+            CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
         {
             kc.Controller_FrameArrived(sender, e);
-     
+
             int zoneP = kc.GetPointedZone();
 
-            if (zoneP!=0 && !isPointed)
+            if (zoneP != 0 && !isPointed)
             {
                 idle.label.Content += zoneP.ToString(); ;
                 if (zoneP == 1 || zoneP == 3)
@@ -72,11 +86,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 }
 
                 isPointed = true;
-            } else if(zoneP==0 && isPointed)
+            } else if (zoneP == 0 && isPointed)
             {
                 isPointed = false;
-                hue.SendColor("FFFFFF", 1f, (byte)150, "7");
-                hue.SendColor("FFFFFF", 1f, (byte)150, "1");
+                //hue.SendColor("FFFFFF", 1f, (byte)150, "7");
+                //hue.SendColor("FFFFFF", 1f, (byte)150, "1");
             }
         }
 
@@ -130,18 +144,26 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trailer.mediaElement.Play();
             ShowButtonsOnTrailer();
             trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
+            kWin = KinectCoreWindow.GetForCurrentThread();
+            kWin.PointerMoved += KWin_PointerMoved;
         }
 
-        private void ShowButtonsOnTrailer()
+        public void ShowButtonsOnTrailer()
         {
             trailer.play_pause.Visibility = Visibility.Visible;
             trailer.skip.Visibility = Visibility.Visible;
         }
 
+        private void HideButtonsOnTrailer()
+        {
+            trailer.play_pause.Visibility = Visibility.Hidden;
+            trailer.skip.Visibility = Visibility.Hidden;
+        }
+
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
             // Implementare interfaccia
-            
+
         }
 
         private void ReadFile()
@@ -164,15 +186,61 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     windowProducts.Add(movie.Position, new Model.Product(movie));
 
             foreach (Model.Book movie in books)
-                if(movie.Position!=0)
+                if (movie.Position != 0)
                     windowProducts.Add(movie.Position, new Model.Product(movie));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-           
+
             StartTrailer(windowProducts[2].GetTrailer());
+            kc.bodyReader.FrameArrived += null;
         }
 
+        private void CheckPointInButton(float X, float Y)
+        {
+            X = X * (float) this.Width;
+            Y = Y * (float) this.Height;
+
+            if (X > trailer.play_pause.Margin.Left && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width &&
+                    Y > (this.Height / 2 - trailer.play_pause.Height / 2) && Y < (this.Height / 2 + trailer.play_pause.Height / 2))
+            {
+                if (!checkedButton)
+                {
+                    PauseTrailer();
+                    checkedButton = true;
+                }
+            }
+            else if (X < trailer.skip.Margin.Right && X > trailer.play_pause.Margin.Right + trailer.skip.Width &&
+                    Y > (this.Height / 2 - trailer.skip.Height / 2) && Y < (this.Height / 2 + trailer.skip.Height / 2))
+            {
+                if (!checkedButton)
+                {
+                    SkipTrailer();
+                    checkedButton = true;
+                }
+            }
+            else
+                checkedButton = false;
+        }
+
+        private void PauseTrailer()
+        {
+            if (paused)
+            {
+                trailer.mediaElement.Play();
+                paused = false;
+            }
+            else
+            {
+                trailer.mediaElement.Pause();
+                paused = true;
+            }
+        }
+
+        private void SkipTrailer()
+        {
+            DataLog.ToConsole(DataLog.DebugLevel.Message, "skip");
+        }
     }
 }

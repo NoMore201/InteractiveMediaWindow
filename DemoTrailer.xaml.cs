@@ -13,6 +13,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public DemoTrailer(string videoPath)
         {
+
             InitializeComponent();
             string absolute_path = Path.Combine(Directory.GetCurrentDirectory(),
                 videoPath);
@@ -22,6 +23,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             mediaElement.Source = videoUri;
             play_pause.Visibility = Visibility.Hidden;
             skip.Visibility = Visibility.Hidden;
+
         }
     }
 }

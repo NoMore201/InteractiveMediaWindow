@@ -112,6 +112,7 @@
       <DependentUpon>CalibrationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Colors.cs" />
+    <Compile Include="Common\BindableBase.cs" />
     <Compile Include="DatabaseWindow.xaml.cs">
       <DependentUpon>DatabaseWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +125,8 @@
     <Compile Include="DemoTrailer.xaml.cs">
       <DependentUpon>DemoTrailer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HandPointers\HandInScreenEngagementModel.cs" />
+    <Compile Include="HandPointers\HandOverheadEngagementModel.cs" />
     <Compile Include="HueController.cs" />
     <Compile Include="HueDebug.xaml.cs">
       <DependentUpon>HueDebug.xaml</DependentUpon>
@@ -142,6 +145,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\StandardStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DatabaseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +164,10 @@
     <Page Include="DemoTrailer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HandPointers\HandPointerStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="HueDebug.xaml">
       <SubType>Designer</SubType>
@@ -227,6 +238,17 @@
   <ItemGroup>
     <Resource Include="Images\play.png" />
     <Resource Include="Images\skip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\CursorSpriteSheet.png" />
+    <Resource Include="Assets\CursorSpriteSheetPurple.png" />
+    <Resource Include="Assets\DarkGray.png" />
+    <Resource Include="Assets\LightGray.png" />
+    <Resource Include="Assets\MediumGray.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="HandPointers\HighlightRectangle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

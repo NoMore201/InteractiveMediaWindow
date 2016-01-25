@@ -1,13 +1,17 @@
 ﻿<UserControl x:Class="Microsoft.Samples.Kinect.BodyBasics.DemoTrailer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:k="http://schemas.microsoft.com/kinect/2014"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
              mc:Ignorable="d" Background="Black" d:DesignWidth="1802" d:DesignHeight="1662">
-    <Grid>
-        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
-        <Image x:Name="play_pause" Source="Images/play.png"  Margin="180,0,0,0" Panel.ZIndex="1" HorizontalAlignment="Left" Width="446" RenderTransformOrigin="1.653,0.526" VerticalAlignment="Center" Height="430"/>
-        <Image x:Name="skip" Source="Images/skip.png" Margin="0,0,120,0" Panel.ZIndex="1" Height="561" VerticalAlignment="Center" HorizontalAlignment="Right" Width="645"/>
-    </Grid>
+
+    <k:KinectRegion x:Name="kinectRegion">
+        <Grid x:Name="Ciaone">
+            <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
+            <Image x:Name="play_pause" Source="Images/play.png"  Margin="180,0,0,0" Panel.ZIndex="1" HorizontalAlignment="Left" Width="446" RenderTransformOrigin="1.653,0.526" VerticalAlignment="Center" Height="430"/>
+            <Image x:Name="skip" Source="Images/skip.png" Margin="0,0,120,0" Panel.ZIndex="1" Height="561" VerticalAlignment="Center" HorizontalAlignment="Right" Width="645"/>
+        </Grid>
+    </k:KinectRegion>
 </UserControl>
