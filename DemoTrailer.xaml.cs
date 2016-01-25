@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Kinect.Wpf.Controls;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             play_pause.Visibility = Visibility.Hidden;
             skip.Visibility = Visibility.Hidden;
 
+            kinectRegion.Loaded += KinectRegion_Loaded;
+        }
+
+        private void KinectRegion_Loaded(object sender, RoutedEventArgs e)
+        {
+            kinectRegion.SetKinectOnePersonSystemEngagement();
         }
     }
 }

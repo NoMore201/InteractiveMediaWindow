@@ -35,6 +35,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private bool paused;
         private bool checkedButton;
 
+        private int counterFrames;
+        private int pointerID;
+
         public Demo()
         {
             InitializeComponent();
@@ -52,12 +55,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             checkedButton = false;
             paused = false;
-
+            counterFrames = 0;
+            
             ReadFile();
         }
 
         private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
-        {
+        {       
             CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
         }
 
@@ -202,26 +206,37 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             X = X * (float) this.Width;
             Y = Y * (float) this.Height;
 
-            if (X > trailer.play_pause.Margin.Left && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width &&
-                    Y > (this.Height / 2 - trailer.play_pause.Height / 2) && Y < (this.Height / 2 + trailer.play_pause.Height / 2))
+            if (X > trailer.play_pause.Margin.Left-50 && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width + 50 &&
+                    Y > ((this.Height / 2) - (trailer.play_pause.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.play_pause.Height / 2)))
             {
-                if (!checkedButton)
+                if (counterFrames>127)
                 {
                     PauseTrailer();
                     checkedButton = true;
+                    counterFrames = 0;
+                }
+                else
+                {
+                    counterFrames++;
                 }
             }
-            else if (X < trailer.skip.Margin.Right && X > trailer.play_pause.Margin.Right + trailer.skip.Width &&
-                    Y > (this.Height / 2 - trailer.skip.Height / 2) && Y < (this.Height / 2 + trailer.skip.Height / 2))
+            else if (X < trailer.skip.Margin.Right + 50 && X > (trailer.play_pause.Margin.Right + trailer.skip.Width - 50) &&
+                    Y > ((this.Height / 2) - (trailer.skip.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.skip.Height / 2) + 50))
             {
-                if (!checkedButton)
+                if (counterFrames > 127)
                 {
                     SkipTrailer();
                     checkedButton = true;
+                    counterFrames = 0;
                 }
+                else
+                    counterFrames++;
+                
+            } else
+            {
+                counterFrames = 0;
             }
-            else
-                checkedButton = false;
+            //DataLog.ToConsole(DataLog.DebugLevel.Message, counterFrames.ToString());
         }
 
         private void PauseTrailer()
@@ -240,7 +255,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void SkipTrailer()
         {
-            DataLog.ToConsole(DataLog.DebugLevel.Message, "skip");
+            //DataLog.ToConsole(DataLog.DebugLevel.Message, "skip");
         }
     }
 }

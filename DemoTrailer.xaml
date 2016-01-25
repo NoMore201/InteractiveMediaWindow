@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
              mc:Ignorable="d" Background="Black" d:DesignWidth="1802" d:DesignHeight="1662">
 
-    <k:KinectRegion x:Name="kinectRegion">
+    <k:KinectRegion x:Name="kinectRegion" >
         <Grid x:Name="Ciaone">
             <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"/>
             <Image x:Name="play_pause" Source="Images/play.png"  Margin="180,0,0,0" Panel.ZIndex="1" HorizontalAlignment="Left" Width="446" RenderTransformOrigin="1.653,0.526" VerticalAlignment="Center" Height="430"/>
