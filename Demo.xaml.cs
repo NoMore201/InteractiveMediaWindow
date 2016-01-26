@@ -20,7 +20,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class Demo : Window
     {
 
-        public static int MAX_FRAMES_PAUSE = 40;
+        public static int MAX_FRAMES_PAUSE = 50;
         public static string FIRST_HUE = "3";
         public static string SECOND_HUE = "4";
 
@@ -73,7 +73,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             App app = ((App)Application.Current);
             app.KinectRegion = kinectRegion;
-
+            
             windowProducts = new SortedList<int, Model.Product>();
             db = new DbFileManager();
 
@@ -81,6 +81,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             playimage = new BitmapImage(new Uri("Images\\play.png", UriKind.Relative));
             pauseimage = new BitmapImage(new Uri("Images\\pause.png", UriKind.Relative));
+
 
             InitProducts();
         }
@@ -216,10 +217,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     PauseTrailer();
                     checkedButton = true;
                     counterFrames = 0;
+                    trailer.play_pause.Opacity = 50;
                 }
                 else
                 {
                     counterFrames++;
+                    trailer.play_pause.Opacity++;
                 }
             }
             else if (X < (this.Width-(trailer.skip.Margin.Right) + 50) && X > (this.Width - (trailer.skip.Margin.Right) - 50 - trailer.skip.Width) &&
@@ -230,13 +233,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     SkipTrailer();
                     checkedButton = true;
                     counterFrames = 0;
+                    trailer.skip.Opacity = 50;
                 }
                 else
+                {
                     counterFrames++;
+                    trailer.skip.Opacity++;
+                }    
                 
             } else
             {
                 counterFrames = 0;
+                trailer.play_pause.Opacity = 50;
+                trailer.skip.Opacity = 50;
             }
         }
 
