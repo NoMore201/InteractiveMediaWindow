@@ -77,6 +77,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             windowProducts = new SortedList<int, Model.Product>();
             db = new DbFileManager();
 
+            
+
             playimage = new BitmapImage(new Uri("Images\\play.png", UriKind.Relative));
             pauseimage = new BitmapImage(new Uri("Images\\pause.png", UriKind.Relative));
 
@@ -277,6 +279,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             foreach (Model.Book movie in db.books)
                 if (movie.Position != 0)
                     windowProducts.Add(movie.Position, new Model.Product(movie));
+
+            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color2);
+            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color1);
+            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color2);
         }
 
         public void ShowButtonsOnTrailer()

@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
-             mc:Ignorable="d" Height="309.934" Width="439.073">
+             mc:Ignorable="d" Height="1080" Width="1920">
     <Grid>
-        <Button x:Name="button" Content="ShowAgainTrailer" HorizontalAlignment="Left" Margin="10,208,0,0" VerticalAlignment="Top" Width="135" Height="72"/>
-        <Button x:Name="button1" Content="StartOver" HorizontalAlignment="Left" Margin="267,208,0,0" VerticalAlignment="Top" Width="143" Height="72"/>
-        <Label x:Name="label" Content="URRA" HorizontalAlignment="Left" Margin="128,47,0,0" VerticalAlignment="Top" Height="113" Width="195" FontSize="64"/>
+        <Button x:Name="button" Content="ShowAgainTrailer" HorizontalAlignment="Left" Margin="340,664,0,0" VerticalAlignment="Top" Width="261" Height="189"/>
+        <Button x:Name="button1" Content="StartOver" HorizontalAlignment="Left" Margin="1309,664,0,0" VerticalAlignment="Top" Width="311" Height="189"/>
+        <Label x:Name="label" Content="URRA" HorizontalAlignment="Left" Margin="793,236,0,0" VerticalAlignment="Top" Height="188" Width="381" FontSize="64"/>
 
     </Grid>
 </UserControl>
