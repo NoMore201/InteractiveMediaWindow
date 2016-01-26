@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class Movie
+    public class Movie
     {
         public string Summary { get; set; }
         public string Director { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class Tracklist
+    public class Tracklist
     {
         public string Title { get; set; }
         public string Duration { get; set; }

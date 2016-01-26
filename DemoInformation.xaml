@@ -6,9 +6,11 @@
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
              mc:Ignorable="d" Height="1080" Width="1920">
     <Grid>
-        <Button x:Name="button" Content="ShowAgainTrailer" HorizontalAlignment="Left" Margin="340,664,0,0" VerticalAlignment="Top" Width="261" Height="189"/>
-        <Button x:Name="button1" Content="StartOver" HorizontalAlignment="Left" Margin="1309,664,0,0" VerticalAlignment="Top" Width="311" Height="189"/>
-        <Label x:Name="label" Content="URRA" HorizontalAlignment="Left" Margin="793,236,0,0" VerticalAlignment="Top" Height="188" Width="381" FontSize="64"/>
+        <Button x:Name="button1" Content="StartOver" HorizontalAlignment="Left" Margin="1553,828,0,0" VerticalAlignment="Top" Width="311" Height="189"/>
+        <Label x:Name="album_title" HorizontalAlignment="Left" Margin="569,92,0,0" VerticalAlignment="Top" Height="104" Width="821" FontSize="64"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="332" Margin="104,92,0,0" VerticalAlignment="Top" Width="368"/>
+        <Label x:Name="artist" HorizontalAlignment="Left" Margin="569,244,0,0" VerticalAlignment="Top" Height="102" Width="522" FontSize="53.333"/>
+        <Label x:Name="album_year" HorizontalAlignment="Left" Margin="1148,244,0,0" VerticalAlignment="Top" Height="102" Width="242" FontSize="48"/>
 
     </Grid>
 </UserControl>

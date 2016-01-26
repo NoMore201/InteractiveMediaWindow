@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class Book
+    public class Book
     {
         public string Summary { get; set; }
         public string Writers { get; set; }

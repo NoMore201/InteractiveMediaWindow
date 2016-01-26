@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Samples.Kinect.BodyBasics.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class DemoInformation : UserControl
     {
-        public DemoInformation()
+        public DemoInformation(Music prod)
         {
             InitializeComponent();
+            BitmapImage cover = new BitmapImage(new Uri("covers\\" + prod.Cover, UriKind.Relative));
+            image.Source = cover;
+            album_title.Content = prod.Cover;
+            artist.Content = prod.Artists;
+            
         }
     }
 }

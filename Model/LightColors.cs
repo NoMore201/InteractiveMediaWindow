@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class LightColors
+    public class LightColors
     {
         public string name;
         public string color1;

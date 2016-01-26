@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.BodyBasics.Model
 {
-    class Product
+    public class Product
     {
         public Model.Book book;
         public Model.Movie movie;
@@ -54,6 +54,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
                 return movie.Trailer;
             else if (music != null)
                 return music.Trailer;
+            else
+                return "";
+        }
+
+        public string GetCover()
+        {
+            if (book != null)
+                return book.Cover;
+            else if (movie != null)
+                return movie.Cover;
+            else if (music != null)
+                return music.Cover;
             else
                 return "";
         }
