@@ -15,5 +15,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class App : Application
     {
+        internal KinectRegion KinectRegion;
     }
 }

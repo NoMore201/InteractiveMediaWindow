@@ -43,14 +43,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public async Task SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
+        public async void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
         {
             if (isDoubleActive) try
             {
                 
                 SendColor(colorBegin, 5, num);
                 Thread.Sleep(5500);
-                await SendDoubleColorCommand(colorEnd, colorBegin, num);
+                SendDoubleColorCommand(colorEnd, colorBegin, num);
                 
             } catch (Exception ex)
             {

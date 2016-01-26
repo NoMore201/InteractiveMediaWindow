@@ -20,7 +20,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private const float STILL_THRESHOLD = 0.04f;
         private const int COUNTER_THRESHOLD = 30;
-        private const float BORDERX_THRESHOLD = 0.2f;
+        private const float BORDERX_THRESHOLD = 0.1f;
         private const float BORDERY_THRESHOLD = 0f;
         private const float MAXX = 1.5f;
         private const float MAXY = 1f;

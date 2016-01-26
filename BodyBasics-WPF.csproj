@@ -123,6 +123,9 @@
     <Compile Include="DemoIdle.xaml.cs">
       <DependentUpon>DemoIdle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DemoInformation.xaml.cs">
+      <DependentUpon>DemoInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DemoTrailer.xaml.cs">
       <DependentUpon>DemoTrailer.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DemoIdle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemoInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,7 +254,9 @@
     <Resource Include="Assets\LightGray.png" />
     <Resource Include="Assets\MediumGray.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\pause.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="HandPointers\HighlightRectangle.png" />
   </ItemGroup>

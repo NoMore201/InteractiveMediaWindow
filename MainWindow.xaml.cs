@@ -60,7 +60,11 @@
                 zoneBox.Text = kc.GetPointedZone().ToString();
             }
             else
+            {
                 this.pointedPoint.Text = "notPointing";
+                zoneBox.Text = "0";
+            }
+                
         }
 
         private void FillBoxes()

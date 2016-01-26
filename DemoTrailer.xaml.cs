@@ -12,10 +12,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class DemoTrailer : UserControl
     {
 
+        public static string PLAY_ICON = "Images/play.png";
+        public static string PAUSE_ICON = "Images/pause.png";
+
         public DemoTrailer(string videoPath)
         {
 
             InitializeComponent();
+            App app = ((App)Application.Current);
             string absolute_path = Path.Combine(Directory.GetCurrentDirectory(),
                 videoPath);
             Uri videoUri = new Uri(absolute_path);
@@ -24,13 +28,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             mediaElement.Source = videoUri;
             play_pause.Visibility = Visibility.Hidden;
             skip.Visibility = Visibility.Hidden;
-
-            kinectRegion.Loaded += KinectRegion_Loaded;
-        }
-
-        private void KinectRegion_Loaded(object sender, RoutedEventArgs e)
-        {
-            kinectRegion.SetKinectOnePersonSystemEngagement();
         }
     }
 }

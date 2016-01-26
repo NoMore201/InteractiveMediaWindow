@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 using Microsoft.Kinect.Wpf.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -17,12 +19,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class Demo : Window
     {
+
+        public static int MAX_FRAMES_PAUSE = 40;
+        public static string FIRST_HUE = "3";
+        public static string SECOND_HUE = "4";
+
         KinectController kc;
         Task hands;
         bool isPointed;
         private HueController hue;
+
         private DemoIdle idle;
         private DemoTrailer trailer;
+        private DemoInformation information;
 
         private KinectCoreWindow kWin;
 
@@ -36,6 +45,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private int counterFrames;
         private int pointerID;
 
+        private uint mainHandId;
+
+        BitmapImage playimage;
+        BitmapImage pauseimage;
+
         public Demo()
         {
             InitializeComponent();
@@ -45,6 +59,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             checkedButton = false;
             paused = false;
             counterFrames = 0;
+            mainHandId = 0;
 
             // object initialization
             IdleAnimateFirstHand();
@@ -53,20 +68,39 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             hue.Connect();
             kc.bodyReader.FrameArrived += HandleFrame;
             idle = new DemoIdle();
-            idle.button.Click += button_Click;
             this.contentControl.Content = idle;
             KinectRegion.SetKinectRegion(this, kinectRegion);
-            this.kinectRegion.KinectSensor = kc.kinectSensor;
+
+            App app = ((App)Application.Current);
+            app.KinectRegion = kinectRegion;
 
             windowProducts = new SortedList<int, Model.Product>();
             db = new DbFileManager();
+
+            playimage = new BitmapImage(new Uri("Images\\play.png", UriKind.Relative));
+            pauseimage = new BitmapImage(new Uri("Images\\pause.png", UriKind.Relative));
 
             InitProducts();
         }
 
         private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
         {       
-            CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
+            if (mainHandId == 0 && e.CurrentPoint.Properties.IsPrimary &&
+                e.CurrentPoint.Properties.IsEngaged)
+            {
+                mainHandId = e.CurrentPoint.PointerId;
+                ShowButtonsOnTrailer();
+            }
+
+            if (e.CurrentPoint.PointerId == mainHandId)
+            {
+                CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
+            }
+            if (e.CurrentPoint.PointerId == mainHandId && !e.CurrentPoint.Properties.IsEngaged)
+            {
+                mainHandId = 0;
+                HideButtonsOnTrailer();
+            }
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
@@ -77,29 +111,28 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             if (zoneP != 0 && !isPointed)
             {
-                idle.label.Content += zoneP.ToString(); ;
+                DataLog.Log(DataLog.DebugLevel.Message, zoneP.ToString());
                 if (zoneP == 1 || zoneP == 3)
                 {
                     Model.LightColors colors = windowProducts[1].GetColors();
-                    hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
-                    hue.TurnOff("7");
+                    hue.SendDoubleColorCommand(colors.color1, colors.color2, FIRST_HUE);
+                    hue.TurnOff(SECOND_HUE);
                     StartTrailer(windowProducts[1].GetTrailer());
+                    kc.bodyReader.FrameArrived += null;
                 } else
                 {
                     Model.LightColors colors = windowProducts[2].GetColors();
-                    hue.SendDoubleColorCommand(colors.color1, colors.color2, "1");
-                    hue.SendAlert("3344FF", "7");
-                    hue.TurnOff("1");
+                    hue.SendDoubleColorCommand(colors.color1, colors.color2, SECOND_HUE);
+                    hue.TurnOff(FIRST_HUE);
                     StartTrailer(windowProducts[2].GetTrailer());
+                    kc.bodyReader.FrameArrived += null;
                 }
 
                 isPointed = true;
             } else if (zoneP == 0 && isPointed)
             {
                 isPointed = false;
-                //hue.SendColor("FFFFFF", 1f, (byte)150, "7");
-                //hue.SendColor("FFFFFF", 1f, (byte)150, "1");
-            }
+            } 
         }
 
         private void IdleAnimateFirstHand()
@@ -152,44 +185,20 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trailer.mediaElement.Play();
             trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
             kWin = KinectCoreWindow.GetForCurrentThread();
-            kWin.PointerEntered += KWin_PointerEntered;
-            kWin.PointerExited += KWin_PointerExited;
             kWin.PointerMoved += KWin_PointerMoved;
-        }
-
-        private void KWin_PointerExited(object sender, KinectPointerEventArgs e)
-        {
-            HideButtonsOnTrailer();
-        }
-
-        private void KWin_PointerEntered(object sender, KinectPointerEventArgs e)
-        {
-            ShowButtonsOnTrailer();
-        }
-
-        public void ShowButtonsOnTrailer()
-        {
-            trailer.play_pause.Visibility = Visibility.Visible;
-            trailer.skip.Visibility = Visibility.Visible;
-        }
-
-        private void HideButtonsOnTrailer()
-        {
-            trailer.play_pause.Visibility = Visibility.Hidden;
-            trailer.skip.Visibility = Visibility.Hidden;
         }
 
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            // Implementare interfaccia
-
+            information = new DemoInformation();
+            contentControl.Content = information;
+            information.button1.Click += InformationBackButton;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void InformationBackButton(object sender, RoutedEventArgs e)
         {
-
-            StartTrailer(windowProducts[2].GetTrailer());
-            kc.bodyReader.FrameArrived += null;
+            contentControl.Content = idle;
+            kc.bodyReader.FrameArrived += HandleFrame;
         }
 
         private void CheckPointInButton(float X, float Y)
@@ -200,7 +209,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             if (X > trailer.play_pause.Margin.Left-50 && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width + 50 &&
                     Y > ((this.Height / 2) - (trailer.play_pause.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.play_pause.Height / 2)))
             {
-                if (counterFrames>127)
+                if (counterFrames > MAX_FRAMES_PAUSE)
                 {
                     PauseTrailer();
                     checkedButton = true;
@@ -211,10 +220,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     counterFrames++;
                 }
             }
-            else if (X < trailer.skip.Margin.Right + 50 && X > (trailer.play_pause.Margin.Right + trailer.skip.Width - 50) &&
+            else if (X < (this.Width-(trailer.skip.Margin.Right) + 50) && X > (this.Width - (trailer.skip.Margin.Right) - 50 - trailer.skip.Width) &&
                     Y > ((this.Height / 2) - (trailer.skip.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.skip.Height / 2) + 50))
             {
-                if (counterFrames > 127)
+                if (counterFrames > MAX_FRAMES_PAUSE)
                 {
                     SkipTrailer();
                     checkedButton = true;
@@ -227,7 +236,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 counterFrames = 0;
             }
-            //DataLog.ToConsole(DataLog.DebugLevel.Message, counterFrames.ToString());
         }
 
         private void PauseTrailer()
@@ -235,18 +243,25 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             if (paused)
             {
                 trailer.mediaElement.Play();
+                trailer.play_pause.Source = pauseimage;
                 paused = false;
             }
             else
             {
                 trailer.mediaElement.Pause();
+                trailer.play_pause.Source = playimage;
                 paused = true;
             }
         }
 
         private void SkipTrailer()
         {
-            //DataLog.ToConsole(DataLog.DebugLevel.Message, "skip");
+            DataLog.Log(DataLog.DebugLevel.Message, "Skipped trailer");
+            isPointed = false;
+            trailer.mediaElement.Stop();
+            information = new DemoInformation();
+            contentControl.Content = information;
+            information.button1.Click += InformationBackButton;
         }
 
         private void InitProducts()
@@ -263,5 +278,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (movie.Position != 0)
                     windowProducts.Add(movie.Position, new Model.Product(movie));
         }
+
+        public void ShowButtonsOnTrailer()
+        {
+            trailer.play_pause.Visibility = Visibility.Visible;
+            trailer.skip.Visibility = Visibility.Visible;
+        }
+
+        private void HideButtonsOnTrailer()
+        {
+            trailer.play_pause.Visibility = Visibility.Hidden;
+            trailer.skip.Visibility = Visibility.Hidden;
+        }
+
     }
 }
