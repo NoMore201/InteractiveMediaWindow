@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
-             mc:Ignorable="d" Height="1080" Width="1920">
+             mc:Ignorable="d" Height="458.8" Width="1152">
     <Grid>
-        <Button x:Name="button1" Content="StartOver" HorizontalAlignment="Left" Margin="1553,828,0,0" VerticalAlignment="Top" Width="311" Height="189"/>
-        <Label x:Name="album_title" HorizontalAlignment="Left" Margin="569,92,0,0" VerticalAlignment="Top" Height="104" Width="821" FontSize="64"/>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="332" Margin="104,92,0,0" VerticalAlignment="Top" Width="368"/>
-        <Label x:Name="artist" HorizontalAlignment="Left" Margin="569,244,0,0" VerticalAlignment="Top" Height="102" Width="522" FontSize="53.333"/>
+        <Button x:Name="button1" Content="StartOver" Margin="0,0,56,63.2" HorizontalAlignment="Right" Width="242" Height="108" VerticalAlignment="Bottom"/>
+        <Label x:Name="album_title" HorizontalAlignment="Left" Margin="321,92,0,0" VerticalAlignment="Top" Height="60" Width="334" FontSize="64"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="171" Margin="104,92,0,0" VerticalAlignment="Top" Width="174"/>
+        <Label x:Name="artist" HorizontalAlignment="Left" Margin="359,244,0,0" VerticalAlignment="Top" Height="19" Width="296" FontSize="53.333"/>
         <Label x:Name="album_year" HorizontalAlignment="Left" Margin="1148,244,0,0" VerticalAlignment="Top" Height="102" Width="242" FontSize="48"/>
 
     </Grid>

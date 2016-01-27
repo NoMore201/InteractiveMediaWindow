@@ -1,6 +1,7 @@
 ﻿using Microsoft.Samples.Kinect.BodyBasics.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,14 +22,53 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class DemoInformation : UserControl
     {
-        public DemoInformation(Music prod)
+        void InitDemoInformation(Music prod)
         {
             InitializeComponent();
-            BitmapImage cover = new BitmapImage(new Uri("covers\\" + prod.Cover, UriKind.Relative));
+            string absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
+                "covers\\" + prod.Cover);
+            Uri videoUri = new Uri(absolute_path);
+            BitmapImage cover = new BitmapImage(videoUri);
             image.Source = cover;
-            album_title.Content = prod.Cover;
+            album_title.Content = prod.Name;
             artist.Content = prod.Artists;
             
+        }
+
+        void InitDemoInformation(Movie prod)
+        {
+            InitializeComponent();
+            string absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
+                "covers\\" + prod.Cover);
+            Uri videoUri = new Uri(absolute_path);
+            BitmapImage cover = new BitmapImage(videoUri);
+            image.Source = cover;
+            album_title.Content = prod.Cover;
+            artist.Content = prod.Director;
+
+        }
+
+        void InitDemoInformation(Book prod)
+        {
+            InitializeComponent(); 
+            string absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
+                 "covers\\" + prod.Cover);
+            Uri videoUri = new Uri(absolute_path);
+            BitmapImage cover = new BitmapImage(videoUri);
+            image.Source = cover;
+            album_title.Content = prod.Cover;
+            artist.Content = prod.Writers;
+
+        }
+
+        public DemoInformation(Product prod)
+        {
+            if (prod.movie != null)
+                InitDemoInformation(prod.movie);
+            else if (prod.music != null)
+                InitDemoInformation(prod.music);
+            else if (prod.book != null)
+                InitDemoInformation(prod.book);
         }
     }
 }

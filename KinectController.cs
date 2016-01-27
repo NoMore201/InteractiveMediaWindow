@@ -321,5 +321,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             return result;
         }
 
+        public void Reset()
+        {
+            Arm = ArmPointing.Nothing;
+            hasPointed = false;
+            lastAveragePositionLeft = 0f;
+            lastAveragePositionRight = 0f;
+            frameCounterLeft = 0;
+            frameCounterRight = 0;
+        }
+
     }
 }

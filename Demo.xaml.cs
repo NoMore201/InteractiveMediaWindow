@@ -20,9 +20,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     public partial class Demo : Window
     {
 
-        public static int MAX_FRAMES_PAUSE = 50;
-        public static string FIRST_HUE = "3";
-        public static string SECOND_HUE = "4";
+        public static int MAX_FRAMES_PAUSE = 25;
+        public static string FIRST_HUE = "4";
+        public static string SECOND_HUE = "3";
 
         KinectController kc;
         Task hands;
@@ -43,12 +43,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private bool checkedButton;
 
         private int counterFrames;
-        private int pointerID;
 
         private uint mainHandId;
 
+        private int currentProduct;
+
         BitmapImage playimage;
         BitmapImage pauseimage;
+
+        public bool MediaEndedAssigned { get; private set; }
+        public bool PointerMovedAssigned { get; private set; }
+
+        private int state;
 
         public Demo()
         {
@@ -60,12 +66,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             paused = false;
             counterFrames = 0;
             mainHandId = 0;
+            PointerMovedAssigned = false;
+            MediaEndedAssigned = false;
 
             // object initialization
             IdleAnimateFirstHand();
             kc = new KinectController();
             hue = new HueController("192.168.0.2");
             hue.Connect();
+            hue.isBright = true;
             kc.bodyReader.FrameArrived += HandleFrame;
             idle = new DemoIdle();
             this.contentControl.Content = idle;
@@ -77,7 +86,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             windowProducts = new SortedList<int, Model.Product>();
             db = new DbFileManager();
 
-            
+            state = 1;
 
             playimage = new BitmapImage(new Uri("Images\\play.png", UriKind.Relative));
             pauseimage = new BitmapImage(new Uri("Images\\pause.png", UriKind.Relative));
@@ -87,55 +96,70 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         }
 
         private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
-        {       
-            if (mainHandId == 0 && e.CurrentPoint.Properties.IsPrimary &&
+        {
+            if (state == 2)
+            {
+                if (mainHandId == 0 && e.CurrentPoint.Properties.IsPrimary &&
                 e.CurrentPoint.Properties.IsEngaged)
-            {
-                mainHandId = e.CurrentPoint.PointerId;
-                ShowButtonsOnTrailer();
-            }
+                {
+                    mainHandId = e.CurrentPoint.PointerId;
+                    ShowButtonsOnTrailer();
+                }
 
-            if (e.CurrentPoint.PointerId == mainHandId)
-            {
-                CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
-            }
-            if (e.CurrentPoint.PointerId == mainHandId && !e.CurrentPoint.Properties.IsEngaged)
-            {
-                mainHandId = 0;
-                HideButtonsOnTrailer();
-            }
+                if (e.CurrentPoint.PointerId == mainHandId)
+                {
+                    CheckPointInButton(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
+                }
+                if (e.CurrentPoint.PointerId == mainHandId && !e.CurrentPoint.Properties.IsEngaged)
+                {
+                    mainHandId = 0;
+                    HideButtonsOnTrailer();
+                }
+            }    
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
         {
-            kc.Controller_FrameArrived(sender, e);
-
-            int zoneP = kc.GetPointedZone();
-
-            if (zoneP != 0 && !isPointed)
+            if (state == 1)
             {
-                DataLog.Log(DataLog.DebugLevel.Message, zoneP.ToString());
-                if (zoneP == 1 || zoneP == 3)
+                kc.Controller_FrameArrived(sender, e);
+
+                int zoneP = kc.GetPointedZone();
+
+                if (zoneP != 0 && !isPointed)
                 {
-                    Model.LightColors colors = windowProducts[1].GetColors();
-                    hue.SendDoubleColorCommand(colors.color1, colors.color2, FIRST_HUE);
-                    hue.TurnOff(SECOND_HUE);
-                    StartTrailer(windowProducts[1].GetTrailer());
-                    kc.bodyReader.FrameArrived += null;
-                } else
-                {
-                    Model.LightColors colors = windowProducts[2].GetColors();
-                    hue.SendDoubleColorCommand(colors.color1, colors.color2, SECOND_HUE);
-                    hue.TurnOff(FIRST_HUE);
-                    StartTrailer(windowProducts[2].GetTrailer());
-                    kc.bodyReader.FrameArrived += null;
+                    if (zoneP == 1 || zoneP == 3)
+                    {
+                        Model.LightColors colors = windowProducts[1].GetColors();
+                        hue.isDoubleActive = true;
+                        Task.Run(async () => {
+                            await hue.SendDoubleColorCommand(colors.color1, colors.color2, FIRST_HUE);
+                        });
+                        Task.Run(async () => {
+                            await hue.TurnOffDelayed(SECOND_HUE);
+                        });
+                        hue.TurnOff(SECOND_HUE);
+                        currentProduct = 1;
+                        StartTrailer(windowProducts[1].GetTrailer());
+                        isPointed = true;
+                    }
+                    else
+                    {
+                        Model.LightColors colors = windowProducts[2].GetColors();
+                        hue.isDoubleActive = true;
+                        Task.Run(async () => {
+                            await hue.SendDoubleColorCommand(colors.color1, colors.color2, SECOND_HUE);
+                        });
+                        Task.Run(async () => {
+                            await hue.TurnOffDelayed(FIRST_HUE);
+                        });
+                        hue.TurnOff(FIRST_HUE);
+                        StartTrailer(windowProducts[2].GetTrailer());
+                        currentProduct = 2;
+                        isPointed = true;
+                    }
                 }
-
-                isPointed = true;
-            } else if (zoneP == 0 && isPointed)
-            {
-                isPointed = false;
-            } 
+            }
         }
 
         private void IdleAnimateFirstHand()
@@ -169,6 +193,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Dispatcher.Invoke(new Action(() => {
                 idle.leftHand.Visibility = Visibility.Hidden;
                 idle.rightHand.Visibility = Visibility.Visible;
+                hue.SendColor("FFFFFF", 0, SECOND_HUE);
+                hue.TurnOff(FIRST_HUE);
             }));
         }
 
@@ -177,31 +203,49 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Dispatcher.Invoke(new Action(() => {
                 idle.rightHand.Visibility = Visibility.Hidden;
                 idle.leftHand.Visibility = Visibility.Visible;
+                hue.SendColor("FFFFFF", 0, FIRST_HUE);
+                hue.TurnOff(SECOND_HUE);
             }));
         }
 
         private void StartTrailer(string url)
         {
+            hue.isBright = false;
+            kc.Reset();
+            counterFrames = 0;
+            mainHandId = 0;
+            paused = false;
+            state = 2;
             isPointed = true;
             trailer = new DemoTrailer("trailers\\" + url);
             contentControl.Content = trailer;
+            checkedButton = false;
             trailer.mediaElement.Play();
-            trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
+            if (!MediaEndedAssigned)
+            {
+                trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
+                MediaEndedAssigned = true;
+            }
             kWin = KinectCoreWindow.GetForCurrentThread();
-            kWin.PointerMoved += KWin_PointerMoved;
+            if (!PointerMovedAssigned)
+            {
+                kWin.PointerMoved += KWin_PointerMoved;
+                PointerMovedAssigned = true;
+            }
         }
 
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            information = new DemoInformation();
-            contentControl.Content = information;
-            information.button1.Click += InformationBackButton;
+            SkipTrailer();
         }
 
         private void InformationBackButton(object sender, RoutedEventArgs e)
         {
             contentControl.Content = idle;
-            kc.bodyReader.FrameArrived += HandleFrame;
+            isPointed = false;
+            hue.isDoubleActive = false;
+            IdleAnimateFirstHand();
+            state = 1;
         }
 
         private void CheckPointInButton(float X, float Y)
@@ -209,43 +253,44 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             X = X * (float) this.Width;
             Y = Y * (float) this.Height;
 
-            if (X > trailer.play_pause.Margin.Left-50 && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width + 50 &&
+            if (X > trailer.play_pause.Margin.Left-50 && X < trailer.play_pause.Margin.Left + trailer.play_pause.Width + 50 && 
                     Y > ((this.Height / 2) - (trailer.play_pause.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.play_pause.Height / 2)))
             {
-                if (counterFrames > MAX_FRAMES_PAUSE)
+                if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
                     PauseTrailer();
                     checkedButton = true;
                     counterFrames = 0;
-                    trailer.play_pause.Opacity = 50;
+                    trailer.play_pause.Opacity = 0.25;
                 }
-                else
+                else if (!checkedButton)
                 {
-                    counterFrames++;
-                    trailer.play_pause.Opacity++;
+                    counterFrames++; 
+                    trailer.play_pause.Opacity+=0.03;
                 }
             }
             else if (X < (this.Width-(trailer.skip.Margin.Right) + 50) && X > (this.Width - (trailer.skip.Margin.Right) - 50 - trailer.skip.Width) &&
                     Y > ((this.Height / 2) - (trailer.skip.Height / 2) - 50) && Y < ((this.Height / 2) + (trailer.skip.Height / 2) + 50))
             {
-                if (counterFrames > MAX_FRAMES_PAUSE)
+                if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
-                    SkipTrailer();
                     checkedButton = true;
                     counterFrames = 0;
-                    trailer.skip.Opacity = 50;
+                    trailer.skip.Opacity = 0.25;
+                    SkipTrailer();
                 }
-                else
+                else if(!checkedButton)
                 {
                     counterFrames++;
-                    trailer.skip.Opacity++;
+                    trailer.skip.Opacity+=0.03;
                 }    
                 
-            } else
+            } else 
             {
                 counterFrames = 0;
-                trailer.play_pause.Opacity = 50;
-                trailer.skip.Opacity = 50;
+                trailer.play_pause.Opacity = 0.25;
+                trailer.skip.Opacity = 0.25;
+                checkedButton = false;
             }
         }
 
@@ -267,12 +312,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void SkipTrailer()
         {
-            DataLog.Log(DataLog.DebugLevel.Message, "Skipped trailer");
+            state = 3;
             isPointed = false;
             trailer.mediaElement.Stop();
-            information = new DemoInformation();
+            information = new DemoInformation(windowProducts[currentProduct]);
             contentControl.Content = information;
             information.button1.Click += InformationBackButton;
+            hue.isBright = true;
         }
 
         private void InitProducts()
@@ -288,23 +334,27 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             foreach (Model.Book movie in db.books)
                 if (movie.Position != 0)
                     windowProducts.Add(movie.Position, new Model.Product(movie));
-
-            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color2);
-            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color1);
-            DataLog.ToConsole(DataLog.DebugLevel.Message, windowProducts[1].GetColors().color2);
         }
 
         public void ShowButtonsOnTrailer()
         {
-            trailer.play_pause.Visibility = Visibility.Visible;
-            trailer.skip.Visibility = Visibility.Visible;
+                trailer.play_pause.Visibility = Visibility.Visible;
+                trailer.skip.Visibility = Visibility.Visible;
+                trailer.skip.Opacity = 0.25;
+                trailer.play_pause.Opacity = 0.25;
+            
         }
 
         private void HideButtonsOnTrailer()
         {
-            trailer.play_pause.Visibility = Visibility.Hidden;
-            trailer.skip.Visibility = Visibility.Hidden;
+                trailer.play_pause.Visibility = Visibility.Hidden;
+                trailer.skip.Visibility = Visibility.Hidden;
         }
 
+        private void OnWindowClose(object sender, EventArgs e)
+        {
+            hue.TurnOff(FIRST_HUE);
+            hue.TurnOff(SECOND_HUE);
+        }
     }
 }

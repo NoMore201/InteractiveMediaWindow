@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="Demo" Height="452.8" Width="1152" WindowStartupLocation="Manual">
+        Title="Demo" Height="452.8" Width="1152" WindowStartupLocation="Manual" Closed="OnWindowClose">
     <k:KinectRegion x:Name="kinectRegion" >
         <ContentControl x:Name="contentControl"/>
     </k:KinectRegion>

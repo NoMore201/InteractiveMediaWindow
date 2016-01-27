@@ -43,14 +43,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public async void SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
+        public async Task SendDoubleColorCommand(string colorBegin, string colorEnd, string num)
         {
             if (isDoubleActive) try
             {
                 
                 SendColor(colorBegin, 5, num);
                 Thread.Sleep(5500);
-                SendDoubleColorCommand(colorEnd, colorBegin, num);
+                await SendDoubleColorCommand(colorEnd, colorBegin, num);
                 
             } catch (Exception ex)
             {
@@ -126,6 +126,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             if (isConnectionAvailable)
             {
                 var command = new LightCommand();
+                command.TransitionTime = TimeSpan.FromMilliseconds(20);
                 command.TurnOff();
                 client.SendCommandAsync(command, new List<string> { num });
             }
@@ -134,6 +135,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 DataLog.Log(DataLog.DebugLevel.Error,
                     "Cannot connecto to HUE. Link button?");
             }
+        }
+
+        public async Task TurnOffDelayed(string num)
+        {
+            Thread.Sleep(5000);
+            TurnOff(num);
         }
     }
 }
