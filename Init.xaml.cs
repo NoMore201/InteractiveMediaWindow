@@ -50,5 +50,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             cw.WindowState = WindowState.Maximized;
             cw.Show();
         }
+
+        private void test(object sender, RoutedEventArgs e)
+        {
+            TestWindow tw = new TestWindow();
+            tw.Show();
+        }
     }
 }

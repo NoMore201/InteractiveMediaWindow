@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
         mc:Ignorable="d"
-        Title="Init" Height="438.461" Width="302.197">
+        Title="Init" Height="488.461" Width="302.197">
     <Grid>
         <Button x:Name="buttonHue" Content="DEBUG HUE" HorizontalAlignment="Left" Margin="78,20,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="hueClick"/>
         <Button x:Name="buttonKin" Content="DEBUG KINECT" HorizontalAlignment="Left" Margin="78,89,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="kinClick"/>
         <Button x:Name="buttonDemo" Content="DEMO" HorizontalAlignment="Left" Margin="78,158,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="demoClick"/>
         <Button x:Name="button" Content="CALIBRATION" HorizontalAlignment="Left" Margin="78,227,0,0" VerticalAlignment="Top" Width="129" Height="66" Click="startCalibration"/>
         <Button x:Name="button1" Content="DATABASE" HorizontalAlignment="Left" Margin="78,298,0,0" VerticalAlignment="Top" Width="129" Height="63" Click="manageDb"/>
+        <Button x:Name="testWindow" Content="DATABASE" HorizontalAlignment="Left" Margin="78,366,0,0" VerticalAlignment="Top" Width="129" Height="63" Click="test"/>
 
     </Grid>
 </Window>

@@ -126,6 +126,9 @@
     <Compile Include="DemoInformation.xaml.cs">
       <DependentUpon>DemoInformation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DemoRelateds.xaml.cs">
+      <DependentUpon>DemoRelateds.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DemoTrailer.xaml.cs">
       <DependentUpon>DemoTrailer.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DemoInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemoRelateds.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,6 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="HandPointers\HighlightRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\circlebutton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
