@@ -32,7 +32,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             image.Source = cover;
             album_title.Content = prod.Name;
             artist.Content = prod.Artists;
-            
+            description.Text = prod.Description;
+            year.Content = prod.Year;
+            genre.Content = prod.Genre;
         }
 
         void InitDemoInformation(Movie prod)
@@ -43,9 +45,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             Uri videoUri = new Uri(absolute_path);
             BitmapImage cover = new BitmapImage(videoUri);
             image.Source = cover;
-            album_title.Content = prod.Cover;
+            album_title.Content = prod.Name;
             artist.Content = prod.Director;
-
+            description.Text = prod.Summary;
+            year.Content = prod.Year;
+            genre.Content = prod.Genre;
         }
 
         void InitDemoInformation(Book prod)
@@ -58,11 +62,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             image.Source = cover;
             album_title.Content = prod.Cover;
             artist.Content = prod.Writers;
-
+            description.Text = prod.Summary;
+            year.Content = prod.Year;
+            genre.Content = prod.Genre;
         }
 
         public DemoInformation(Product prod)
         {
+            //description.IsManipulationEnabled = false;
             if (prod.movie != null)
                 InitDemoInformation(prod.movie);
             else if (prod.music != null)
