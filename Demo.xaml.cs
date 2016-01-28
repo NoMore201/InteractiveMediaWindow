@@ -137,6 +137,23 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     mainHandId = 0;
                 }
             }
+            else if (state == 4)
+            {
+                if (mainHandId == 0 && e.CurrentPoint.Properties.IsPrimary &&
+                                e.CurrentPoint.Properties.IsEngaged)
+                {
+                    mainHandId = e.CurrentPoint.PointerId;
+                }
+
+                if (e.CurrentPoint.PointerId == mainHandId)
+                {
+                    CheckPointInFourthButtons(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
+                }
+                if (e.CurrentPoint.PointerId == mainHandId && !e.CurrentPoint.Properties.IsEngaged)
+                {
+                    mainHandId = 0;
+                }
+            }
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
@@ -387,6 +404,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 information.related.Opacity = 0.25;
                 checkedButton = false;
             }
+        }
+
+        private void CheckPointInFourthButtons(float X, float Y)
+        {
+            X = X * (float)this.Width;
+            Y = Y * (float)this.Height;
         }
 
         private void GoToRelated()

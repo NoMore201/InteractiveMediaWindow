@@ -21,6 +21,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class DemoRelateds : UserControl
     {
+
         public DemoRelateds()
         {
             InitializeComponent();
@@ -29,11 +30,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public DemoRelateds(List<Model.Product> relateds)
         {
             InitializeComponent();
+            FillRelateds(relateds, 0);
+
+        }
+
+        public void FillRelateds(List<Model.Product> relateds, int beginTo)
+        {
             string absolute_path;
             Uri videoUri;
             BitmapImage cover;
 
-            if (relateds.Count > 0)
+            if (relateds.Count > 0 + beginTo)
             {
                 label.Content = relateds[0].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
@@ -41,9 +48,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 videoUri = new Uri(absolute_path);
                 cover = new BitmapImage(videoUri);
                 image.Source = cover;
+                firstIm.Opacity = 0.25;
             }
-            
-            if(relateds.Count > 1)
+            else
+            {
+                label.Content = "";
+                image.Source = null;
+                firstIm.Opacity = 0;
+            }
+
+            if (relateds.Count > 1 + beginTo)
             {
                 label2.Content = relateds[1].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
@@ -52,8 +66,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 cover = new BitmapImage(videoUri);
                 image2.Source = cover;
             }
+            else
+            {
+                label2.Content = "";
+                image2.Source = null;
+                secondIm.Opacity = 0;
+            }
 
-            if (relateds.Count > 2)
+            if (relateds.Count > 2 + beginTo)
             {
                 label3.Content = relateds[2].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
@@ -62,17 +82,30 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 cover = new BitmapImage(videoUri);
                 image3.Source = cover;
             }
-
-            if (relateds.Count > 3)
+            else
             {
-                label4.Content = relateds[3].GetName();
-                absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
-                     "covers\\" + relateds[3].GetCover());
-                videoUri = new Uri(absolute_path);
-                cover = new BitmapImage(videoUri);
-                image4.Source = cover;
+                label3.Content = "";
+                image3.Source = null;
+                thirdIm.Opacity = 0;
             }
 
+            if (relateds.Count > 3 + beginTo)
+            {
+                image1.Opacity = 0.25;
+            }
+            else
+            {
+                image1.Opacity = 0;
+            }
+
+            if (beginTo == 0)
+            {
+                backw.Opacity = 0;
+            }
+            else
+            {
+                backw.Opacity = 0.25;
+            }
         }
     }
 }

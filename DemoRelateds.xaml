@@ -8,39 +8,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920">
 
-        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
                       k:KinectRegion.IsHorizontalRailEnabled="true"
                       k:KinectRegion.ZoomMode="Disabled" >
-        <Grid x:Name="relatedGrid" Width="2520">
+        <Grid x:Name="relatedGrid" Width="1910">
 
-<<<<<<< HEAD
-            <Label x:Name="label" Content="" Margin="268,688,1792,304" FontFamily="Roboto" FontSize="30"/>
-            <Image x:Name="image" HorizontalAlignment="Left" Height="488" Margin="268,160,0,0" VerticalAlignment="Top" Width="460"/>
 
-            <Label x:Name="label2" Content="" Margin="804,688,1256,304" FontFamily="Roboto" FontSize="30"/>
-            <Image x:Name="image2" HorizontalAlignment="Left" Height="488" Margin="804,160,0,0" VerticalAlignment="Top" Width="460"/>
+            <Label x:Name="label" Content="" Margin="268,688,1269,304" FontFamily="Roboto" FontSize="30"/>
+            <Image x:Name="image" Height="488" Margin="268,160,1269,0" VerticalAlignment="Top"/>
 
-            <Label x:Name="label3" Content="" Margin="1352,688,708,304" FontFamily="Roboto" FontSize="30"/>
-            <Image x:Name="image3" HorizontalAlignment="Left" Height="488" Margin="1352,160,0,0" VerticalAlignment="Top" Width="460"/>
+            <Label x:Name="label2" Content="" Margin="750,688,750,304" FontFamily="Roboto" FontSize="30"/>
+            <Image x:Name="image2" Margin="750,160,750,432"/>
 
-            <Label x:Name="label4" Content="Label" Margin="1920,688,140,304" FontFamily="Roboto" FontSize="30"/>
-=======
-            <Label x:Name="label" Content="Label" Margin="268,688,1792,304" FontFamily="Roboto" FontSize="40"/>
-            <Image x:Name="image" HorizontalAlignment="Left" Height="488" Margin="268,160,0,0" VerticalAlignment="Top" Width="460"/>
+            <Label x:Name="label3" Content="" Margin="1269,688,268,304" FontFamily="Roboto" FontSize="30"/>
+            <Image x:Name="image3" Height="462" Margin="1269,160,268,0" VerticalAlignment="Top"/>
 
-            <Label x:Name="label2" Content="Label" Margin="804,688,1256,304" FontFamily="Roboto" FontSize="40"/>
-            <Image x:Name="image2" HorizontalAlignment="Left" Height="488" Margin="804,160,0,0" VerticalAlignment="Top" Width="460"/>
+            <Image x:Name="image1" Margin="0,0,25,25" HorizontalAlignment="Right" Width="250" Height="150" VerticalAlignment="Bottom" Source="Images/backrel.png" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                        <SkewTransform AngleY="0" AngleX="0"/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
 
-            <Label x:Name="label3" Content="Label" Margin="1352,688,708,304" FontFamily="Roboto" FontSize="40"/>
-            <Image x:Name="image3" HorizontalAlignment="Left" Height="488" Margin="1352,160,0,0" VerticalAlignment="Top" Width="460"/>
+            <Image x:Name="backw" Margin="25,0,0,25" HorizontalAlignment="Left" Width="250" Height="150" VerticalAlignment="Bottom" Source="Images/backrel.png"/>
+            <Image x:Name="firstIm" Margin="346,0,0,49" HorizontalAlignment="Left" Width="250" Height="250" VerticalAlignment="Bottom" Source="Images/trailer.png" RenderTransformOrigin="0.9,0.446"/>
+            <Image x:Name="secondIm" Margin="816,0,844,49" Source="Images/trailer.png" Height="250" VerticalAlignment="Bottom"/>
+            <Image x:Name="thirdIm" Margin="0,0,325,49" Height="250" VerticalAlignment="Bottom" Source="Images/trailer.png" HorizontalAlignment="Right" Width="250"/>
 
-            <Label x:Name="label4" Content="Label" Margin="1920,688,140,304" FontFamily="Roboto" FontSize="40"/>
->>>>>>> origin/master
-            <Image x:Name="image4" HorizontalAlignment="Left" Height="488" Margin="1920,160,-460,0" VerticalAlignment="Top" Width="460"/>
+            <Image x:Name="back" Margin="25,10,0,0" Source="Images/back.png" HorizontalAlignment="Left" Width="175" Height="175" VerticalAlignment="Top" Opacity="0.25"/>
 
         </Grid>
 
     </ScrollViewer>
 
-        
+
 </UserControl>
