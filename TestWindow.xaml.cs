@@ -27,7 +27,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
             DbFileManager Db = new DbFileManager();
-            DemoRelateds a = new DemoRelateds();
+            Product p = new Product(Db.musics[0], Db.GetTracklist(Db.musics[0].ID));
+            DemoInformation a = new DemoInformation(p);
             this.contentControl.Content = a;
         }
     }

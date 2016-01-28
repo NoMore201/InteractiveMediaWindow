@@ -35,6 +35,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             description.Text = prod.Description;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+            if (prod.Trailer == "")
+                restartText.Opacity = 0.25;
         }
 
         void InitDemoInformation(Music prod, SortedList<int, Model.Tracklist> tracks)
@@ -47,7 +49,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             image.Source = cover;
             album_title.Content = prod.Name;
             artist.Content = prod.Artists;
+            phouse.Content = prod.PublishingHouse;
             description.Text = prod.Description;
+            description.Text += "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
             tracklist.Text = "TrackList: \n\n";
@@ -57,6 +61,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 tracklist.Text += tracks[i].Number + " - " + tracks[i].Title + "\n";
                 durations.Text += tracks[i].Duration + "\n";
             }
+            if (prod.Trailer == "")
+                restartText.Opacity = 0.25;
+
+            if (prod.Position == 0)
+                relatedText.Text = "Return To \n Related";
+            
         }
 
         void InitDemoInformation(Movie prod)
@@ -68,10 +78,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             BitmapImage cover = new BitmapImage(videoUri);
             image.Source = cover;
             album_title.Content = prod.Name;
+            phouse.Content = prod.PublishingHouse;
             artist.Content = prod.Director;
             description.Text = prod.Summary;
+            description.Text += "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+            tracklist.Text = "Actors: \n\n";
+            if (prod.Trailer == "")
+                restartText.Opacity = 0.25;
         }
 
         void InitDemoInformation(Book prod)
@@ -83,10 +98,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             BitmapImage cover = new BitmapImage(videoUri);
             image.Source = cover;
             album_title.Content = prod.Cover;
+            phouse.Content = prod.PublishingHouse;
             artist.Content = prod.Writers;
             description.Text = prod.Summary;
+            description.Text += "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+            if (prod.Trailer == "")
+                restartText.Opacity = 0.25;
         }
 
         public DemoInformation(Product prod)

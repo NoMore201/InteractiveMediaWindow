@@ -56,6 +56,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private int state;
 
+        private Model.Product relatedBackup;
+
         public Demo()
         {
             InitializeComponent();
@@ -68,6 +70,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             mainHandId = 0;
             PointerMovedAssigned = false;
             MediaEndedAssigned = false;
+
+            relatedBackup = null;
 
             // object initialization
             IdleAnimateFirstHand();
@@ -321,10 +325,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
-                    GoToRelated();
                     checkedButton = true;
                     counterFrames = 0;
                     information.related.Opacity = 0.25;
+                    if (relatedBackup != null)
+                    {
+                        windowProducts[currentProduct] = relatedBackup;
+                    }
+                    GoToRelated();
                 }
                 else if (!checkedButton)
                 {
@@ -335,7 +343,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             // Restart Button
             else if (X > this.Width - information.exit.Width - 85 && X < this.Width - 15 &&
-                    Y > ((this.Height / 2) - (information.restart.Height / 2) - 15) && Y < ((this.Height / 2) + (information.restart.Height / 2) + 15))
+                    Y > ((this.Height / 2) - (information.restart.Height / 2) - 15) && Y < ((this.Height / 2) + (information.restart.Height / 2) + 15) && windowProducts[currentProduct].GetTrailer()!="")
             {
                 if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
@@ -382,7 +390,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void GoToRelated()
         {
-            throw new NotImplementedException();
+           //Implment Go To Related
         }
 
         private void PauseTrailer()

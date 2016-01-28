@@ -90,9 +90,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
 
         }
 
-        public void GetTracklist()
+        public int GetPosition()
         {
-
+            if (book != null)
+                return book.Position;
+            else if (movie != null)
+                return movie.Position;
+            else if (music != null)
+                return music.Position;
+            else
+                return 0;
         }
 
     }
