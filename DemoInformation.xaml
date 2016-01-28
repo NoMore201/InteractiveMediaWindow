@@ -6,13 +6,18 @@
              xmlns:local="clr-namespace:Microsoft.Samples.Kinect.BodyBasics"
              mc:Ignorable="d" Height="1080" Width="1920">
     <Grid>
-        <Button x:Name="button1" Content="StartOver" Margin="0,0,56,63.2" HorizontalAlignment="Right" Width="242" Height="108" VerticalAlignment="Bottom"/>
+
         <Label x:Name="album_title" HorizontalAlignment="Left" Margin="546,44,0,0" VerticalAlignment="Top" Height="102" Width="880" FontSize="69.333" Content="asdasdasd" FontFamily="Roboto Condensed" FontWeight="Bold"/>
         <Image x:Name="image" HorizontalAlignment="Left" Height="404" Margin="71,44,0,0" VerticalAlignment="Top" Width="417"/>
         <Label x:Name="artist" HorizontalAlignment="Left" Margin="546,146,0,0" VerticalAlignment="Top" Height="67" Width="593" FontSize="53.333" FontFamily="Roboto Condensed" Content=""/>
         <TextBox x:Name="description" HorizontalAlignment="Left" Height="495" Margin="310,522,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="1116" FontFamily="Roboto Condensed" FontSize="26.667" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0"/>
         <Label x:Name="year" Content="" HorizontalAlignment="Left" Margin="549,319,0,0" VerticalAlignment="Top" Height="58" Width="137" FontFamily="Roboto Condensed" FontSize="48"/>
         <Label x:Name="genre" Content="" HorizontalAlignment="Left" Margin="691,319,0,0" VerticalAlignment="Top" Height="65" Width="562" FontFamily="Roboto Condensed" FontSize="48"/>
-
+        <Image x:Name="exit" Margin="0,0,65,65" HorizontalAlignment="Right" Width="260" Height="260" VerticalAlignment="Bottom" Source="Images\circlebutton.png" Opacity="0.25"/>
+        <Image x:Name="restart" Margin="0,380,65,380" HorizontalAlignment="Right" Width="260" Source="Images\circlebutton.png" Opacity="0.25"/>
+        <Image x:Name="related" Margin="0,65,65,0" HorizontalAlignment="Right" Width="260" Source="Images\circlebutton.png" Opacity="0.25" Height="260" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" Margin="0,146,109,0" VerticalAlignment="Top" Height="146" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" FontWeight="Bold"><Run Text="Related"/><LineBreak/><Run Text="Products"/></TextBlock>
+        <TextBlock x:Name="textBlock_Copy" Margin="0,487,108,0" VerticalAlignment="Top" Height="146" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" FontWeight="Bold"><Run Text="Restart"/><LineBreak/><Run Text="Trailer"/></TextBlock>
+        <TextBlock x:Name="textBlock_Copy1" Margin="0,864,109,0" VerticalAlignment="Top" Height="151" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" Text="Exit" FontWeight="Bold"/>
     </Grid>
 </UserControl>

@@ -115,7 +115,23 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     mainHandId = 0;
                     HideButtonsOnTrailer();
                 }
-            }    
+            } else if (state == 3)
+            {
+                if (mainHandId == 0 && e.CurrentPoint.Properties.IsPrimary &&
+                                e.CurrentPoint.Properties.IsEngaged)
+                {
+                    mainHandId = e.CurrentPoint.PointerId;
+                }
+
+                if (e.CurrentPoint.PointerId == mainHandId)
+                {
+                    CheckPointInThirdButtons(e.CurrentPoint.Position.X, e.CurrentPoint.Position.Y);
+                }
+                if (e.CurrentPoint.PointerId == mainHandId && !e.CurrentPoint.Properties.IsEngaged)
+                {
+                    mainHandId = 0;
+                }
+            }
         }
 
         private void HandleFrame(object sender, BodyFrameArrivedEventArgs e)
@@ -239,7 +255,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             SkipTrailer();
         }
 
-        private void InformationBackButton(object sender, RoutedEventArgs e)
+        private void InformationBackButton()
         {
             contentControl.Content = idle;
             isPointed = false;
@@ -294,6 +310,81 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
+        private void CheckPointInThirdButtons(float X, float Y)
+        {
+            X = X * (float)this.Width;
+            Y = Y * (float)this.Height;
+
+            // Related Button
+            if (X > this.Width - information.related.ActualWidth - 85 && X < this.Width - 15 &&
+                    Y > 15 && Y < ((information.related.Height) + 75))
+            {
+                if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
+                {
+                    GoToRelated();
+                    checkedButton = true;
+                    counterFrames = 0;
+                    information.related.Opacity = 0.25;
+                }
+                else if (!checkedButton)
+                {
+                    counterFrames++;
+                    information.related.Opacity += 0.03;
+                }
+            }
+
+            // Restart Button
+            else if (X > this.Width - information.exit.Width - 85 && X < this.Width - 15 &&
+                    Y > ((this.Height / 2) - (information.restart.Height / 2) - 15) && Y < ((this.Height / 2) + (information.restart.Height / 2) + 15))
+            {
+                if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
+                {
+                    checkedButton = true;
+                    counterFrames = 0;
+                    information.restart.Opacity = 0.25;
+                    StartTrailer(windowProducts[currentProduct].GetTrailer());
+                }
+                else if (!checkedButton)
+                {
+                    counterFrames++;
+                    information.restart.Opacity += 0.03;
+                }
+
+            }
+
+            // Exit Button
+            else if (X > this.Width - information.exit.ActualWidth - 85 && X < this.Width - 15 &&
+                   Y < this.Height - 15 && Y > ( this.Height - (information.exit.Height) - 75))
+            {
+                if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
+                {
+                    checkedButton = true;
+                    counterFrames = 0;
+                    information.exit.Opacity = 0.25;
+                    InformationBackButton();
+                }
+                else if (!checkedButton)
+                {
+                    counterFrames++;
+                    information.exit.Opacity += 0.03;
+                }
+
+            }
+            else
+            {
+                counterFrames = 0;
+                information.exit.Opacity = 0.25;
+                information.restart.Opacity = 0.25;
+                information.related.Opacity = 0.25;
+                checkedButton = false;
+            }
+        }
+
+        private void GoToRelated()
+        {
+            throw new NotImplementedException();
+        }
+
         private void PauseTrailer()
         {
             if (paused)
@@ -317,7 +408,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             trailer.mediaElement.Stop();
             information = new DemoInformation(windowProducts[currentProduct]);
             contentControl.Content = information;
-            information.button1.Click += InformationBackButton;
             hue.isBright = true;
         }
 
