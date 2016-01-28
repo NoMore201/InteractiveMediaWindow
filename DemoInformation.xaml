@@ -19,6 +19,7 @@
         <TextBlock x:Name="textBlock" Margin="0,146,109,0" VerticalAlignment="Top" Height="146" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" FontWeight="Bold"><Run Text="Related"/><LineBreak/><Run Text="Products"/></TextBlock>
         <TextBlock x:Name="textBlock_Copy" Margin="0,487,108,0" VerticalAlignment="Top" Height="146" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" FontWeight="Bold"><Run Text="Restart"/><LineBreak/><Run Text="Trailer"/></TextBlock>
         <TextBlock x:Name="textBlock_Copy1" Margin="0,864,109,0" VerticalAlignment="Top" Height="151" FontSize="32" HorizontalAlignment="Right" Width="170" TextAlignment="Center" Text="Exit" FontWeight="Bold"/>
-        <TextBox x:Name="tracklist" HorizontalAlignment="Left" Height="495" Margin="55,0,0,65" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="433" FontFamily="Roboto Condensed" FontSize="26.667" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0"/>
+        <TextBox x:Name="tracklist" HorizontalAlignment="Left" Height="495" Margin="55,0,0,65" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="327" FontFamily="Roboto Condensed" FontSize="26.667" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0"/>
+        <TextBox x:Name="durations" HorizontalAlignment="Left" Height="495" Margin="382,0,0,65" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="106" FontFamily="Roboto Condensed" FontSize="26.667" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Right"/>
     </Grid>
 </UserControl>

@@ -11,6 +11,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
         public Model.Book book;
         public Model.Movie movie;
         public Model.Music music;
+        public SortedList<int, Model.Tracklist> tracklist;
 
         public Product(Book b)
         {
@@ -20,6 +21,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
         public Product(Music m)
         {
             music = m;
+        }
+
+        public Product(Music m, SortedList<int, Model.Tracklist> t)
+        {
+            music = m;
+            tracklist = t;
         }
 
         public Product(Movie b)
@@ -80,6 +87,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
                 return music.Type;
             else
                 return 0;
+
+        }
+
+        public void GetTracklist()
+        {
+
         }
 
     }

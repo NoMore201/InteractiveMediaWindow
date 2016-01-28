@@ -35,7 +35,28 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             description.Text = prod.Description;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+        }
 
+        void InitDemoInformation(Music prod, SortedList<int, Model.Tracklist> tracks)
+        {
+            InitializeComponent();
+            string absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
+                "covers\\" + prod.Cover);
+            Uri videoUri = new Uri(absolute_path);
+            BitmapImage cover = new BitmapImage(videoUri);
+            image.Source = cover;
+            album_title.Content = prod.Name;
+            artist.Content = prod.Artists;
+            description.Text = prod.Description;
+            year.Content = prod.Year;
+            genre.Content = prod.Genre;
+            tracklist.Text = "TrackList: \n";
+            durations.Text = "\n";
+            for (int i=1; i<=tracks.Count; i++)
+            {
+                tracklist.Text += tracks[i].Number + " - " + tracks[i].Title + "\n";
+                durations.Text += tracks[i].Duration + "\n";
+            }
         }
 
         void InitDemoInformation(Movie prod)

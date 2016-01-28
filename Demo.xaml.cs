@@ -419,7 +419,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             foreach (Model.Music movie in db.musics)
                 if (movie.Position != 0)
-                    windowProducts.Add(movie.Position, new Model.Product(movie));
+                    windowProducts.Add(movie.Position, new Model.Product(movie, db.GetTracklist(movie.ID)));
 
             foreach (Model.Book movie in db.books)
                 if (movie.Position != 0)

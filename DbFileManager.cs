@@ -44,6 +44,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             WriteFile();
         }
 
+        public SortedList<int, Model.Tracklist> GetTracklist(int id){
+
+            SortedList<int, Model.Tracklist> tr = new SortedList<int, Model.Tracklist>();
+
+            foreach(Model.Tracklist track in tracklists)
+            {
+                if (track.ID == id)
+                    tr.Add(track.Number, track);
+            }
+
+            return tr;
+        }
+
         private void ReadFile()
         {
             string data_movie = File.ReadAllText(MOVIE_FILE);
