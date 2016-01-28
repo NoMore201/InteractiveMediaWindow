@@ -50,8 +50,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             description.Text = prod.Description;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
-            tracklist.Text = "TrackList: \n";
-            durations.Text = "\n";
+            tracklist.Text = "TrackList: \n\n";
+            durations.Text = "\n\n";
             for (int i=1; i<=tracks.Count; i++)
             {
                 tracklist.Text += tracks[i].Number + " - " + tracks[i].Title + "\n";
@@ -95,7 +95,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             if (prod.movie != null)
                 InitDemoInformation(prod.movie);
             else if (prod.music != null)
-                InitDemoInformation(prod.music);
+                InitDemoInformation(prod.music, prod.tracklist);
             else if (prod.book != null)
                 InitDemoInformation(prod.book);
         }
