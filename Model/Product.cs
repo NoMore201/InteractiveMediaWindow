@@ -77,14 +77,26 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
                 return "";
         }
 
+        public string GetName()
+        {
+            if (book != null)
+                return book.Name;
+            else if (movie != null)
+                return movie.Name;
+            else if (music != null)
+                return music.Name;
+            else
+                return "";
+        }
+
         public int GetTyp()
         {
             if (book != null)
-                return book.Type;
+                return 2;
             else if (movie != null)
-                return movie.Type;
+                return 1;
             else if (music != null)
-                return music.Type;
+                return 3;
             else
                 return 0;
 
@@ -100,6 +112,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics.Model
                 return music.Position;
             else
                 return 0;
+        }
+
+        public string[] GetFavouriteRelateds()
+        {
+            if (book != null)
+                return book.FavouriteRelateds.Split(';');
+            else if (movie != null)
+                return movie.FavouriteRelateds.Split(';');
+            else if (music != null)
+                return music.FavouriteRelateds.Split(';');
+            else
+                return new string[0];
         }
 
     }

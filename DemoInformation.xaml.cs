@@ -37,6 +37,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             genre.Content = prod.Genre;
             if (prod.Trailer == "")
                 restartText.Opacity = 0.25;
+
+            if (prod.Position == 0)
+                relatedText.Text = "Return To \n Related";
         }
 
         void InitDemoInformation(Music prod, SortedList<int, Model.Tracklist> tracks)
@@ -51,6 +54,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             artist.Content = prod.Artists;
             phouse.Content = prod.PublishingHouse;
             description.Text = prod.Description;
+ 
             description.Text += "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
@@ -80,13 +84,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             album_title.Content = prod.Name;
             phouse.Content = prod.PublishingHouse;
             artist.Content = prod.Director;
-            description.Text = prod.Summary;
-            description.Text += "\n" + prod.OtherInfo;
+            description.Text = prod.Description;
+            description.Text += "\n" + "\n" + prod.Summary;
+            description.Text += "\n" + "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+            tracklist.Width += durations.Width;
+            durations.Width = 1;
             tracklist.Text = "Actors: \n\n";
+
+            string[] actors = prod.Actors.Split(';');
+            foreach (string actor in actors)
+                tracklist.Text += actor + "\n";
+
             if (prod.Trailer == "")
                 restartText.Opacity = 0.25;
+
+            if (prod.Position == 0)
+                relatedText.Text = "Return To \n Related";
         }
 
         void InitDemoInformation(Book prod)
@@ -100,12 +115,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             album_title.Content = prod.Cover;
             phouse.Content = prod.PublishingHouse;
             artist.Content = prod.Writers;
-            description.Text = prod.Summary;
-            description.Text += "\n" + prod.OtherInfo;
+            description.Text = prod.Description;
+            description.Text += "\n" + "\n" + prod.Summary;
+            description.Text += "\n" + "\n" + prod.OtherInfo;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
             if (prod.Trailer == "")
                 restartText.Opacity = 0.25;
+
+            if (prod.Position == 0)
+                relatedText.Text = "Return To \n Related";
         }
 
         public DemoInformation(Product prod)
@@ -117,6 +136,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 InitDemoInformation(prod.music, prod.tracklist);
             else if (prod.book != null)
                 InitDemoInformation(prod.book);
+
         }
     }
 }

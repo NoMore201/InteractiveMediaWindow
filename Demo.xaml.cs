@@ -32,6 +32,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private DemoIdle idle;
         private DemoTrailer trailer;
         private DemoInformation information;
+        private DemoRelateds relatedWindow;
 
         private KinectCoreWindow kWin;
 
@@ -390,7 +391,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void GoToRelated()
         {
-           //Implment Go To Related
+            state = 4;
+            relatedWindow = new DemoRelateds(GetRelateds(windowProducts[currentProduct]));
+            contentControl.Content = relatedWindow;
         }
 
         private void PauseTrailer()
@@ -453,6 +456,43 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             hue.TurnOff(FIRST_HUE);
             hue.TurnOff(SECOND_HUE);
+        }
+
+        private List<Model.Product> GetRelateds(Model.Product prod)
+        {
+            int type = prod.GetTyp();
+            string[] favrelateds = prod.GetFavouriteRelateds();
+            List<Model.Product> relateds = new List<Model.Product>();
+
+            if (type==1)
+            {
+                foreach (Model.Movie mov in db.movies)
+                    if (StringArrayContains(favrelateds, mov.ID + ""))
+                        relateds.Add(new Model.Product(mov));
+            }
+            else if (type==2)
+            {
+                foreach (Model.Book mov in db.books)
+                    if (StringArrayContains(favrelateds, mov.ID + ""))
+                        relateds.Add(new Model.Product(mov));
+            }
+            else if (type==3)
+            {
+                foreach (Model.Music mov in db.musics)
+                    if (StringArrayContains(favrelateds, mov.ID + ""))
+                        relateds.Add(new Model.Product(mov));
+            }
+
+            return relateds;
+        }
+
+        private bool StringArrayContains(string[] arr, string test)
+        {
+            foreach (string s in arr)
+                if (test == s)
+                    return true;
+
+            return false;
         }
     }
 }

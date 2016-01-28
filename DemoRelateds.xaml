@@ -11,18 +11,18 @@
         <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
                       k:KinectRegion.IsHorizontalRailEnabled="true"
                       k:KinectRegion.ZoomMode="Disabled" >
-        <Grid Width="2520">
+        <Grid x:Name="relatedGrid" Width="2520">
 
-            <Label x:Name="label" Content="Label" Margin="268,688,1792,304" FontFamily="Roboto" FontSize="53.333"/>
+            <Label x:Name="label" Content="" Margin="268,688,1792,304" FontFamily="Roboto" FontSize="30"/>
             <Image x:Name="image" HorizontalAlignment="Left" Height="488" Margin="268,160,0,0" VerticalAlignment="Top" Width="460"/>
 
-            <Label x:Name="label2" Content="Label" Margin="804,688,1256,304" FontFamily="Roboto" FontSize="53.333"/>
+            <Label x:Name="label2" Content="" Margin="804,688,1256,304" FontFamily="Roboto" FontSize="30"/>
             <Image x:Name="image2" HorizontalAlignment="Left" Height="488" Margin="804,160,0,0" VerticalAlignment="Top" Width="460"/>
 
-            <Label x:Name="label3" Content="Label" Margin="1352,688,708,304" FontFamily="Roboto" FontSize="53.333"/>
+            <Label x:Name="label3" Content="" Margin="1352,688,708,304" FontFamily="Roboto" FontSize="30"/>
             <Image x:Name="image3" HorizontalAlignment="Left" Height="488" Margin="1352,160,0,0" VerticalAlignment="Top" Width="460"/>
 
-            <Label x:Name="label4" Content="Label" Margin="1920,688,140,304" FontFamily="Roboto" FontSize="53.333"/>
+            <Label x:Name="label4" Content="Label" Margin="1920,688,140,304" FontFamily="Roboto" FontSize="30"/>
             <Image x:Name="image4" HorizontalAlignment="Left" Height="488" Margin="1920,160,-460,0" VerticalAlignment="Top" Width="460"/>
 
         </Grid>
