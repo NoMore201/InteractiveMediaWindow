@@ -12,7 +12,7 @@
         <Button x:Name="buttonDemo" Content="DEMO" HorizontalAlignment="Left" Margin="78,158,0,0" VerticalAlignment="Top" Width="129" Height="64" Click="demoClick"/>
         <Button x:Name="button" Content="CALIBRATION" HorizontalAlignment="Left" Margin="78,227,0,0" VerticalAlignment="Top" Width="129" Height="66" Click="startCalibration"/>
         <Button x:Name="button1" Content="DATABASE" HorizontalAlignment="Left" Margin="78,298,0,0" VerticalAlignment="Top" Width="129" Height="63" Click="manageDb"/>
-        <Button x:Name="testWindow" Content="DATABASE" HorizontalAlignment="Left" Margin="78,366,0,0" VerticalAlignment="Top" Width="129" Height="63" Click="test"/>
+        <Button x:Name="testWindow" Content="TEST WINDOW" HorizontalAlignment="Left" Margin="78,366,0,0" VerticalAlignment="Top" Width="129" Height="63" Click="test"/>
 
     </Grid>
 </Window>
