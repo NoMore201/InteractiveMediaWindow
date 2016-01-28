@@ -35,6 +35,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             description.Text = prod.Description;
             year.Content = prod.Year;
             genre.Content = prod.Genre;
+
         }
 
         void InitDemoInformation(Movie prod)
