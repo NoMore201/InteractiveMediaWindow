@@ -14,14 +14,14 @@
         <Grid x:Name="relatedGrid" Width="1910">
 
 
-            <Label x:Name="label" Content="" Margin="268,688,1269,304" FontFamily="Roboto" FontSize="30"/>
-            <Image x:Name="image" Height="517" Margin="268,131,1269,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="tb1" Margin="268,688,1269,270" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
+            <Image x:Name="image" Height="517" Margin="268,131,1269,432" />
 
-            <Label x:Name="label2" Content="" Margin="750,688,750,304" FontFamily="Roboto" FontSize="30"/>
+            <TextBox x:Name="tb2" Margin="750,688,750,270" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
             <Image x:Name="image2" Margin="750,131,750,432"/>
 
-            <Label x:Name="label3" Content="" Margin="1269,688,268,304" FontFamily="Roboto" FontSize="30"/>
-            <Image x:Name="image3" Height="517" Margin="1269,131,268,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="tb3" Margin="1269,688,268,270" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
+            <Image x:Name="image3" Height="517" Margin="1269,131,268,432" />
 
             <Image x:Name="image1" Margin="0,0,25,25" HorizontalAlignment="Right" Width="250" Height="150" VerticalAlignment="Bottom" Source="Images/backrel.png" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
@@ -40,6 +40,9 @@
             <Image x:Name="thirdIm" Margin="0,0,325,49" Height="250" VerticalAlignment="Bottom" Source="Images/trailer.png" HorizontalAlignment="Right" Width="250"/>
 
             <Image x:Name="back" Margin="25,10,0,0" Source="Images/back.png" HorizontalAlignment="Left" Width="175" Height="175" VerticalAlignment="Top" Opacity="0.25"/>
+            <TextBox x:Name="tba1" Margin="268,630,1269,397" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
+            <TextBox x:Name="tba2" Margin="750,630,750,397" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
+            <TextBox x:Name="tba3" Margin="1269,630,268,397" TextWrapping="Wrap" Text="" FontFamily="Roboto" FontSize="30" Background="Transparent" SelectionBrush="#003399FF" BorderBrush="{x:Null}" CaretBrush="Black" BorderThickness="0" TextAlignment="Center"/>
 
         </Grid>
 

@@ -46,53 +46,71 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             if (relateds.Count > 0 + beginTo)
             {
-                label.Content = relateds[0 + beginTo].GetName();
+                tb1.Text = relateds[0 + beginTo].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
                      "covers\\" + relateds[0 + beginTo].GetCover());
                 videoUri = new Uri(absolute_path);
                 cover = new BitmapImage(videoUri);
                 image.Source = cover;
                 firstIm.Opacity = 0.25;
+                if(relateds[0 + beginTo].GetTyp() == 3)
+                {
+                    image1.Height = 380;
+                    tba1.Text = relateds[0 + beginTo].music.Artists;
+                }
             }
             else
             {
-                label.Content = "";
+                tb1.Text = "";
                 image.Source = null;
                 firstIm.Opacity = 0;
+                tba1.Text = "";
             }
 
             if (relateds.Count > 1 + beginTo)
             {
-                label2.Content = relateds[1 + beginTo].GetName();
+                tb2.Text = relateds[1 + beginTo].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
                      "covers\\" + relateds[1 + beginTo].GetCover());
                 videoUri = new Uri(absolute_path);
                 cover = new BitmapImage(videoUri);
                 image2.Source = cover;
                 secondIm.Opacity = 0.25;
+                if (relateds[0 + beginTo].GetTyp() == 3)
+                {
+                    image2.Height = 380;
+                    tba2.Text = relateds[1 + beginTo].music.Artists;
+                }
             }
             else
             {
-                label2.Content = "";
+                tb2.Text = "";
                 image2.Source = null;
                 secondIm.Opacity = 0;
+                tba2.Text = "";
             }
 
             if (relateds.Count > 2 + beginTo)
             {
-                label3.Content = relateds[2 + beginTo].GetName();
+                tb3.Text = relateds[2 + beginTo].GetName();
                 absolute_path = System.IO.Path.Combine(Directory.GetCurrentDirectory(),
                      "covers\\" + relateds[2 + beginTo].GetCover());
                 videoUri = new Uri(absolute_path);
                 cover = new BitmapImage(videoUri);
                 image3.Source = cover;
                 thirdIm.Opacity = 0.25;
+                if (relateds[0 + beginTo].GetTyp() == 3)
+                {
+                    image3.Height = 380;
+                    tba3.Text = relateds[2 + beginTo].music.Artists;
+                }
             }
             else
             {
-                label3.Content = "";
+                tb3.Text = "";
                 image3.Source = null;
                 thirdIm.Opacity = 0;
+                tba3.Text = "";
             }
 
             if (relateds.Count > 3 + beginTo)
