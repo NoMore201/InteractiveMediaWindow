@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.Kinect.Wpf.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Samples.Kinect.BodyBasics.Model;
 
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
@@ -410,6 +411,95 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             X = X * (float)this.Width;
             Y = Y * (float)this.Height;
+
+            if(Y<200 && X < 200)
+            {
+                if (counterFrames > MAX_FRAMES_PAUSE)
+                {
+                    counterFrames = 0;
+                    relatedWindow.back.Opacity = 0.25;
+                    SkipTrailer();
+                }
+                else 
+                {
+                    counterFrames++;
+                    relatedWindow.back.Opacity += 0.03;
+                }
+            } else if (Y>(this.Height - 300)){
+                if (X < 220 && relatedWindow.backw.Opacity != 0)
+                {
+                    if (counterFrames > MAX_FRAMES_PAUSE)
+                    {
+                        counterFrames = 0;
+                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.BackPage();
+                    }
+                    else
+                    {
+                        counterFrames++;
+                        relatedWindow.backw.Opacity += 0.03;
+                    }
+                } else if (X>300 && X < 650)
+                {
+                    if (counterFrames > MAX_FRAMES_PAUSE)
+                    {
+                        counterFrames = 0;
+                        relatedWindow.backw.Opacity = 0.25;
+                        GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo]);
+                    }
+                    else
+                    {
+                        counterFrames++;
+                        relatedWindow.backw.Opacity += 0.03;
+                    }
+                } else if (X > 770 && X < 1120 && relatedWindow.secondIm.Opacity!=0)
+                {
+                    if (counterFrames > MAX_FRAMES_PAUSE)
+                    {
+                        counterFrames = 0;
+                        relatedWindow.backw.Opacity = 0.25;
+                        GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo+1]);
+                    }
+                    else
+                    {
+                        counterFrames++;
+                        relatedWindow.backw.Opacity += 0.03;
+                    }
+                } else if (X > this.Width - 620 && X < this.Width - 270 && relatedWindow.thirdIm.Opacity != 0)
+                {
+                    if (counterFrames > MAX_FRAMES_PAUSE)
+                    {
+                        counterFrames = 0;
+                        relatedWindow.backw.Opacity = 0.25;
+                        GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo+2]);
+                    }
+                    else
+                    {
+                        counterFrames++;
+                        relatedWindow.backw.Opacity += 0.03;
+                    }
+                } else if(X > this.Width - 220 && relatedWindow.image1.Opacity!=0)
+                {
+                    if (counterFrames > MAX_FRAMES_PAUSE)
+                    {
+                        counterFrames = 0;
+                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.GoToNextPage();
+                    }
+                    else
+                    {
+                        counterFrames++;
+                        relatedWindow.backw.Opacity += 0.03;
+                    }
+                }
+            }
+        }
+
+        private void GoToRelatedInfo(Product product)
+        {
+            relatedBackup = windowProducts[currentProduct];
+            windowProducts[currentProduct] = product;
+            SkipTrailer();
         }
 
         private void GoToRelated()
