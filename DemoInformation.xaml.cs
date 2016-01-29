@@ -65,7 +65,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 tracklist.Text += tracks[i].Number + " - " + tracks[i].Title + "\n";
                 durations.Text += tracks[i].Duration + "\n";
             }
-            if (prod.Trailer == "")
+            if (prod.Trailer == null)
                 restartText.Opacity = 0.25;
 
             if (prod.Position == 0)

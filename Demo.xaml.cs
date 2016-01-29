@@ -99,6 +99,29 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
 
             InitProducts();
+
+            /*
+            this.MouseMove += Demo_MouseMove;
+
+            currentProduct = 2;
+            StartTrailer(windowProducts[currentProduct].GetTrailer());
+            isPointed = true;
+            */
+        }
+
+        private void Demo_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (state == 2)
+            {
+                ShowButtonsOnTrailer();
+                CheckPointInButton((float) (e.GetPosition(this).X/this.Width), (float) (e.GetPosition(this).Y/this.Height));
+            } else if (state == 3)
+            {
+                CheckPointInThirdButtons((float)(e.GetPosition(this).X / this.Width), (float)(e.GetPosition(this).Y / this.Height));
+            } else if (state == 4)
+            {
+                CheckPointInFourthButtons((float)(e.GetPosition(this).X / this.Width), (float)(e.GetPosition(this).Y / this.Height));
+            }
         }
 
         private void KWin_PointerMoved(object sender, KinectPointerEventArgs e)
@@ -361,8 +384,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
 
             // Restart Button
-            else if (X > this.Width - information.exit.Width - 85 && X < this.Width - 15 &&
-                    Y > ((this.Height / 2) - (information.restart.Height / 2) - 15) && Y < ((this.Height / 2) + (information.restart.Height / 2) + 15) && windowProducts[currentProduct].GetTrailer()!="")
+            else if (X > this.Width - information.restart.Width - 85 && X < this.Width - 15 &&
+                    Y > ((this.Height / 2) - (information.restart.ActualHeight / 2)) && Y < ((this.Height / 2) + (information.restart.ActualHeight / 2)) && windowProducts[currentProduct].GetTrailer()!=null)
             {
                 if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
@@ -444,52 +467,52 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (counterFrames > MAX_FRAMES_PAUSE)
                     {
                         counterFrames = 0;
-                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.firstIm.Opacity = 0.25;
                         GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo]);
                     }
                     else
                     {
                         counterFrames++;
-                        relatedWindow.backw.Opacity += 0.03;
+                        relatedWindow.firstIm.Opacity += 0.03;
                     }
                 } else if (X > 770 && X < 1120 && relatedWindow.secondIm.Opacity!=0)
                 {
                     if (counterFrames > MAX_FRAMES_PAUSE)
                     {
                         counterFrames = 0;
-                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.secondIm.Opacity = 0.25;
                         GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo+1]);
                     }
                     else
                     {
                         counterFrames++;
-                        relatedWindow.backw.Opacity += 0.03;
+                        relatedWindow.secondIm.Opacity += 0.03;
                     }
                 } else if (X > this.Width - 620 && X < this.Width - 270 && relatedWindow.thirdIm.Opacity != 0)
                 {
                     if (counterFrames > MAX_FRAMES_PAUSE)
                     {
                         counterFrames = 0;
-                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.thirdIm.Opacity = 0.25;
                         GoToRelatedInfo(relatedWindow.relateds[relatedWindow.beginTo+2]);
                     }
                     else
                     {
                         counterFrames++;
-                        relatedWindow.backw.Opacity += 0.03;
+                        relatedWindow.thirdIm.Opacity += 0.03;
                     }
                 } else if(X > this.Width - 220 && relatedWindow.image1.Opacity!=0)
                 {
                     if (counterFrames > MAX_FRAMES_PAUSE)
                     {
                         counterFrames = 0;
-                        relatedWindow.backw.Opacity = 0.25;
+                        relatedWindow.image1.Opacity = 0.25;
                         relatedWindow.GoToNextPage();
                     }
                     else
                     {
                         counterFrames++;
-                        relatedWindow.backw.Opacity += 0.03;
+                        relatedWindow.image1.Opacity += 0.03;
                     }
                 }
             }
@@ -593,7 +616,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 foreach (Model.Music mov in db.musics)
                     if (StringArrayContains(favrelateds, mov.ID + ""))
-                        relateds.Add(new Model.Product(mov));
+                        relateds.Add(new Model.Product(mov, db.GetTracklist(mov.ID)));
             }
 
             return relateds;
