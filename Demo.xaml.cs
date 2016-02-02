@@ -45,10 +45,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private bool checkedButton;
 
         private int counterFrames;
+        private int counterFramesBody;
 
         private uint mainHandId;
+        private uint lastMainHandId;
 
         private int currentProduct;
+
+        private ulong nearest;
 
         BitmapImage playimage;
         BitmapImage pauseimage;
@@ -69,6 +73,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             checkedButton = false;
             paused = false;
             counterFrames = 0;
+            counterFramesBody = 0;
             mainHandId = 0;
             PointerMovedAssigned = false;
             MediaEndedAssigned = false;
@@ -82,6 +87,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             hue.Connect();
             hue.isBright = true;
             kc.bodyReader.FrameArrived += HandleFrame;
+
             idle = new DemoIdle();
             this.contentControl.Content = idle;
             KinectRegion.SetKinectRegion(this, kinectRegion);
@@ -100,13 +106,29 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             InitProducts();
 
+            idle.label.Opacity = 0;
+
+            kWin = KinectCoreWindow.GetForCurrentThread();
+            if (!PointerMovedAssigned)
+            {
+                kWin.PointerMoved += KWin_PointerMoved;
+                kWin.PointerExited += KWin_PointerExited;
+                kWin.PointerEntered += KWin_PointerEntered;
+                PointerMovedAssigned = true;
+            }
+
             /*
             this.MouseMove += Demo_MouseMove;
 
-            currentProduct = 2;
+            currentProduct = 1;
             StartTrailer(windowProducts[currentProduct].GetTrailer());
-            isPointed = true;
-            */
+            isPointed = true;*/
+
+        }
+
+        private void KWin_PointerEntered(object sender, KinectPointerEventArgs e)
+        {
+            idle.label.Opacity = 1;
         }
 
         private void Demo_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -132,6 +154,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 e.CurrentPoint.Properties.IsEngaged)
                 {
                     mainHandId = e.CurrentPoint.PointerId;
+                    lastMainHandId = mainHandId;
                     ShowButtonsOnTrailer();
                 }
 
@@ -150,6 +173,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                 e.CurrentPoint.Properties.IsEngaged)
                 {
                     mainHandId = e.CurrentPoint.PointerId;
+                    lastMainHandId = mainHandId;
                 }
 
                 if (e.CurrentPoint.PointerId == mainHandId)
@@ -167,6 +191,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                 e.CurrentPoint.Properties.IsEngaged)
                 {
                     mainHandId = e.CurrentPoint.PointerId;
+                    
+                    if(lastMainHandId==0)
+                        lastMainHandId = mainHandId;
                 }
 
                 if (e.CurrentPoint.PointerId == mainHandId)
@@ -192,7 +219,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 {
                     if (zoneP == 1 || zoneP == 3)
                     {
-                        Model.LightColors colors = windowProducts[1].GetColors();
+                        currentProduct = 1;
+                        Model.LightColors colors = windowProducts[currentProduct].GetColors();
                         hue.isDoubleActive = true;
                         Task.Run(async () => {
                             await hue.SendDoubleColorCommand(colors.color1, colors.color2, FIRST_HUE);
@@ -201,13 +229,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             await hue.TurnOffDelayed(SECOND_HUE);
                         });
                         hue.TurnOff(SECOND_HUE);
-                        currentProduct = 1;
-                        StartTrailer(windowProducts[1].GetTrailer());
+                        StartTrailer(windowProducts[currentProduct].GetTrailer());
                         isPointed = true;
+                        nearest = kc.indexNearest;
                     }
                     else
                     {
-                        Model.LightColors colors = windowProducts[2].GetColors();
+                        currentProduct = 2;
+                        Model.LightColors colors = windowProducts[currentProduct].GetColors();
                         hue.isDoubleActive = true;
                         Task.Run(async () => {
                             await hue.SendDoubleColorCommand(colors.color1, colors.color2, SECOND_HUE);
@@ -216,11 +245,29 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             await hue.TurnOffDelayed(FIRST_HUE);
                         });
                         hue.TurnOff(FIRST_HUE);
-                        StartTrailer(windowProducts[2].GetTrailer());
-                        currentProduct = 2;
+                        StartTrailer(windowProducts[currentProduct].GetTrailer());
                         isPointed = true;
+                        nearest = kc.indexNearest;
                     }
                 }
+
+
+            }
+            
+            else
+            {
+                kc.Controller_FrameArrived(sender, e);
+
+                if (!kc.nearest.IsTracked)
+                {
+                    counterFramesBody++;
+                    if(counterFramesBody>100)
+                        InformationBackButton();
+                } else
+                {
+                    counterFramesBody = 0;
+                }
+                    
             }
         }
 
@@ -288,12 +335,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 trailer.mediaElement.MediaEnded += MediaElement_MediaEnded;
                 MediaEndedAssigned = true;
             }
-            kWin = KinectCoreWindow.GetForCurrentThread();
-            if (!PointerMovedAssigned)
+            
+        }
+
+        
+        private void KWin_PointerExited(object sender, KinectPointerEventArgs e)
+        {
+            /*
+            if(e.CurrentPoint.PointerId== lastMainHandId)
             {
-                kWin.PointerMoved += KWin_PointerMoved;
-                PointerMovedAssigned = true;
-            }
+                InformationBackButton();
+                lastMainHandId = 0;
+            }       
+            */
+
+            idle.label.Opacity = 0;
         }
 
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
@@ -303,11 +359,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void InformationBackButton()
         {
+            counterFrames = 0;
+            counterFramesBody = 0;
             contentControl.Content = idle;
             isPointed = false;
             hue.isDoubleActive = false;
             IdleAnimateFirstHand();
             state = 1;
+
+            if (relatedBackup != null)
+                windowProducts[currentProduct] = relatedBackup;
+
+            relatedBackup = null;
+            hue.isBright = true;
         }
 
         private void CheckPointInButton(float X, float Y)
@@ -373,6 +437,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (relatedBackup != null)
                     {
                         windowProducts[currentProduct] = relatedBackup;
+                        relatedBackup = null;
                     }
                     GoToRelated();
                 }
@@ -409,7 +474,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (counterFrames > MAX_FRAMES_PAUSE && !checkedButton)
                 {
                     checkedButton = true;
-                    counterFrames = 0;
                     information.exit.Opacity = 0.25;
                     InformationBackButton();
                 }
@@ -530,6 +594,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             state = 4;
             relatedWindow = new DemoRelateds(GetRelateds(windowProducts[currentProduct]));
             contentControl.Content = relatedWindow;
+            isPointed = true;
         }
 
         private void PauseTrailer()
@@ -556,6 +621,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             information = new DemoInformation(windowProducts[currentProduct]);
             contentControl.Content = information;
             hue.isBright = true;
+            isPointed = true;
         }
 
         private void InitProducts()
@@ -593,6 +659,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             hue.TurnOff(FIRST_HUE);
             hue.TurnOff(SECOND_HUE);
         }
+
 
         private List<Model.Product> GetRelateds(Model.Product prod)
         {

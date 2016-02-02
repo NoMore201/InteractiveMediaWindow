@@ -29,7 +29,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
             db = new DbFileManager();
-            Product p = new Product(db.movies[0]);
+            Product p = new Product(db.musics[0]);
             DemoRelateds a = new DemoRelateds(GetRelateds(p));
             this.contentControl.Content = a;
         }

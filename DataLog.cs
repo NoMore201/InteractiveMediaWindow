@@ -29,15 +29,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         public static void ToFile(DebugLevel level, string message)
         {
-            Directory.CreateDirectory("Logs");
-            StreamWriter file = new StreamWriter(
-                LOGFILE, 
-                File.Exists(LOGFILE));
+            //Directory.CreateDirectory("Logs");
+            //StreamWriter file = new StreamWriter(
+            //    LOGFILE, 
+            //    File.Exists(LOGFILE));
 
-            file.WriteLine("[" + DateTime.Now.ToString() + "] " + 
-                level.ToString() + ": " + message + "\n");
+            //file.WriteLine("[" + DateTime.Now.ToString() + "] " + 
+            //    level.ToString() + ": " + message + "\n");
 
-            file.Close();
+            //file.Close();
         }
     }
 }

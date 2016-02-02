@@ -50,6 +50,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public float lastAveragePositionLeft;
         public int frameCounterRight;
         public int frameCounterLeft;
+        public ulong indexNearest;
 
         private bool hasPointed;
 
@@ -279,6 +280,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public Body getNearestBody(Body[] bodies)
         {
             Body nearest = bodies[0];
+            int counter = 0;
             foreach (Body b in bodies)
             {
                 if (b.IsTracked)
@@ -286,6 +288,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (!nearest.IsTracked)
                     {
                         nearest = b;
+                        indexNearest = b.TrackingId;
                     }
                     else
                     {
@@ -298,10 +301,12 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                         if (nearestPointOriginal < nearestPoint)
                         {
                             nearest = b;
+                            indexNearest = b.TrackingId;
                         }
                     }
 
                 }
+                counter++;
             }
             return nearest;
         }
